@@ -1,0 +1,6 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^mapfit\.Rcheck$
+^mapfit.*\.tar\.gz$
+^mapfit.*\.tgz$
+^LICENSE\.md$

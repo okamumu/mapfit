@@ -129,7 +129,7 @@ pph <- function(q, ph = ph(1), lower.tail = TRUE, log.p = FALSE) {
 }
 
 rph <- function(n, ph = ph(1)) {
-  if (class(ph) == "cf1") {
+  if (is(ph, "cf1")) {
     cf1.sample(n, ph)
   } else {
     sapply(1:n, function(a) ph.sample(ph))
@@ -203,7 +203,7 @@ ph.param.random <- function(size, data, skelpi, skelQ, skelxi, verbose, class) {
 
 setMethod("emfit.estep", signature(model = "ph", data = "phdata.wtime"),
   function(model, data, ufact = 1.01, eps = sqrt(.Machine$double.eps), ...) {
-    res <- .Call(phfit_estep_gen_wtime, model, data, eps, ufact)
+    res <- .Call('phfit_estep_gen_wtime', PACKAGE='mapfit', model, data, eps, ufact)
     list(eres=list(etotal=res[[1]], eb=res[[2]], ey=res[[3]], ez=res[[4]], en=res[[5]]), llf=res[[6]])
   })
 
@@ -223,7 +223,7 @@ setMethod("emfit.estep", signature(model = "ph", data = "phdata.group"),
 
   ba <- msolve(alpha=1.0, A=-as.matrix(model@Q), x=model@alpha, transpose=TRUE)
 
-  res <- .Call(phfit_estep_gen_group, model, ba, data, gdatlast, eps, ufact)
+  res <- .Call('phfit_estep_gen_group', PACKAGE='mapfit', model, ba, data, gdatlast, eps, ufact)
   list(eres=list(etotal=res[[1]], eb=res[[2]], ey=res[[3]], ez=res[[4]], en=res[[5]]), llf=res[[6]])
   })
 
@@ -231,7 +231,7 @@ setMethod("emfit.estep", signature(model = "ph", data = "phdata.group"),
 
 setMethod("emfit.mstep", signature(model = "ph"),
   function(model, eres, data, ...) {
-    res <- .Call(phfit_mstep_gen, model, eres, data)
+    res <- .Call('phfit_mstep_gen', PACKAGE='mapfit', model, eres, data)
     model@alpha <- res[[1]]
     model@xi <- res[[2]]
     model@Q@x <- res[[3]]

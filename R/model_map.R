@@ -223,7 +223,7 @@ setMethod("emfit.estep", signature(model = "map", data = "mapdata"),
   function(model, data, ufact = 1.01, eps = 1.0e-8, ...) {
     data@data$instant[is.na(data@data$counts)] <- 0
     data@data$counts[is.na(data@data$counts)] <- -1
-    res <- .Call(mapfit_estep_gen_group, model, data, eps, ufact)
+    res <- .Call('mapfit_estep_gen_group', PACKAGE='mapfit', model, data, eps, ufact)
     list(eres=list(eb=res[[1]], ez=res[[2]], en0=res[[3]], en1=res[[4]]), llf=res[[5]])
   })
 
@@ -231,7 +231,7 @@ setMethod("emfit.estep", signature(model = "map", data = "mapdata"),
 
 setMethod("emfit.mstep", signature(model = "map"),
   function(model, eres, data, stationary = TRUE, ...) {
-    res <- .Call(mapfit_mstep_gen, model, eres, data)
+    res <- .Call('mapfit_mstep_gen', PACKAGE='mapfit', model, eres, data)
     model@D0@x <- res[[2]]
     model@D1@x <- res[[3]]
     if (stationary)

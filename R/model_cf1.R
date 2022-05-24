@@ -167,7 +167,7 @@ setMethod("emfit.init", signature(model = "cf1"),
 
 setMethod("emfit.mstep", signature(model = "cf1"),
   function(model, eres, data, ...) {
-    res <- .Call(phfit_mstep_cf1, model, eres, data)
+    res <- .Call('phfit_mstep_cf1', PACKAGE='mapfit', model, eres, data)
     model@alpha <- res[[1]]
     model@xi <- res[[2]]
     model@Q@x <- res[[3]]

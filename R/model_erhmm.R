@@ -122,7 +122,7 @@ erhmm.param.kmeans <- function(shape, data, skelal, skelP, verbose, ...) {
 
 setMethod("emfit.estep", signature(model = "erhmm", data = "mapdata.time"),
   function(model, data, ...) {
-    res <- .Call(mapfit_hmm_erlang_estep, model, data)
+    res <- .Call('mapfit_hmm_erlang_estep', PACKAGE='mapfit', model, data)
     list(eres=list(eb=res[[1]], en=res[[2]], ew0=res[[3]], ew1=res[[4]]), llf=res[[5]])
   })
 
@@ -130,7 +130,7 @@ setMethod("emfit.estep", signature(model = "erhmm", data = "mapdata.time"),
 
 setMethod("emfit.mstep", signature(model = "erhmm"),
   function(model, eres, data, stationary = TRUE, ...) {
-    res <- .Call(mapfit_hmm_erlang_mstep, model, eres, data)
+    res <- .Call('mapfit_hmm_erlang_mstep', PACKAGE='mapfit', model, eres, data)
     model@rate <- res[[2]]
     model@P@x <- res[[3]]
     if (stationary) {

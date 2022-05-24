@@ -130,7 +130,7 @@ herlang.param.kmeans <- function(shape, data, verbose) {
 
 setMethod("emfit.estep", signature(model = "herlang", data = "phdata.wtime"),
   function(model, data, ...) {
-    res <- .Call(phfit_herlang_estep_wtime, model, data)
+    res <- .Call('phfit_herlang_estep_wtime', PACKAGE='mapfit', model, data)
     list(eres=list(etotal=res[[1]], eb=res[[2]], ew=res[[3]]), llf=res[[4]])
   })
 
@@ -146,7 +146,7 @@ setMethod("emfit.estep", signature(model = "herlang", data = "phdata.group"),
   } else {
     gdatlast <- 0
   }
-    res <- .Call(phfit_herlang_estep_group, model, data, gdatlast)
+    res <- .Call('phfit_herlang_estep_group', PACKAGE='mapfit', model, data, gdatlast)
     list(eres=list(etotal=res[[1]], eb=res[[2]], ew=res[[3]]), llf=res[[4]])
   })
 
@@ -154,7 +154,7 @@ setMethod("emfit.estep", signature(model = "herlang", data = "phdata.group"),
 
 setMethod("emfit.mstep", signature(model = "herlang"),
   function(model, eres, data, ...) {
-    res <- .Call(phfit_herlang_mstep, model, eres, data)
+    res <- .Call('phfit_herlang_mstep', PACKAGE='mapfit', model, eres, data)
     model@mixrate <- res[[1]]
     model@rate <- res[[2]]
     model

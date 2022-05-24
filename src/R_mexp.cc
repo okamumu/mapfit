@@ -2,6 +2,8 @@
 
 #include "R_common.h"
 
+#include "poisson.hpp"
+
 extern "C" {
 
   SEXP ctmc_st(SEXP RQ, SEXP Rite, SEXP Reps) {

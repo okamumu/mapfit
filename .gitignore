@@ -1,0 +1,7 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+mapfit.Rcheck/
+mapfit*.tar.gz
+mapfit*.tgz

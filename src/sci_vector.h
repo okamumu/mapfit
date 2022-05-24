@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "sci_array.hpp"
+#include "sci_array.h"
 
 namespace sci {
     

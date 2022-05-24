@@ -5,7 +5,7 @@
 #include <cmath>
 
 #include "blas.h"
-#include "sci_vector.hpp"
+#include "sci_vector.h"
 
 namespace sci {
 

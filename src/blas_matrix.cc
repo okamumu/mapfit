@@ -4,8 +4,8 @@
 
 #include <cmath>
 
-#include "sci_blas.hpp"
-#include "sci_spblas.hpp"
+#include "sci_blas.h"
+#include "sci_spblas.h"
 
 namespace sci {
 

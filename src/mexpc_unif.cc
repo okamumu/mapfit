@@ -16,8 +16,8 @@
 
 #include <cmath>
 
-#include "poisson.hpp"
-#include "mexp.hpp"
+#include "poisson.h"
+#include "mexp.h"
 
 namespace mexp {
 

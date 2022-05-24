@@ -3,8 +3,8 @@
 #include <cmath>
 #include <memory>
 
-#include "mexp.hpp"
-#include "mapfit.hpp"
+#include "mexp.h"
+#include "mapfit.h"
 
 namespace mapfit {
 

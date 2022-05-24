@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "sci_vector.hpp"
+#include "sci_vector.h"
 
 // To distinguish a combination of two matrices, we assign prime numbers.
 #define BASEP 5

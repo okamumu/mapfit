@@ -10,12 +10,12 @@
 #include <cmath>
 
 #include "gamma.h"
-#include "erlang.hpp"
+#include "erlang.h"
 
 #include "pgamma.h"
 #include "gauss_inte.h"
 
-#include "mapfit.hpp"
+#include "mapfit.h"
 
  namespace mapfit {
 

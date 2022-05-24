@@ -20,8 +20,8 @@
 #include <cmath>
 
 #include "gamma.h"
-#include "erlang.hpp"
-#include "phfit.hpp"
+#include "erlang.h"
+#include "phfit.h"
 
 namespace mapfit {
 

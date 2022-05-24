@@ -13,7 +13,7 @@
 #include <cmath>
 #include <memory>
 
-#include "mexp.hpp"
+#include "mexp.h"
 
 namespace mexp {
 

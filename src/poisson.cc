@@ -2,8 +2,8 @@
 Poisson prob
 */
 
-#include "poisson.h"
-#include "sci_spblas.hpp"
+#include "Cpoisson.h"
+#include "sci_spblas.h"
 
 namespace pois {
 

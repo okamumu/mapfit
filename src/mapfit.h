@@ -5,7 +5,7 @@
 #pragma once
 
 #include <cfloat>
-#include "sci_spblas.hpp"
+#include "sci_spblas.h"
 
 namespace mapblas {
 

@@ -4,8 +4,8 @@
 #include "spblas.h"
 #include "arnoldi.h"
 
-#include "sci_spblas.hpp"
-#include "sci_csrmatrix.hpp"
+#include "sci_spblas.h"
+#include "sci_csrmatrix.h"
 
 namespace sci {
 

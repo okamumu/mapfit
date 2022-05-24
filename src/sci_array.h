@@ -8,7 +8,7 @@
 #include <iostream>
 #include <memory>
 
-#include "sci_range.hpp"
+#include "sci_range.h"
 
 namespace sci {
 

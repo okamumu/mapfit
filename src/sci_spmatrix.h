@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "sci_matrix.hpp"
+#include "sci_matrix.h"
 
  namespace sci {
 

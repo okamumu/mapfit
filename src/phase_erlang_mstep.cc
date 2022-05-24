@@ -13,8 +13,8 @@
 #include <cmath>
 #include <memory>
 
-#include "mexp.hpp"
-#include "phfit.hpp"
+#include "mexp.h"
+#include "phfit.h"
 
 namespace mapfit {
 

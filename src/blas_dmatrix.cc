@@ -3,7 +3,7 @@
 
 #include "blas.h"
 #include "lapack.h"
-#include "sci_blas.hpp"
+#include "sci_blas.h"
 
 namespace sci {
 

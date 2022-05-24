@@ -30,9 +30,9 @@
 
 #include "gamma.h"
 
-#include "poisson.hpp"
-#include "mexp.hpp"
-#include "phfit.hpp"
+#include "poisson.h"
+#include "mexp.h"
+#include "phfit.h"
 
 namespace mapfit {
 

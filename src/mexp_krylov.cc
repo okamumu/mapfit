@@ -8,7 +8,7 @@
 
 #include <cmath>
 
-#include "mexp.hpp"
+#include "mexp.h"
 
 namespace mexp {
 

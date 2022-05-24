@@ -2,10 +2,10 @@
 
 #include <cfloat>
 
-#include "sci_blas.hpp"
-#include "sci_csrmatrix.hpp"
-#include "sci_cscmatrix.hpp"
-#include "sci_coomatrix.hpp"
+#include "sci_blas.h"
+#include "sci_csrmatrix.h"
+#include "sci_cscmatrix.h"
+#include "sci_coomatrix.h"
 
 namespace sci {
 

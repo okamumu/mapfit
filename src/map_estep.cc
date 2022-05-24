@@ -28,9 +28,9 @@
 #include <cmath>
 #include <memory>
 
-#include "poisson.hpp"
-#include "mexp.hpp"
-#include "mapfit.hpp"
+#include "poisson.h"
+#include "mexp.h"
+#include "mapfit.h"
 
 #define MAX(a,b) ((a) > (b) ? (a) : (b))
 

@@ -2,7 +2,7 @@
 
 #include "R_common.h"
 
-#include "poisson.hpp"
+#include "poisson.h"
 
 extern "C" {
 

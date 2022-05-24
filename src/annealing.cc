@@ -17,7 +17,7 @@
 #include <cmath>
 #include <memory>
 
-#include "phfit.hpp"
+#include "phfit.h"
 
 namespace mapfit {
 

@@ -7,7 +7,7 @@
 
 
 #include <cmath>
-#include "sci_spblas.hpp"
+#include "sci_spblas.h"
 
 namespace mexp {
 

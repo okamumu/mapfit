@@ -5,8 +5,8 @@
 #include <cmath>
 #include <memory>
 
-#include "poisson.hpp"
-#include "mexp.hpp"
+#include "poisson.h"
+#include "mexp.h"
 
 namespace mapblas {
 

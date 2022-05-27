@@ -17,3 +17,5 @@ Imports:
     deformula,
     Matrix,
     methods
+URL: https://github.com/okamumu/mapfit
+BugReports: https://github.com/okamumu/mapfit/issues

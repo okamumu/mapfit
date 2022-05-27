@@ -11,6 +11,7 @@
 #' @param epsilon A value of precision in the method "Osogami06".
 #' @return An object of S4 class of general PH \code{\linkS4class{ph}}.
 #' 
+#' @note
 #' The method "Osogami06" checks the first three moements on whether there
 #' exists a PH whose three moements match to them. In such case, the method
 #' "Bobbio05" often returns an error.

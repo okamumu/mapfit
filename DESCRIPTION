@@ -1,5 +1,5 @@
 Package: mapfit
-Version: 0.9.8
+Version: 0.9.9
 Title: A Tool for PH/MAP Parameter Estimation
 Type: Package
 Authors@R: 

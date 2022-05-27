@@ -1,3 +1,6 @@
+#' @rdname map
+#' @aliases gmmpp
+#' @export
 
 gmmpp <- function(size, alpha, D0, D1, class="dgeMatrix") {
   if (missing(size)) {

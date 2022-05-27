@@ -29,13 +29,14 @@ phfit.3mom(
 }
 \value{
 An object of S4 class of general PH \code{\linkS4class{ph}}.
-
-The method "Osogami06" checks the first three moements on whether there
-exists a PH whose three moements match to them. In such case, the method
-"Bobbio05" often returns an error.
 }
 \description{
 Estimates PH parameters from three moments.
+}
+\note{
+The method "Osogami06" checks the first three moements on whether there
+exists a PH whose three moements match to them. In such case, the method
+"Bobbio05" often returns an error.
 }
 \examples{
 ## Three moment matching

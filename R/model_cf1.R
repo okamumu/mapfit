@@ -147,7 +147,7 @@ cf1.param <- function(size, data,
       ph <- cf1.param.linear(size, m * x, s, class)
       phres <- try(emfit(model=ph, data=data,
         initialize = FALSE, control = list(maxiter=maxiter.init)), silent = TRUE)
-      if (class(phres) != "try-error") {
+      if (!is(phres, "try-error")) {
         if (is.finite(phres$llf)) {
           if (maxllf < phres$llf) {
             maxllf <- phres$llf
@@ -171,7 +171,7 @@ cf1.param <- function(size, data,
       ph <- cf1.param.power(size, m * x, s, class)
       phres <- try(emfit(model=ph, data=data,
         initialize = FALSE, control = list(maxiter=maxiter.init)), silent = TRUE)
-      if (class(phres) != "try-error") {
+      if (!is(phres, "try-error")) {
         if (is.finite(phres$llf)) {
           if (maxllf < phres$llf) {
             maxllf <- phres$llf

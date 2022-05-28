@@ -8,6 +8,14 @@
 \description{
 Estimation methods for phase-type distribution (PH) and Markovian arrival process (MAP) from empirical data (point and grouped data) and density function.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/okamumu/mapfit}
+  \item Report bugs at \url{https://github.com/okamumu/mapfit/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: Hiroyuki Okamura \email{okamu@hiroshima-u.ac.jp} (\href{https://orcid.org/0000-0001-6881-0593}{ORCID})
 

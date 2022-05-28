@@ -4,3 +4,4 @@
 ^mapfit.*\.tar\.gz$
 ^mapfit.*\.tgz$
 ^LICENSE\.md$
+^README\.Rmd$

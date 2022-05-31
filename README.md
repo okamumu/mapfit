@@ -4,6 +4,12 @@
 # mapfit
 
 <!-- badges: start -->
+
+[![R-CMD-check](https://github.com/okamumu/mapfit/workflows/R-CMD-check/badge.svg)](https://github.com/okamumu/mapfit/actions)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/mapfit)](https://CRAN.R-project.org/package=mapfit)
+[![Codecov test
+coverage](https://codecov.io/gh/okamumu/mapfit/branch/main/graph/badge.svg)](https://app.codecov.io/gh/okamumu/mapfit?branch=main)
 <!-- badges: end -->
 
 The goal of mapfit is to estimate parameters of phase-type distribution
@@ -270,7 +276,7 @@ phfit.point(ph=ph(5), x=wsample)
 #> Maximum LLF: -59.436973
 #> AIC: 176.873945
 #> Iteration:  2000 / 2000
-#> Computation time (user): 0.924000
+#> Computation time (user): 2.738000
 #> Convergence: FALSE
 #> Error (abs): 2.658070e-05 (tolerance Inf)
 #> Error (rel): 4.472080e-07 (tolerance 1.490116e-08)
@@ -300,7 +306,7 @@ phfit.point(ph=cf1(5), x=wsample)
 #> Maximum LLF: -59.416064
 #> AIC: 136.832128
 #> Iteration:  2000 / 2000
-#> Computation time (user): 1.111000
+#> Computation time (user): 2.548000
 #> Convergence: FALSE
 #> Error (abs): 1.509990e-06 (tolerance Inf)
 #> Error (rel): 2.541383e-08 (tolerance 1.490116e-08)
@@ -320,7 +326,7 @@ phfit.point(ph=herlang(5), x=wsample, ubound=3)
 #> Maximum LLF: -60.083945
 #> AIC: 128.167889
 #> Iteration:  204 / 2000
-#> Computation time (user): 0.034000
+#> Computation time (user): 0.058000
 #> Convergence: TRUE
 #> Error (abs): 8.852490e-07 (tolerance Inf)
 #> Error (rel): 1.473354e-08 (tolerance 1.490116e-08)
@@ -358,7 +364,7 @@ phfit.group(ph=ph(5), counts=h.res$counts, breaks=h.res$breaks)
 #> Maximum LLF: -22.812530
 #> AIC: 103.625059
 #> Iteration:  1647 / 2000
-#> Computation time (user): 0.514000
+#> Computation time (user): 0.840000
 #> Convergence: TRUE
 #> Error (abs): 3.396318e-07 (tolerance Inf)
 #> Error (rel): 1.488795e-08 (tolerance 1.490116e-08)
@@ -388,7 +394,7 @@ phfit.group(ph=cf1(5), counts=h.res$counts, breaks=h.res$breaks)
 #> Maximum LLF: -22.811905
 #> AIC: 63.623811
 #> Iteration:  1304 / 2000
-#> Computation time (user): 0.565000
+#> Computation time (user): 0.764000
 #> Convergence: TRUE
 #> Error (abs): 3.388332e-07 (tolerance Inf)
 #> Error (rel): 1.485335e-08 (tolerance 1.490116e-08)
@@ -410,7 +416,7 @@ phfit.group(ph=herlang(5), counts=h.res$counts, breaks=h.res$breaks)
 #> Maximum LLF: -23.588309
 #> AIC: 55.176617
 #> Iteration:  204 / 2000
-#> Computation time (user): 0.043000
+#> Computation time (user): 0.057000
 #> Convergence: TRUE
 #> Error (abs): 3.463910e-07 (tolerance Inf)
 #> Error (rel): 1.468486e-08 (tolerance 1.490116e-08)
@@ -433,7 +439,7 @@ phfit.density(ph=ph(5), f=dweibull, shape=2, scale=1)
 #> Maximum LLF: -11.251992
 #> AIC: 80.503984
 #> Iteration:  2000 / 2000
-#> Computation time (user): 0.830000
+#> Computation time (user): 2.416000
 #> Convergence: FALSE
 #> Error (abs): 6.961001e-06 (tolerance Inf)
 #> Error (rel): 6.186457e-07 (tolerance 1.490116e-08)
@@ -463,7 +469,7 @@ phfit.density(ph=cf1(5), f=dweibull, shape=2, scale=1)
 #> Maximum LLF: -11.247614
 #> AIC: 40.495228
 #> Iteration:  2000 / 2000
-#> Computation time (user): 1.031000
+#> Computation time (user): 2.227000
 #> Convergence: FALSE
 #> Error (abs): 2.792283e-07 (tolerance Inf)
 #> Error (rel): 2.482556e-08 (tolerance 1.490116e-08)
@@ -485,7 +491,7 @@ phfit.density(ph=herlang(5), f=dweibull, shape=2, scale=1)
 #> Maximum LLF: -11.391140
 #> AIC: 30.782281
 #> Iteration:  76 / 2000
-#> Computation time (user): 0.043000
+#> Computation time (user): 0.072000
 #> Convergence: TRUE
 #> Error (abs): 1.461348e-07 (tolerance Inf)
 #> Error (rel): 1.282881e-08 (tolerance 1.490116e-08)
@@ -523,7 +529,7 @@ is possible to perform PH fitting even if PH has 100 states;
 #> Maximum LLF: -11.208672
 #> AIC: 420.417344
 #> Iteration:  18 / 2000
-#> Computation time (user): 0.322000
+#> Computation time (user): 0.950000
 #> Convergence: TRUE
 #> Error (abs): 1.427159e-07 (tolerance Inf)
 #> Error (rel): 1.273264e-08 (tolerance 1.490116e-08)
@@ -557,7 +563,7 @@ overfitting is happen.
 #> Maximum LLF: -50.504694
 #> AIC: 499.009389
 #> Iteration:  2000 / 2000
-#> Computation time (user): 13.911000
+#> Computation time (user): 43.277000
 #> Convergence: FALSE
 #> Error (abs): 2.206856e-05 (tolerance Inf)
 #> Error (rel): 4.369603e-07 (tolerance 1.490116e-08)
@@ -882,7 +888,7 @@ mapfit.point(map=map(5), x=cumsum(BCpAug89))
 #> Maximum LLF: 5140.147595
 #> AIC: -10190.295190
 #> Iteration:  1011 / 2000
-#> Computation time (user): 13.964000
+#> Computation time (user): 38.630000
 #> Convergence: TRUE
 #> Error (abs): 7.646365e-05 (tolerance Inf)
 #> Error (rel): 1.487577e-08 (tolerance 1.490116e-08)
@@ -911,7 +917,7 @@ mapfit.point(map=mmpp(5), x=cumsum(BCpAug89))
 #> Maximum LLF: 5055.133942
 #> AIC: -10060.267883
 #> Iteration:  404 / 2000
-#> Computation time (user): 8.724000
+#> Computation time (user): 23.232000
 #> Convergence: TRUE
 #> Error (abs): 7.264097e-05 (tolerance Inf)
 #> Error (rel): 1.436974e-08 (tolerance 1.490116e-08)
@@ -947,7 +953,7 @@ mapfit.point(map=erhmm(5), x=cumsum(BCpAug89))
 #> Maximum LLF: 5121.860147
 #> AIC: -10221.720294
 #> Iteration:  71 / 2000
-#> Computation time (user): 1.260000
+#> Computation time (user): 2.689000
 #> Convergence: TRUE
 #> Error (abs): 6.302517e-05 (tolerance Inf)
 #> Error (rel): 1.230513e-08 (tolerance 1.490116e-08)
@@ -1021,7 +1027,7 @@ mapfit.group(map=map(5), counts=BCpAug89.group$counts, breaks=BCpAug89.group$bre
 #> Maximum LLF: -543.092984
 #> AIC: 1176.185967
 #> Iteration:  1384 / 2000
-#> Computation time (user): 51.224000
+#> Computation time (user): 146.302000
 #> Convergence: TRUE
 #> Error (abs): 8.082774e-06 (tolerance Inf)
 #> Error (rel): 1.488285e-08 (tolerance 1.490116e-08)
@@ -1112,7 +1118,7 @@ mapfit.group(map=mmpp(5), counts=BCpAug89.group$counts, breaks=BCpAug89.group$br
 #> Maximum LLF: -558.890363
 #> AIC: 1167.780726
 #> Iteration:  162 / 2000
-#> Computation time (user): 5.392000
+#> Computation time (user): 14.633000
 #> Convergence: TRUE
 #> Error (abs): 7.925587e-06 (tolerance Inf)
 #> Error (rel): 1.418093e-08 (tolerance 1.490116e-08)
@@ -1141,7 +1147,7 @@ mapfit.group(map=gmmpp(5), counts=BCpAug89.group$counts, breaks=BCpAug89.group$b
 #> Maximum LLF: -828.051682
 #> AIC: 1706.103365
 #> Iteration:  102 / 2000
-#> Computation time (user): 2.943000
+#> Computation time (user): 5.667000
 #> Convergence: TRUE
 #> Error (abs): 1.213698e-05 (tolerance Inf)
 #> Error (rel): 1.465727e-08 (tolerance 1.490116e-08)

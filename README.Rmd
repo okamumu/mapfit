@@ -16,6 +16,9 @@ knitr::opts_chunk$set(
 # mapfit
 
 <!-- badges: start -->
+[![R-CMD-check](https://github.com/okamumu/mapfit/workflows/R-CMD-check/badge.svg)](https://github.com/okamumu/mapfit/actions)
+[![CRAN status](https://www.r-pkg.org/badges/version/mapfit)](https://CRAN.R-project.org/package=mapfit)
+[![Codecov test coverage](https://codecov.io/gh/okamumu/mapfit/branch/main/graph/badge.svg)](https://app.codecov.io/gh/okamumu/mapfit?branch=main)
 <!-- badges: end -->
 
 The goal of mapfit is to estimate parameters of phase-type distribution (PH) and Markovian arrival process (MAP). PH/MAP fitting is required in the analysis of non-Markovian models involving general distributions. By replacing general distributions with estimated PH/MAP, we have approximate the non-Markovian models with continuous-time Markov chains (CTMCs). Our tool offers

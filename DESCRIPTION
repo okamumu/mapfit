@@ -20,4 +20,5 @@ Imports:
 URL: https://github.com/okamumu/mapfit
 BugReports: https://github.com/okamumu/mapfit/issues
 Suggests: 
+    covr,
     ggplot2

@@ -14,11 +14,16 @@ License: MIT + file LICENSE
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.0
 Imports: 
+    R6,
     deformula,
     Matrix,
-    methods
+    Rcpp
 URL: https://github.com/okamumu/mapfit
 BugReports: https://github.com/okamumu/mapfit/issues
 Suggests: 
     covr,
-    ggplot2
+    ggplot2,
+    testthat (>= 3.0.0)
+LinkingTo: 
+    Rcpp
+Config/testthat/edition: 3

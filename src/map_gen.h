@@ -6,6 +6,7 @@
 #include "poisson.h"
 #include "gamma.h"
 #include "blas.h"
+#include "gth.h"
 #include "unif.h"
 #include "map_data.h"
 #include "map_models.h"
@@ -50,6 +51,9 @@ double estep(
   vec2 vb(m+2, vec1(n));
   vec3 vc(right+1, vec2(nmax+1, vec1(n)));
   
+  Em& H0(work.H0);
+  Em& H1(work.H1);
+  
   double scale;
   double llf = 0.0;
 
@@ -85,7 +89,7 @@ double estep(
           }
           copy(tmpv, xi[j]);
         }
-        axpy(prob[k], xi[0], vb[k]);
+        axpy(prob[l], xi[0], vb[k]);
       }
       scal(1.0/weight, vb[k]);
     }
@@ -119,7 +123,7 @@ double estep(
           }
           copy(tmpv, xi[j]);
         }
-        axpy(prob[k], xi[gk], tmpvf);
+        axpy(prob[l], xi[gk], tmpvf);
       }
       scal(1.0/weight, tmpvf);
     }
@@ -168,8 +172,8 @@ double estep(
       }
       
       // compute H
-      fill(work.H0, 0.0);
-      fill(work.H1, 0.0);
+      fill(H0, 0.0);
+      fill(H1, 0.0);
       copy(vf[k-1], xi[0]);
       for (int j=1; j<=gk; j++) {
         fill(xi[j], 0.0);
@@ -177,9 +181,9 @@ double estep(
       fill(tmpvf, 0.0);
       axpy(prob[0], xi[gk], tmpvf);
       for (int j=0; j<=gk; j++) {
-        ger(NOTRANS{}, 1.0/(qv*weight), xi[j], vc[1][j], work.H0);
+        ger(NOTRANS{}, 1.0/(qv*weight), xi[j], vc[1][j], H0);
         if (j != gk) {
-          ger(NOTRANS{}, 1.0/(qv*weight), xi[j], vc[1][j+1], work.H1);
+          ger(NOTRANS{}, 1.0/(qv*weight), xi[j], vc[1][j+1], H1);
         }
       }
       for (int l=1; l<=right-1; l++) {
@@ -192,9 +196,9 @@ double estep(
         }
         axpy(prob[l], xi[gk], tmpvf);
         for (int j=0; j<=gk; j++) {
-          ger(NOTRANS{}, 1.0/(qv*weight), xi[j], vc[l+1][j], work.H0);
+          ger(NOTRANS{}, 1.0/(qv*weight), xi[j], vc[l+1][j], H0);
           if (j != gk) {
-            ger(NOTRANS{}, 1.0/(qv*weight), xi[j], vc[l+1][j+1], work.H1);
+            ger(NOTRANS{}, 1.0/(qv*weight), xi[j], vc[l+1][j+1], H1);
           }
         }
       }
@@ -202,8 +206,8 @@ double estep(
     }
     
     scale = dot(tmpvf, tmpvb);
-    axpy(1.0/scale, work.H0, eres.en0);
-    axpy(1.0/scale, work.H1, eres.en1);
+    axpy(1.0/scale, H0, eres.en0);
+    axpy(1.0/scale, H1, eres.en1);
     if (IDAT(k) == 1) {
       ger(NOTRANS{}, 1.0/scale, tmpvf, vb[k+1], eres.en1);
     }
@@ -428,6 +432,10 @@ void mstep(const MAPEres<Ev,Em>& eres,
   double qv = unif(model.P0, model.diag, options.ufactor);
   scal(1.0/qv, model.P1);
   model.qv = qv;
+  // stationary
+  if (options.stationary) {
+    map_gth(model.D0, model.D1, model.alpha);
+  }
 }
 
 #endif

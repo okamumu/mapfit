@@ -102,7 +102,7 @@ void makeGPsi(int num, double t, const MatT& D0, const MatT& D1,
       }
       g[i+j*ldg] = dij * gam_inte(num, t, -d0[i+i*ld0], -d0[j+j*ld0], d1[i+i*ld1], d1[j+j*ld1], x, w, fx, fv);
       double tmp = psi_inte(num, t, -d0[i+i*ld0], -d0[j+j*ld0], d1[i+i*ld1], d1[j+j*ld1], x, w, fx, fv);
-      psit1[i+i*lpt1] = dij * tmp;
+      psit1[i+j*lpt1] = dij * tmp;
       psit2[j+i*lpt2] = dji * tmp;
       if (num != 0) {
         double tmp = psi_inte(num-1, t, -d0[i+i*ld0], -d0[j+j*ld0], d1[i+i*ld1], d1[j+j*ld1], x, w, fx, fv);
@@ -191,6 +191,13 @@ double estep(
   vec1 inte_fx(options.inte_divide);
   vec1 inte_fv(options.inte_divide);
   gauss_inte::w(inte_x, inte_w, options.inte_eps);
+
+  Em& G(work.G);
+  Em& Psi1T(work.Psi1T);
+  Em& Psi2T(work.Psi2T);
+  Em& Psi1N(work.Psi1N);
+  Em& Psi2N(work.Psi2N);
+  Em& tmpm(work.tmpm);
   
   double scale;
   double llf = 0.0;
@@ -207,8 +214,8 @@ double estep(
     } else {
       copy(vb[k+1], tmpv);
     }
-    makeG(GDAT(k), TDAT(k), model.map.D0, model.map.D1, work.G, inte_x, inte_w, inte_fx, inte_fv);
-    gemv(NOTRANS{}, 1.0, work.G, tmpv, 0.0, vb[k]);
+    makeG(GDAT(k), TDAT(k), model.map.D0, model.map.D1, G, inte_x, inte_w, inte_fx, inte_fv);
+    gemv(NOTRANS{}, 1.0, G, tmpv, 0.0, vb[k]);
     scale = asum(vb[k]);
     scal(1.0/scale, vb[k]);
     llf += log(scale);
@@ -218,9 +225,9 @@ double estep(
   copy(model.map.alpha, vf[0]);
   for (int k=1; k<=m; k++) {
     makeGPsi(GDAT(k), TDAT(k), model.map.D0, model.map.D1,
-             work.G, work.Psi1T, work.Psi2T, work.Psi1N, work.Psi2N,
+             G, Psi1T, Psi2T, Psi1N, Psi2N,
              inte_x, inte_w, inte_fx, inte_fv);
-    gemv(TRANS{}, 1.0, work.G, vf[k-1], 0.0, tmpv);
+    gemv(TRANS{}, 1.0, G, vf[k-1], 0.0, tmpv);
     if (IDAT(k) == 1) {
       gemv(TRANS{}, 1.0, model.map.D1, tmpv, 0.0, vf[k]);
     } else {
@@ -236,21 +243,21 @@ double estep(
     scale = dot(tmpv, tmpb);
 
     // en0
-    fill(work.tmpm, 0.0);
-    ger(NOTRANS{}, 1.0/scale, vf[k-1], tmpb, work.tmpm);
-    mmulplus(work.G, work.tmpm, eres.en0);
+    fill(tmpm, 0.0);
+    ger(NOTRANS{}, 1.0/scale, vf[k-1], tmpb, tmpm);
+    mmulplus(G, tmpm, eres.en0);
 
     // ez
-    gemv(TRANS{}, 1.0/scale, work.Psi2T, vf[k-1], 0.0, tmpv2);
+    gemv(TRANS{}, 1.0/scale, Psi2T, vf[k-1], 0.0, tmpv2);
     mulplus(tmpv2, tmpb, eres.ez);
-    gemv(NOTRANS{}, 1.0/scale, work.Psi1T, tmpb, 0.0, tmpv2);
+    gemv(NOTRANS{}, 1.0/scale, Psi1T, tmpb, 0.0, tmpv2);
     mulplus(tmpv2, vf[k-1], eres.ez);
 
     // en1
     if (GDAT(k) != 0) {
-      gemv(TRANS{}, 1.0/scale, work.Psi2N, vf[k-1], 0.0, tmpv2);
+      gemv(TRANS{}, 1.0/scale, Psi2N, vf[k-1], 0.0, tmpv2);
       xmulplus(tmpv2, tmpb, eres.en1);
-      gemv(NOTRANS{}, 1.0/scale, work.Psi1N, tmpb, 0.0, tmpv2);
+      gemv(NOTRANS{}, 1.0/scale, Psi1N, tmpb, 0.0, tmpv2);
       xmulplus(tmpv2, vf[k-1], eres.en1);
     }
 

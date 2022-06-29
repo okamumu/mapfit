@@ -7,21 +7,22 @@
 #include "map_models.h"
 #include "gamma.h"
 #include "blas.h"
+#include "gth.h"
 
 #define TDAT(k) (tdat[(k)-1])
 
-template <typename T1, typename T2, typename T3, typename T4, typename T5, typename T0,
+template <typename Mv, typename Mi, typename Dv, typename Ev, typename Em, typename Mm,
           typename OptionT, typename WorkSpace>
 double estep(
-    const ErlangHMM<T1,T2,T0>& model,
-    const MAPTimeSample<T3>& data,
-    ErlangHMMEres<T4,T5>& eres,
+    const ErlangHMM<Mv,Mi,Mm>& model,
+    const MAPTimeSample<Dv>& data,
+    ErlangHMMEres<Ev,Em>& eres,
     OptionT,
     WorkSpace& work) {
 
   const int n = model.size();
   const int m = data.size();
-  const double* tdat = stride_vector_traits<T3,double>::value(data.time);
+  const double* tdat = stride_vector_traits<Dv,double>::value(data.time);
 
   std::vector<double> tmpv(n);
   std::vector<double> hew(n);
@@ -30,8 +31,8 @@ double estep(
   std::vector<std::vector<double>> erl(m+2, std::vector<double>(n));
 
   // set erlang
-  const double* rate = stride_vector_traits<T1>::value(model.rate);
-  const int* shape = stride_vector_traits<T2,int>::value(model.shape);
+  const double* rate = stride_vector_traits<Mv>::value(model.rate);
+  const int* shape = stride_vector_traits<Mi,int>::value(model.shape);
   for (int k=1; k<=m; k++) {
     for (int i=0; i<n; i++) {
       erl[k][i] = gam::erlang_pdf(shape[i], rate[i], TDAT(k));
@@ -84,10 +85,10 @@ double estep(
     axpy(TDAT(k)/scale, hew, eres.ew1);
   }
   
-  const double* alpha = vector_traits<T1>::value(model.alpha);
-  const double* P = vector_traits<T3>::value(model.P);
-  double* eb = stride_vector_traits<T4>::value(eres.eb);
-  double* en = vector_traits<T5>::value(eres.en);
+  const double* alpha = vector_traits<Mv>::value(model.alpha);
+  const double* P = vector_traits<Mm>::value(model.P);
+  double* eb = stride_vector_traits<Ev>::value(eres.eb);
+  double* en = vector_traits<Em>::value(eres.en);
   
   copy(vb[1], eres.eb);
   for (int i=0; i<n; i++) {
@@ -97,7 +98,7 @@ double estep(
   scal(1.0/scale, eres.eb);
   llf += log(scale);
   
-  for (int i=0; i<vector_traits<T5>::size(eres.en); i++) {
+  for (int i=0; i<vector_traits<Em>::size(eres.en); i++) {
     en[i] *= P[i];
   }
   return llf;
@@ -141,12 +142,15 @@ void mstep(const ErlangHMMEres<Ev,Em>& eres,
 
 }
 
-template <typename T1, typename T2, typename Tv, typename Ti, typename Tm,
+template <typename Ev, typename Em, typename Tv, typename Ti, typename Tm,
           typename OptionT>
-void mstep(const ErlangHMMEres<T1,T2>& eres,
+void mstep(const ErlangHMMEres<Ev,Em>& eres,
            ErlangHMM<Tv,Ti,Tm>& model,
            OptionT& options) {
   _mstep_::mstep(eres, model, options, typename matrix_category<Tm>::type{});
+  if (options.stationary) {
+    markov_gth(model.P, model.alpha);
+  }
 }
 
 #endif

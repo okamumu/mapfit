@@ -17,6 +17,7 @@ Imports:
     R6,
     deformula,
     Matrix,
+    methods,
     Rcpp
 URL: https://github.com/okamumu/mapfit
 BugReports: https://github.com/okamumu/mapfit/issues

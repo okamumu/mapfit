@@ -8,25 +8,34 @@ using namespace Rcpp;
 List emfit_gmmpp_group(
     NumericVector alpha,
     NumericVector xi,
-    NumericMatrix D0,
-    NumericMatrix D1,
+    S4 xD0,
+    S4 xD1,
     List data,
     List options,
-    NumericMatrix P0,
-    NumericMatrix P1,
-    NumericMatrix en0,
-    NumericMatrix en1,
-    NumericMatrix G,
-    NumericMatrix PsiT1,
-    NumericMatrix PsiT2,
-    NumericMatrix PsiN1,
-    NumericMatrix PsiN2,
-    NumericMatrix tmpm) {
-  using MatrixT = NumericMatrix;
-  // auto Q = MatrixT(Q0);
-  // auto P = MatrixT(P0);
-  // auto H = MatrixT(H0);
-  
+    S4 xP0,
+    S4 xP1,
+    S4 xen0,
+    S4 xen1,
+    S4 xG,
+    S4 xPsiT1,
+    S4 xPsiT2,
+    S4 xPsiN1,
+    S4 xPsiN2,
+    S4 xtmpm) {
+  using MatrixT = S4matrix<DenseMatrixT>;
+  auto D0 = MatrixT(xD0);
+  auto D1 = MatrixT(xD1);
+  auto P0 = MatrixT(xP0);
+  auto P1 = MatrixT(xP1);
+  auto en0 = MatrixT(xen0);
+  auto en1 = MatrixT(xen1);
+  auto G = MatrixT(xG);
+  auto PsiT1 = MatrixT(xPsiT1);
+  auto PsiT2 = MatrixT(xPsiT2);
+  auto PsiN1 = MatrixT(xPsiN1);
+  auto PsiN2 = MatrixT(xPsiN2);
+  auto tmpm = MatrixT(xtmpm);
+
   auto maxiter = as<int>(options["maxiter"]);
   auto atol = as<double>(options["abstol"]);
   auto rtol = as<double>(options["reltol"]);
@@ -35,7 +44,7 @@ List emfit_gmmpp_group(
   auto ufactor = as<double>(options["uniform.factor"]);
   auto inte_divide = as<int>(options["inte.divide"]);
   auto inte_eps = as<double>(options["inte.eps"]);
-  
+
   int n = alpha.length();
   IntegerVector di(n);
   diag(D0, di);
@@ -45,21 +54,21 @@ List emfit_gmmpp_group(
   scal(1.0/qv, P1);
   auto map = MAP<NumericVector,MatrixT,IntegerVector>(alpha, xi, D0, D1, P0, P1, di, qv);
   auto model = GMMPP<MAP<NumericVector,MatrixT,IntegerVector>>(map);
-  
-  auto tdat = as<NumericVector>(data["time"]);
+
+  auto tdat = as<NumericVector>(data["intervals"]);
   auto gdat = as<IntegerVector>(data["counts"]);
-  auto idat = as<IntegerVector>(data["indicators"]);
-  double maxtime = as<double>(data["maxtime"]);
+  auto idat = as<IntegerVector>(data["instants"]);
+  double maxtime = as<double>(data["maxinterval"]);
   int maxcount = as<int>(data["maxcount"]);
   auto m = tdat.length();
   auto dat = MAPGroupSample<NumericVector,IntegerVector,IntegerVector>(tdat, gdat, idat, maxtime, maxcount);
-  
+
   auto eres = MAPEres<NumericVector,MatrixT>(
     NumericVector(n),
     NumericVector(n),
     en0, en1);
-  auto work = GMMPPWorkSpace<NumericMatrix>(G, PsiT1, PsiT2, PsiN1, PsiN2, tmpm);
-  
+  auto work = GMMPPWorkSpace<MatrixT>(G, PsiT1, PsiT2, PsiN1, PsiN2, tmpm);
+
   auto opts = EMOptions();
   opts.maxiter = maxiter;
   opts.atol = atol;
@@ -69,14 +78,14 @@ List emfit_gmmpp_group(
   opts.ufactor = ufactor;
   opts.inte_divide = inte_divide;
   opts.inte_eps = inte_eps;
-  
+
   emfit(model, dat, opts, eres, work);
   
   return List::create(
     Named("alpha") = alpha,
     Named("xi") = xi,
-    Named("D0") = D0,
-    Named("D1") = D1,
+    Named("D0") = xD0,
+    Named("D1") = xD1,
     Named("iter") = opts.iter,
     Named("aerror") = opts.aerror,
     Named("rerror") = opts.rerror,
@@ -87,23 +96,23 @@ List emfit_gmmpp_group(
 /*** R
 alpha <- c(0.4, 0.6)
 xi <- c(1,1)
-D0 <- rbind(
+D0 <- as(rbind(
   c(-10.0, 4.0),
-  c(2.0, -4.0))
-D1 <- rbind(
+  c(2.0, -4.0)), "dgeMatrix")
+D1 <- as(rbind(
   c(6.0, 0.0),
-  c(0.0, 2.0))
-P0 <- matrix(0.0, 2, 2)
-P1 <- matrix(0.0, 2, 2)
-en0 <- matrix(0.0, 2, 2)
-en1 <- matrix(0.0, 2, 2)
-G <- matrix(0.0, 2, 2)
-Psi1T <- matrix(0.0, 2, 2)
-Psi2T <- matrix(0.0, 2, 2)
-Psi1N <- matrix(0.0, 2, 2)
-Psi2N <- matrix(0.0, 2, 2)
-tmpm <- matrix(0.0, 2, 2)
-dat <- list(time=c(1,2,1,1,1), counts=c(1,0,0,2,1), indicators=c(0,0,0,0,0), maxtime=2, maxcount=2)
+  c(0.0, 2.0)), "dgeMatrix")
+P0 <- as(matrix(0.0, 2, 2), "dgeMatrix")
+P1 <- as(matrix(0.0, 2, 2), "dgeMatrix")
+en0 <- as(matrix(0.0, 2, 2), "dgeMatrix")
+en1 <- as(matrix(0.0, 2, 2), "dgeMatrix")
+G <- as(matrix(0.0, 2, 2), "dgeMatrix")
+Psi1T <- as(matrix(0.0, 2, 2), "dgeMatrix")
+Psi2T <- as(matrix(0.0, 2, 2), "dgeMatrix")
+Psi1N <- as(matrix(0.0, 2, 2), "dgeMatrix")
+Psi2N <- as(matrix(0.0, 2, 2), "dgeMatrix")
+tmpm <- as(matrix(0.0, 2, 2), "dgeMatrix")
+dat <- list(intervals=c(1,2,1,1,1), counts=c(1,0,0,2,1), instants=c(0,0,0,0,0), maxinterval=2, maxcount=2)
 options <- list(maxiter=10, abstol=1.0e-3, reltol=1.0e-6,
                 steps=1, em.verbose=TRUE, uniform.factor=1.01,
                 poisson.eps=1.0e-8, inte.divide=100, inte.eps=1.0e-8)

@@ -9,9 +9,9 @@ cf1.param.linear(size, mean, s)
 \arguments{
 \item{size}{An integer of the number of phases}
 
-\item{s}{A value of fraction of minimum and maximum rates}
+\item{mean}{A value of mean of data}
 
-\item{m}{A value of mean of data}
+\item{s}{A value of fraction of minimum and maximum rates}
 }
 \value{
 A list of alpha and rate

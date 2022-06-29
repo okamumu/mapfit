@@ -20,10 +20,12 @@ A vector of samples.
 Generate a sample from a given PH distribution.
 }
 \examples{
-## create PH instance (ex. full PH with 5 phases)
-(phdist <- ph(5))
+## create a PH with specific parameters
+(phdist <- ph(alpha=c(1,0,0),
+              Q=rbind(c(-4,2,0),c(2,-5,1),c(1,0,-1)),
+              xi=c(2,2,0)))
 
-## Generate 10 samples
-rphase(10, ph)
+## generate 10 samples
+rphase(n=10, ph=phdist)
 
 }

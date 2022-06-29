@@ -22,10 +22,12 @@ A vector of densities.
 Compute the probability density function (p.d.f.) for a given PH distribution
 }
 \examples{
-## create PH instance (ex. full PH with 5 phases)
-(phdist <- ph(5))
+## create a PH with specific parameters
+(phdist <- ph(alpha=c(1,0,0),
+              Q=rbind(c(-4,2,0),c(2,-5,1),c(1,0,-1)),
+              xi=c(2,2,0)))
 
-x <- runif(10) # points of quantiles
-dphase(x, ph)
+## p.d.f. for 0, 0.1, ..., 1
+dphase(x=seq(0, 1, 0.1), ph=phdist)
 
 }

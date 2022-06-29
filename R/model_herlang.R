@@ -2,8 +2,8 @@
 #'
 #' A mixture of Erlang distributions. A subclass of PH distributions.
 #' 
-HErlang <- R6::R6Class(
-  "HErlang",
+HErlangClass <- R6::R6Class(
+  "HErlangClass",
   private = list(
     param.mixrate = NULL,
     param.shape = NULL,
@@ -42,6 +42,15 @@ HErlang <- R6::R6Class(
     },
     
     #' @description 
+    #' copy
+    #' @return A new instance
+    copy = function() {
+      herlang(shape=as.vector(self$shape()),
+              mixrate=as.vector(self$mixrate()),
+              rate=as.vector(self$rate()))
+    },
+    
+    #' @description 
     #' The number of components
     #' @return The number of components
     size = function() {
@@ -52,7 +61,7 @@ HErlang <- R6::R6Class(
     #' Degrees of freedom
     #' @return The degrees of freedom
     df = function() {
-      3*self$size() - 1
+      2*self$size() - 1
     },
     
     #' @description 
@@ -112,7 +121,7 @@ HErlang <- R6::R6Class(
     #' @param ... Others
     #' @return A sample of HErlang
     sample = function(...) {
-      i <- which(c(rmultinom(n=1, size=1, prob=super$mixrate())) == 1)
+      i <- which(c(rmultinom(n=1, size=1, prob=self$mixrate())) == 1)
       rgamma(n=1, shape=self$shape()[i], rate=self$rate()[i])
     },
     
@@ -151,8 +160,8 @@ HErlang <- R6::R6Class(
 #'
 #' A mixture of Erlang distributions. A subclass of PH distributions.
 #' 
-AHerlang <- R6::R6Class(
-  "AHerlang",
+AHerlangClass <- R6::R6Class(
+  "AHerlangClass",
   private = list(
     param.size = NULL,
     param.herlang = NULL
@@ -187,6 +196,13 @@ AHerlang <- R6::R6Class(
     },
     
     #' @description 
+    #' copy
+    #' @return A new instance
+    copy = function() {
+      AHerlangClass$new(private$param.size, private$param.herlang$copy())
+    },
+    
+    #' @description 
     #' The number of components
     #' @return The number of components
     size = function() {
@@ -197,9 +213,9 @@ AHerlang <- R6::R6Class(
     #' Degrees of freedom
     #' @return The degrees of freedom
     df = function() {
-      private$param.herlang$df()
+      3*self$size() - 2
     },
-    
+
     #' @description 
     #' Moments of HErlang
     #' @param k A value to indicate the degrees of moments. k-th moment
@@ -257,27 +273,70 @@ AHerlang <- R6::R6Class(
     #' @param options A list of options
     #' @param ... Others
     emfit = function(data, options, ...) {
-      maxllf <- -Inf
-      maxmodel <- NULL
-      maxresult <- NULL
-      allshape <- herlang.shape.all(private$param.size,
-                                    options$herlang.lbound,
-                                    options$herlang.ubound)
-      for (s in allshape) {
-        m <- herlang(shape=s)
-        result <- m$emfit(data, options, initialize = TRUE, ...)
-        if (options$herlang.verbose)
-          cat("shape: ", s, gettextf(" llf=%.2f\n", result$llf))
-        if (is.finite(result$llf)) {
-          if (result$llf > maxllf) {
-            maxllf <- result$llf
-            maxresult <- result
-            maxmodel <- m
+      method <- options$shape.method
+      phsize <- private$param.size
+      lbound <- options$lbound
+      ubound <- ifelse(is.na(options$ubound), phsize, options$ubound)
+      verbose <- options$shape.verbose
+      result <- switch(
+        method,
+        "all" = {
+          maxllf <- -Inf
+          maxmodel <- NULL
+          maxresult <- NULL
+          allshape <- shape.all(phsize, lbound, ubound)
+          for (s in allshape) {
+            m <- herlang(shape=s)
+            m$init(data)
+            result <- m$emfit(data, options, ...)
+            if (verbose)
+              cat("shape: ", s, gettextf(" llf=%.2f\n", result$llf))
+            if (is.finite(result$llf)) {
+              if (result$llf > maxllf) {
+                maxllf <- result$llf
+                maxresult <- result
+                maxmodel <- m
+              }
+            }
           }
+          private$param.herlang <- maxmodel
+          maxresult
+        },
+        "increment" = {
+          maxllf <- -Inf
+          maxmodel <- NULL
+          maxresult <- NULL
+          shape <- rep(1, lbound)
+          repeat {
+            shapelist1 <- shape.increment(shape, ubound, phsize)
+            shapelist2 <- shape.decrement(shape, lbound)
+            shapelist <- c(shapelist1, shapelist2)
+            shape <- NULL
+            for (s in shapelist) {
+              m <- herlang(shape=s)
+              m$init(data)
+              result <- m$emfit(data, options)
+              if (verbose)
+                cat("shape: ", s, gettextf(" llf=%.2f\n", result$llf))
+              if (is.finite(result$llf)) {
+                if (result$llf > maxllf) {
+                  maxllf <- result$llf
+                  maxresult <- result
+                  shape <- s
+                  maxmodel <- m
+                }
+              }
+            }
+            if (is.null(shape)) {
+              ##      warning(message="break")
+              break
+            }
+          }
+          private$param.herlang <- maxmodel
+          maxresult
         }
-      }
-      private$param.herlang <- maxmodel
-      maxresult
+      )
+      # print(result)
     },
     
     #' @description 
@@ -333,10 +392,10 @@ herlang <- function(size, shape, mixrate = rep(1/length(shape),length(shape)),
       stop("Either size or shape is needed.")
     } else {
       # create a herlang
-      AHerlang$new(size, herlang(shape=c(size)))
+      AHerlangClass$new(size, herlang(shape=c(size)))
     }
   } else {
-    HErlang$new(mixrate=mixrate, shape=shape, rate=rate)
+    HErlangClass$new(mixrate=mixrate, shape=shape, rate=rate)
   }
 }
 
@@ -398,6 +457,15 @@ as.gph <- function(h) {
 #' @param shape A vector of shape parameters
 #' @param ... Others
 #' @return An instance of HErlang
+#' @examples 
+#' ## Create data
+#' wsample <- rweibull(10, shape=2)
+#' (dat <- data.frame.phase.time(x=wsample))
+#' 
+#' ## Generate PH that is fitted to dat
+#' (model <- herlang.param(data=dat, shape=c(1,2,3)))
+#' 
+#' @export
 
 herlang.param <- function(data, shape, ...) {
   size <- length(shape)
@@ -435,68 +503,5 @@ herlang.param <- function(data, shape, ...) {
   ##  mixrate <- runif(size)
   mixrate <- rep(1/size, size)
   herlang(shape=shape, mixrate=mixrate/sum(mixrate), rate=rate)
-}
-
-#' @export
-
-herlang.shape.all <- function(phnum, lbound, ubound) {
-  if (is.na(ubound)) {
-    ubound <- phnum
-  }
-  herlang.shape.ipart(1, numeric(phnum), 1, phnum, lbound, ubound, list())
-}
-
-herlang.shape.ipart <- function(pos, shape, mini, res, lb, ub, result) {
-  if (mini > res) {
-    return(result)
-  } else {
-    for (i in mini:res) {
-      shape[pos] <- i
-      result <- herlang.shape.ipart(pos+1, shape, i, res-i, lb, ub, result)
-    }
-    if (lb <= pos && pos <= ub) {
-      result <- c(result, list(shape[1:pos]))
-    }
-    return(result)
-  }
-}
-
-#' @export
-
-herlang.shape.increment <- function(shape, ubound, phsize) {
-  ## append
-  if (length(shape) == ubound || sum(shape) == phsize) {
-    return(list())
-  }
-  result <- c(1, shape)
-  retval <- list(result)
-  
-  ## add
-  for (i in unique(shape)) {
-    tmp <- shape
-    l <- which(tmp == i)
-    n <- length(l)
-    tmp[l[n]] <- tmp[l[n]] + 1
-    retval <- c(retval, list(tmp))
-  }
-  return(retval)
-}
-
-herlang.shape.decrement <- function(shape, lbound) {
-  if (length(shape)==1 && shape[1]==1) {
-    return(list())
-  }
-  retval <- list()
-  ## subtract
-  for (i in unique(shape)) {
-    tmp <- shape
-    l <- which(tmp == i)
-    n <- length(l)
-    tmp[l[1]] <- tmp[l[1]] - 1
-    tmp <- tmp[tmp != 0]
-    if (length(tmp) >= lbound)
-      retval <- c(retval, list(tmp))
-  }
-  return(retval)
 }
 

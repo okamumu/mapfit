@@ -19,3 +19,12 @@ An instance of HErlang
 \description{
 Determine the hyper-Erlang parameters with k-means.
 }
+\examples{
+## Create data
+wsample <- rweibull(10, shape=2)
+(dat <- data.frame.phase.time(x=wsample))
+
+## Generate PH that is fitted to dat
+(model <- herlang.param(data=dat, shape=c(1,2,3)))
+
+}

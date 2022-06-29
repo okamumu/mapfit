@@ -20,3 +20,12 @@ An instance of GPH
 Generate GPH randomly and adjust parameters to fit its first moment to
 the first moment of data.
 }
+\examples{
+## Create data
+wsample <- rweibull(10, shape=2)
+(dat <- data.frame.phase.time(x=wsample))
+
+## Generate PH that is fitted to dat
+(model <- gph.param(data=dat, skel=ph(5)))
+
+}

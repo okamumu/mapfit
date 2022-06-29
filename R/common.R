@@ -20,11 +20,33 @@ emoptions <- function() {
     cf1.scale.init = c(0.5, 1.0, 2.0),
     cf1.verbose = TRUE,
     cf1.maxiter = 5,
-    herlang.lbound = 1,
-    herlang.ubound = NA,
-    herlang.verbose = TRUE,
+    lbound = 1,
+    ubound = NA,
+    shape.verbose = TRUE,
+    shape.method = "all",
+    map.stationary = TRUE,
+    inte.divide=30,
+    inte.eps=1.0e-8,
     annealing = FALSE,
     annealing.temperature = seq(0.9, 1, length.out=10),
     annealing.iter = NULL
-    )
+  )
+}
+
+#' Markov stationary
+#' 
+#' Compute the stationary vector with GTH
+#' 
+#' @param Q DTMC/CTMC kernel
+#' @return The stationary vector of DTMC/CTMC
+#' 
+#' @export
+
+ctmc.st <- function(Q) {
+  A <- as.matrix(Q)
+  if (dim(Q)[1] != dim(Q)[2]) {
+    stop("Q should be a square matrix")
+  }
+  x <- numeric(dim(Q)[1])
+  markov_gth_dense(Q, x)
 }

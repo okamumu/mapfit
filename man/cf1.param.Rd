@@ -21,9 +21,10 @@ and cf1.param.power to determine CF1. After execute 5 EM steps, the model with t
 LLF is selected.
 }
 \examples{
-dat <- data.frame.phase.group(c(1,2,0,4), seq(0,10,length.out=5)) # group data
+## Generate group data
+dat <- data.frame.phase.group(c(1,2,0,4), seq(0,10,length.out=5))
 
 ## Create an instance of CF1
-p <- cf1.param(data, 5)
+p <- cf1.param(data=dat, size=5)
 
 }

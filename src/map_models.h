@@ -91,12 +91,18 @@ struct MAPEres {
 };
 
 template <typename MatT>
-struct MAPWorkSpace {
+struct MAPWorkSpace1 {
   MatT H0;
   MatT H1;
   
-  MAPWorkSpace(const MatT& _H0, const MatT& _H1) :
+  MAPWorkSpace1(int m, int n, const MatT& _H0, const MatT& _H1) :
     H0(_H0), H1(_H1) {}
+};
+
+template <typename MatT>
+struct ErlangHMMWorkSpace1 {
+
+  ErlangHMMWorkSpace1(int m, int n) {}
 };
 
 template <typename MatT>

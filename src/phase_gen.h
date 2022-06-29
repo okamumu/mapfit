@@ -49,7 +49,7 @@ double estep(
     const PHWeightSample<T4,T5>& data,
     GPHEres<T6,T7>& eres,
     OptionT& options,
-    WorkSpace& work) {
+    WorkSpace& work) noexcept {
   
   const int m = data.size();
   const double* tdat = vector_traits<T4,double>::value(data.time);
@@ -193,7 +193,7 @@ double estep(
     const PHGroupSample<T4,T5,T6>& data,
     GPHEres<T7,T8>& eres,
     OptionT& options,
-    WorkSpace& work) {
+    WorkSpace& work) noexcept {
   
   const int m = data.size();
   const double* tdat = stride_vector_traits<T4,double>::value(data.time);
@@ -405,7 +405,7 @@ double estep(
     const PHGroupSample<T4,T5,T6>& data,
     GPHEres<T7,T8>& eres,
     OptionT& options,
-    WorkSpace& work) {
+    WorkSpace& work) noexcept {
   
   const int m = data.size();
   const double* tdat = stride_vector_traits<T4,double>::value(data.time);
@@ -616,7 +616,7 @@ template <typename T0, typename T1, typename T2, typename T3, typename T4,
           typename OptionT>
 void mstep(const GPHEres<T1,T2>& eres,
            GPH<T3,T4,T0>& model,
-           OptionT& options, DenseMatrixT) {
+           OptionT& options, DenseMatrixT) noexcept{
   const int n = model.size();
   const double* eb = vector_traits<T1>::value(eres.eb);
   const double* ey = vector_traits<T1>::value(eres.ey);
@@ -774,7 +774,7 @@ void mstep(const GPHEres<T1,T2>& eres,
 template <typename T1, typename T2, typename GPHT, typename OptionT>
 void mstep(const GPHEres<T1,T2>& eres,
            GPHPoi<GPHT>& model,
-           OptionT& options) {
+           OptionT& options) noexcept {
   mstep(eres, model.gph, options);
   model.omega = eres.etotal;
 }

@@ -116,7 +116,7 @@ double estep(
     const DataT& data,
     EresT& eres,
     OptionT& options,
-    WorkSpace& work) {
+    WorkSpace& work) noexcept {
   
   return estep(model.gph, data, eres, options, work);
 }
@@ -155,7 +155,7 @@ void cf1sort(CF1<T1,GPHT>& cf1) {
 }
 
 template <typename EresT, typename T1, typename G1, typename G2, typename G0, typename OptionT>
-void mstep(const EresT& eres, CF1<T1,GPH<G1,G2,G0>>& model, OptionT& options) {
+void mstep(const EresT& eres, CF1<T1,GPH<G1,G2,G0>>& model, OptionT& options) noexcept {
   _mstep_::mstep(eres, model.gph, options, typename matrix_category<G2>::type{});
   phcopy(model.gph, model);
   cf1sort(model);
@@ -167,7 +167,7 @@ void mstep(const EresT& eres, CF1<T1,GPH<G1,G2,G0>>& model, OptionT& options) {
 }
 
 template <typename EresT, typename T1, typename G1, typename G2, typename G0, typename OptionT>
-void mstep(const EresT& eres, CF1<T1,GPHPoi<GPH<G1,G2,G0>>>& model, OptionT& options) {
+void mstep(const EresT& eres, CF1<T1,GPHPoi<GPH<G1,G2,G0>>>& model, OptionT& options) noexcept {
   _mstep_::mstep(eres, model.gph.gph, options, typename matrix_category<G2>::type{});
   phcopy(model.gph.gph, model);
   cf1sort(model);

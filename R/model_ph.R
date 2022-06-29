@@ -3,12 +3,13 @@
 #' A continuous distribution dominated by a continuous-time Markov chain.
 #' A random time is given by an absorbing time.
 #' 
-GPH <- R6::R6Class(
-  "GPH",
+GPHClass <- R6::R6Class(
+  "GPHClass",
   private = list(
     param.alpha = NULL,
     param.Q = NULL,
     param.xi = NULL,
+    param.df = 0,
     matclass = "dgCMatrix",
 
     make.matrix = function() {
@@ -47,6 +48,21 @@ GPH <- R6::R6Class(
       diag(Q) <- -(apply(Q, 1, sum) + xi)
       private$param.Q <- as(Q, private$matclass)
       private$param.xi <- xi
+      
+      # set df
+      zero <- 1.0e-8
+      private$param.df <- (sum(private$param.alpha > zero) - 1) +
+        sum(private$param.Q > zero) +
+        sum(private$param.xi > zero)
+    },
+    
+    #' @description 
+    #' copy
+    #' @return A new instance
+    copy = function() {
+      ph(alpha=as.vector(self$alpha()),
+         Q=as.matrix(self$Q()),
+         xi=as.vector(self$xi()))
     },
     
     #' @description 
@@ -60,9 +76,7 @@ GPH <- R6::R6Class(
     #' Degrees of freedom
     #' @return The degrees of freedom
     df = function() {
-      zero <- 1.0e-8
-      sum(self$alpha() > zero) - 1 + sum(abs(self$Q()) > zero) +
-        sum(self$xi() > zero) - self$size() + sum(abs(Matrix::diag(self$Q())) < zero)
+      private$param.df
     },
     
     #' @description 
@@ -266,7 +280,7 @@ ph <- function(size, alpha, Q, xi) {
   if (missing(xi)) {
     xi = -apply(Q, 1, sum)
   }
-  GPH$new(alpha=alpha, Q=Q, xi=xi)
+  GPHClass$new(alpha=alpha, Q=Q, xi=xi)
 }
 
 #' Create a Coxian PH distribution
@@ -387,11 +401,13 @@ ph.tridiag <- function(size) {
 #' @param ... Others.
 #' @return A vector of densities.
 #' @examples 
-#' ## create PH instance (ex. full PH with 5 phases)
-#' (phdist <- ph(5))
+#' ## create a PH with specific parameters
+#' (phdist <- ph(alpha=c(1,0,0),
+#'               Q=rbind(c(-4,2,0),c(2,-5,1),c(1,0,-1)),
+#'               xi=c(2,2,0)))
 #' 
-#' x <- runif(10) # points of quantiles
-#' dphase(x, ph)
+#' ## p.d.f. for 0, 0.1, ..., 1
+#' dphase(x=seq(0, 1, 0.1), ph=phdist)
 #' 
 #' @export
 
@@ -415,11 +431,13 @@ dphase <- function(x, ph, log = FALSE, ...) {
 #' @param ... Others
 #' @return A vector of densities
 #' @examples 
-#' ## create PH instance (ex. full PH with 5 phases)
-#' (phdist <- ph(5))
+#' ## create a PH with specific parameters
+#' (phdist <- ph(alpha=c(1,0,0),
+#'               Q=rbind(c(-4,2,0),c(2,-5,1),c(1,0,-1)),
+#'               xi=c(2,2,0)))
 #' 
-#' x <- runif(10) # points of quantiles
-#' pphase(x, ph)
+#' ## c.d.f. for 0, 0.1, ..., 1
+#' pphase(q=seq(0, 1, 0.1), ph=phdist)
 #' 
 #' @export
 
@@ -450,11 +468,13 @@ pphase <- function(q, ph, lower.tail = TRUE, log.p = FALSE, ...) {
 #' @param ... Ohters
 #' @return A vector of samples.
 #' @examples 
-#' ## create PH instance (ex. full PH with 5 phases)
-#' (phdist <- ph(5))
-#'
-#' ## Generate 10 samples
-#' rphase(10, ph)
+#' ## create a PH with specific parameters
+#' (phdist <- ph(alpha=c(1,0,0),
+#'               Q=rbind(c(-4,2,0),c(2,-5,1),c(1,0,-1)),
+#'               xi=c(2,2,0)))
+#' 
+#' ## generate 10 samples
+#' rphase(n=10, ph=phdist)
 #' 
 #' @export
 
@@ -471,10 +491,21 @@ rphase <- function(n, ph, ...) {
 #' @param ... Others
 #' @return A vector of moments
 #' @examples
-#' ## create PH instance (ex. full PH with 5 phases)
-#' (phdist <- ph(5))
+#' ## create a PH with specific parameters
+#' (param1 <- ph(alpha=c(1,0,0), 
+#'               Q=rbind(c(-4,2,0),c(2,-5,1),c(1,0,-1)), 
+#'               xi=c(2,2,0)))
 #'
-#' ph.moment(10, ph)
+#' ## create a CF1 with specific parameters
+#' (param2 <- cf1(alpha=c(1,0,0), rate=c(1.0,2.0,3.0)))
+#' 
+#' ## create a hyper Erlang with specific parameters
+#' (param3 <- herlang(shape=c(2,3), mixrate=c(0.3,0.7), rate=c(1.0,10.0)))
+#' 
+#' ## up to 5 moments 
+#' ph.moment(5, param1)
+#' ph.moment(5, param2)
+#' ph.moment(5, param3)
 #' 
 #' @export
 
@@ -490,10 +521,21 @@ ph.moment <- function(k, ph, ...) {
 #' @param ... Others
 #' @return A value of mean
 #' @examples
-#' ## create PH instance (ex. full PH with 5 phases)
-#' (phdist <- ph(5))
+#' ## create a PH with specific parameters
+#' (param1 <- ph(alpha=c(1,0,0), 
+#'               Q=rbind(c(-4,2,0),c(2,-5,1),c(1,0,-1)), 
+#'               xi=c(2,2,0)))
 #'
-#' ph.mean(ph)
+#' ## create a CF1 with specific parameters
+#' (param2 <- cf1(alpha=c(1,0,0), rate=c(1.0,2.0,3.0)))
+#' 
+#' ## create a hyper Erlang with specific parameters
+#' (param3 <- herlang(shape=c(2,3), mixrate=c(0.3,0.7), rate=c(1.0,10.0)))
+#' 
+#' ## mean
+#' ph.mean(param1)
+#' ph.mean(param2)
+#' ph.mean(param3)
 #' 
 #' @export
 
@@ -509,10 +551,21 @@ ph.mean <- function(ph, ...) {
 #' @param ... Others
 #' @return A value of variance
 #' @examples
-#' ## create PH instance (ex. full PH with 5 phases)
-#' (phdist <- ph(5))
+#' ## create a PH with specific parameters
+#' (param1 <- ph(alpha=c(1,0,0), 
+#'               Q=rbind(c(-4,2,0),c(2,-5,1),c(1,0,-1)), 
+#'               xi=c(2,2,0)))
 #'
-#' ph.var(ph)
+#' ## create a CF1 with specific parameters
+#' (param2 <- cf1(alpha=c(1,0,0), rate=c(1.0,2.0,3.0)))
+#' 
+#' ## create a hyper Erlang with specific parameters
+#' (param3 <- herlang(shape=c(2,3), mixrate=c(0.3,0.7), rate=c(1.0,10.0)))
+#' 
+#' ## variance
+#' ph.var(param1)
+#' ph.var(param2)
+#' ph.var(param3)
 #' 
 #' @export
 
@@ -531,6 +584,13 @@ ph.var <- function(ph, ...) {
 #' @param skel An instance of skeleton of GPH.
 #' @param ... Others
 #' @return An instance of GPH
+#' @examples 
+#' ## Create data
+#' wsample <- rweibull(10, shape=2)
+#' (dat <- data.frame.phase.time(x=wsample))
+#' 
+#' ## Generate PH that is fitted to dat
+#' (model <- gph.param(data=dat, skel=ph(5)))
 #' 
 #' @export
 

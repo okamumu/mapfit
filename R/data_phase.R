@@ -13,8 +13,9 @@
 #' x <- runif(10)
 #' w <- runif(10)
 #' 
-#' data <- data.frame.phase.time(x=x, weights=w)
-#' print(data)
+#' dat <- data.frame.phase.time(x=x, weights=w)
+#' print(dat)
+#' mean(dat)
 #' 
 #' @export
 
@@ -36,11 +37,13 @@ data.frame.phase.time <- function(x, weights) {
   data
 }
 
+#' @aliases data.frame.phase.time
 #' @export
 print.phase.time <- function(x, ...) {
   print(data.frame(x=x$time, weights=x$weights))
 }
 
+#' @aliases data.frame.phase.time
 #' @export
 mean.phase.time <- function(x, ...) {
   sum(cumsum(x$time) * x$weights) / sum(x$weights)
@@ -55,6 +58,10 @@ mean.phase.time <- function(x, ...) {
 #' @param intervals A vector of differences of time
 #' @param instants A vector meaning whether a sample is observed at the end of break.
 #' @return A dataframe
+#' @examples
+#' dat <- data.frame.phase.group(counts=c(1,2,1,1,0,0,1,4))
+#' print(dat)
+#' mean(dat)
 #' 
 #' @export
 
@@ -106,11 +113,13 @@ data.frame.phase.group <- function(counts, breaks, intervals, instants) {
   data
 }
 
+#' @aliases data.frame.phase.group
 #' @export
 print.phase.group <- function(x, ...) {
   print(data.frame(counts=c(x$counts,x$last), intervals=c(x$intervals,+Inf), instants=c(x$instants,NA)))
 }
 
+#' @aliases data.frame.phase.group
 #' @export
 mean.phase.group <- function(x, ...) {
   i <- is.finite(x$intervals) & is.finite(x$counts) & is.finite(x$instants)

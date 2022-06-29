@@ -4,6 +4,20 @@ using namespace Rcpp;
 #include "../phase_gen.h"
 #include "../emfit.h"
 
+// #include "gperftools/profiler.h"
+// 
+// // [[Rcpp::export]]
+// SEXP start_profiler(SEXP str) {
+//   ProfilerStart(as<const char*>(str));
+//   return R_NilValue;
+// }
+// 
+// // [[Rcpp::export]]
+// SEXP stop_profiler() {
+//   ProfilerStop();
+//   return R_NilValue;
+// }
+
 // [[Rcpp::export]]
 void test_estep_wtime(NumericVector alpha,
                       NumericMatrix Q,

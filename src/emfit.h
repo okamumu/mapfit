@@ -25,6 +25,7 @@ struct EMOptions {
   double rerror;
   double poisson_eps;
   double ufactor;
+  bool stationary;
   double inte_eps;
   int inte_divide;
 
@@ -41,6 +42,7 @@ struct EMOptions {
     rerror(0.0),
     poisson_eps(0.0),
     ufactor(0.0),
+    stationary(false),
     inte_eps(0.0),
     inte_divide(0) {}
 };

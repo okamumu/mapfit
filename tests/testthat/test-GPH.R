@@ -1,16 +1,17 @@
 test_that("create GPH", {
-  ph <- GPH$new(alpha=c(0.6, 0.4), Q=rbind(c(-3, 2), c(0, -2)), xi=c(1, 2))
+  ph <- ph(alpha=c(0.6, 0.4), Q=rbind(c(-3, 2), c(0, -2)), xi=c(1, 2))
   expect_equal(ph$alpha(), c(0.6, 0.4))
 })
 
 test_that("density", {
+  library(Matrix)
   tt <- seq(0, 10, length.out=10)
   alpha <- c(0.6, 0.4)
   Q <- rbind(c(-3, 2), c(0, -2))
   xi <- c(1, 2)
   
   f <- function(t, alpha, xi, Q) {
-    (alpha %*% expm(Q*t) %*% xi)[1]
+    (alpha %*% Matrix::expm(Q*t) %*% xi)[1]
   }
   
   result <- dphase(tt, ph(alpha=alpha, Q=Q, xi=xi))
@@ -19,6 +20,7 @@ test_that("density", {
 })
 
 test_that("ccdf", {
+  library(Matrix)
   tt <- seq(0, 10, length.out=10)
   alpha <- c(0.6, 0.4)
   Q <- rbind(c(-3, 2), c(0, -2))
@@ -26,7 +28,7 @@ test_that("ccdf", {
   
   f <- function(t, alpha, xi, Q) {
     vone <- rep(1, length(alpha))
-    (alpha %*% expm(Q*t) %*% vone)[1]
+    (alpha %*% Matrix::expm(Q*t) %*% vone)[1]
   }
   
   result <- pphase(tt, ph(alpha=alpha, Q=Q, xi=xi), lower.tail = F)

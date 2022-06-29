@@ -5,9 +5,9 @@
 #' the infinitesimal generator is given by a bi-diagonal matrix, and whose order
 #' is determiend by the ascending order.
 #' 
-CF1 <- R6::R6Class(
-  "CF1",
-  inherit = GPH,
+CF1Class <- R6::R6Class(
+  "CF1Class",
+  inherit = GPHClass,
   private = list(
     param.rate = NULL
   ),
@@ -39,6 +39,14 @@ CF1 <- R6::R6Class(
       super$initialize(alpha, Q, xi)
     },
 
+    #' @description 
+    #' copy
+    #' @return A new instance
+    copy = function() {
+      cf1(alpha=as.vector(self$alpha()),
+          rate=as.vector(self$rate()))
+    },
+    
     #' @description 
     #' Print
     #' @param ... Others
@@ -130,7 +138,7 @@ cf1 <- function(size, alpha, rate) {
       rate <- rep(1.0, size)      
     }
   }
-  CF1$new(alpha, rate)
+  CF1Class$new(alpha, rate)
 }
 
 #' Determine CF1 parameters
@@ -138,7 +146,7 @@ cf1 <- function(size, alpha, rate) {
 #' Determine CF1 parameters based on the power rule.
 #' 
 #' @param size An integer of the number of phases
-#' @param m A value of mean of data
+#' @param mean A value of mean of data
 #' @param s A value of fraction of minimum and maximum rates
 #' @return A list of alpha and rate
 
@@ -167,7 +175,7 @@ cf1.param.power <- function(size, mean, s) {
 #' Determine CF1 parameters based on the linear rule.
 #' 
 #' @param size An integer of the number of phases
-#' @param m A value of mean of data
+#' @param mean A value of mean of data
 #' @param s A value of fraction of minimum and maximum rates
 #' @return A list of alpha and rate
 
@@ -199,14 +207,18 @@ cf1.param.linear <- function(size, mean, s) {
 #' @param options A list of options for EM steps
 #' @param ... Others. This can provide additional options for EM steps.
 #' @examples
-#' dat <- data.frame.phase.group(c(1,2,0,4), seq(0,10,length.out=5)) # group data
+#' ## Generate group data
+#' dat <- data.frame.phase.group(c(1,2,0,4), seq(0,10,length.out=5))
 #' 
 #' ## Create an instance of CF1
-#' p <- cf1.param(data, 5)
+#' p <- cf1.param(data=dat, size=5)
 #' 
 #' @export
 
 cf1.param <- function(data, size, options, ...) {
+  if (missing(options)) {
+    options <- emoptions()
+  }
   con <- list(...)
   nmsC <- names(options)
   options[(namc <- names(con))] <- con

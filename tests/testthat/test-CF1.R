@@ -1,11 +1,12 @@
 test_that("density", {
+  library(Matrix)
   tt <- seq(0, 10, length.out=10)
   alpha <- c(0.6, 0.4)
   rate <- c(3, 4)
 
   p <- cf1(alpha=alpha, rate=rate)
   f <- function(t, alpha, xi, Q) {
-    (alpha %*% expm(Q*t) %*% xi)[1]
+    (alpha %*% Matrix::expm(Q*t) %*% xi)[1]
   }
   
   result <- dphase(tt, p)

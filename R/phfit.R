@@ -31,23 +31,30 @@
 #' ## PH fitting for CF1
 #' (result2 <- phfit.point(ph=cf1(2), x=wsample))
 #' 
+#' ## PH fitting for hyper Erlang
+#' (result3 <- phfit.point(ph=herlang(3), x=wsample))
+#' 
 #' ## mean
 #' ph.mean(result1$model)
 #' ph.mean(result2$model)
+#' ph.mean(result3$model)
 #' 
 #' ## variance
 #' ph.var(result1$model)
 #' ph.var(result2$model)
+#' ph.var(result3$model)
 #' 
 #' ## up to 5 moments 
 #' ph.moment(5, result1$model)
 #' ph.moment(5, result2$model)
+#' ph.moment(5, result3$model)
 #' 
 #' @export
 
 phfit.point <- function(ph, x, weights, ...) {
   call <- match.call()
-
+  ph <- ph$copy()
+  
   options <- emoptions()
   con <- list(...)
   nmsC <- names(options)
@@ -78,7 +85,7 @@ phfit.point <- function(ph, x, weights, ...) {
 #' @param intervals A vector of time lengths for intervals.
 #' This is equivalent to \code{diff(breaks)}).
 #' If this is missing, it is assigned to \code{rep(1,length(counts))}.
-#' @param instant A vector of integers to indicate whether sample is drawn at
+#' @param instants A vector of integers to indicate whether sample is drawn at
 #' the last of interval. If instant is 1, a sample is drawn at the last of interval.
 #' If instant is 0, no sample is drawn at the last of interval.
 #' By using instant, point data can be expressed by grouped data.
@@ -117,22 +124,29 @@ phfit.point <- function(ph, x, weights, ...) {
 #' ## PH fitting for CF1
 #' (result2 <- phfit.group(ph=cf1(2), counts=wgroup$counts, breaks=wgroup$breaks))
 #' 
+#' ## PH fitting for hyper Erlang
+#' (result3 <- phfit.group(ph=herlang(3), counts=wgroup$counts, breaks=wgroup$breaks))
+#' 
 #' ## mean
 #' ph.mean(result1$model)
 #' ph.mean(result2$model)
+#' ph.mean(result3$model)
 #' 
 #' ## variance
 #' ph.var(result1$model)
 #' ph.var(result2$model)
+#' ph.var(result3$model)
 #' 
 #' ## up to 5 moments 
 #' ph.moment(5, result1$model)
 #' ph.moment(5, result2$model)
+#' ph.moment(5, result3$model)
 #' 
 #' @export
 
-phfit.group <- function(ph, counts, breaks, intervals, instant, ...) {
+phfit.group <- function(ph, counts, breaks, intervals, instants, ...) {
   call <- match.call()
+  ph <- ph$copy()
   
   options <- emoptions()
   con <- list(...)
@@ -142,7 +156,7 @@ phfit.group <- function(ph, counts, breaks, intervals, instant, ...) {
     warning("unknown names in control: ", paste(noNms, collapse = ", "))
   
   data <- data.frame.phase.group(counts=counts, breaks=breaks,
-                                 intervals=intervals, instant=instant)
+                                 intervals=intervals, instants=instants)
   
   if (options$initialize == TRUE) {
     ph$init(data, options)
@@ -202,17 +216,23 @@ phfit.group <- function(ph, counts, breaks, intervals, instant, ...) {
 #' ## PH fitting for CF1
 #' (result2 <- phfit.density(ph=cf1(2), f=dnorm, mean=3, sd=1))
 #' 
+#' ## PH fitting for hyper Erlang
+#' (result3 <- phfit.density(ph=herlang(3), f=dnorm, mean=3, sd=1))
+#' 
 #' ## mean
 #' ph.mean(result1$model)
 #' ph.mean(result2$model)
+#' ph.mean(result3$model)
 #' 
 #' ## variance
 #' ph.var(result1$model)
 #' ph.var(result2$model)
+#' ph.var(result3$model)
 #' 
 #' ## up to 5 moments 
 #' ph.moment(5, result1$model)
 #' ph.moment(5, result2$model)
+#' ph.moment(5, result3$model)
 #' 
 #' @export
 
@@ -221,6 +241,7 @@ phfit.density <- function(
     weight.reltol = 1.0e-8, start.divisions = 8, max.iter = 12,
     ...) {
   call <- match.call()
+  ph <- ph$copy()
   
   x <- deformula(f, ..., zero.eps = weight.zero,
                  rel.tol = weight.reltol,

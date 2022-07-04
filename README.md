@@ -276,7 +276,7 @@ phfit.point(ph=ph(5), x=wsample)
 #> Maximum LLF: -59.436973
 #> AIC: 176.873945
 #> Iteration:  2000 / 2000
-#> Computation time (user): 2.738000
+#> Computation time (user): 0.986000
 #> Convergence: FALSE
 #> Error (abs): 2.658070e-05 (tolerance Inf)
 #> Error (rel): 4.472080e-07 (tolerance 1.490116e-08)
@@ -306,7 +306,7 @@ phfit.point(ph=cf1(5), x=wsample)
 #> Maximum LLF: -59.416064
 #> AIC: 136.832128
 #> Iteration:  2000 / 2000
-#> Computation time (user): 2.548000
+#> Computation time (user): 1.194000
 #> Convergence: FALSE
 #> Error (abs): 1.509990e-06 (tolerance Inf)
 #> Error (rel): 2.541383e-08 (tolerance 1.490116e-08)
@@ -326,7 +326,7 @@ phfit.point(ph=herlang(5), x=wsample, ubound=3)
 #> Maximum LLF: -60.083945
 #> AIC: 128.167889
 #> Iteration:  204 / 2000
-#> Computation time (user): 0.058000
+#> Computation time (user): 0.035000
 #> Convergence: TRUE
 #> Error (abs): 8.852490e-07 (tolerance Inf)
 #> Error (rel): 1.473354e-08 (tolerance 1.490116e-08)
@@ -364,7 +364,7 @@ phfit.group(ph=ph(5), counts=h.res$counts, breaks=h.res$breaks)
 #> Maximum LLF: -22.812530
 #> AIC: 103.625059
 #> Iteration:  1647 / 2000
-#> Computation time (user): 0.840000
+#> Computation time (user): 0.552000
 #> Convergence: TRUE
 #> Error (abs): 3.396318e-07 (tolerance Inf)
 #> Error (rel): 1.488795e-08 (tolerance 1.490116e-08)
@@ -394,7 +394,7 @@ phfit.group(ph=cf1(5), counts=h.res$counts, breaks=h.res$breaks)
 #> Maximum LLF: -22.811905
 #> AIC: 63.623811
 #> Iteration:  1304 / 2000
-#> Computation time (user): 0.764000
+#> Computation time (user): 0.583000
 #> Convergence: TRUE
 #> Error (abs): 3.388332e-07 (tolerance Inf)
 #> Error (rel): 1.485335e-08 (tolerance 1.490116e-08)
@@ -416,7 +416,7 @@ phfit.group(ph=herlang(5), counts=h.res$counts, breaks=h.res$breaks)
 #> Maximum LLF: -23.588309
 #> AIC: 55.176617
 #> Iteration:  204 / 2000
-#> Computation time (user): 0.057000
+#> Computation time (user): 0.044000
 #> Convergence: TRUE
 #> Error (abs): 3.463910e-07 (tolerance Inf)
 #> Error (rel): 1.468486e-08 (tolerance 1.490116e-08)
@@ -439,7 +439,7 @@ phfit.density(ph=ph(5), f=dweibull, shape=2, scale=1)
 #> Maximum LLF: -11.251992
 #> AIC: 80.503984
 #> Iteration:  2000 / 2000
-#> Computation time (user): 2.416000
+#> Computation time (user): 0.869000
 #> Convergence: FALSE
 #> Error (abs): 6.961001e-06 (tolerance Inf)
 #> Error (rel): 6.186457e-07 (tolerance 1.490116e-08)
@@ -469,7 +469,7 @@ phfit.density(ph=cf1(5), f=dweibull, shape=2, scale=1)
 #> Maximum LLF: -11.247614
 #> AIC: 40.495228
 #> Iteration:  2000 / 2000
-#> Computation time (user): 2.227000
+#> Computation time (user): 1.068000
 #> Convergence: FALSE
 #> Error (abs): 2.792283e-07 (tolerance Inf)
 #> Error (rel): 2.482556e-08 (tolerance 1.490116e-08)
@@ -491,7 +491,7 @@ phfit.density(ph=herlang(5), f=dweibull, shape=2, scale=1)
 #> Maximum LLF: -11.391140
 #> AIC: 30.782281
 #> Iteration:  76 / 2000
-#> Computation time (user): 0.072000
+#> Computation time (user): 0.045000
 #> Convergence: TRUE
 #> Error (abs): 1.461348e-07 (tolerance Inf)
 #> Error (rel): 1.282881e-08 (tolerance 1.490116e-08)
@@ -529,7 +529,7 @@ is possible to perform PH fitting even if PH has 100 states;
 #> Maximum LLF: -11.208672
 #> AIC: 420.417344
 #> Iteration:  18 / 2000
-#> Computation time (user): 0.950000
+#> Computation time (user): 0.337000
 #> Convergence: TRUE
 #> Error (abs): 1.427159e-07 (tolerance Inf)
 #> Error (rel): 1.273264e-08 (tolerance 1.490116e-08)
@@ -563,7 +563,7 @@ overfitting is happen.
 #> Maximum LLF: -50.504694
 #> AIC: 499.009389
 #> Iteration:  2000 / 2000
-#> Computation time (user): 43.277000
+#> Computation time (user): 14.751000
 #> Convergence: FALSE
 #> Error (abs): 2.206856e-05 (tolerance Inf)
 #> Error (rel): 4.369603e-07 (tolerance 1.490116e-08)
@@ -748,6 +748,9 @@ time intervals for packet arrivals and is frequently used in several
 papers as a benchmark. We use only the first 1000 arrival times.
 
 ``` r
+RNGkind(kind = "Mersenne-Twister")
+set.seed(1234)
+
 data(BCpAug89)
 BCpAug89
 #>    [1] 0.001340 0.000168 0.002668 0.003964 0.002896 0.004036 0.002820 0.002712
@@ -885,89 +888,90 @@ commands, respectively;
 ## mapfit for general MAP
 mapfit.point(map=map(5), x=cumsum(BCpAug89))
 #> 
-#> Maximum LLF: 5140.147595
-#> AIC: -10190.295190
-#> Iteration:  1011 / 2000
-#> Computation time (user): 38.630000
-#> Convergence: TRUE
-#> Error (abs): 7.646365e-05 (tolerance Inf)
-#> Error (rel): 1.487577e-08 (tolerance 1.490116e-08)
+#> Maximum LLF: 5122.534433
+#> AIC: -10155.068866
+#> Iteration:  2000 / 2000
+#> Computation time (user): 45.476000
+#> Convergence: FALSE
+#> Error (abs): 1.500970e-04 (tolerance Inf)
+#> Error (rel): 2.930131e-08 (tolerance 1.490116e-08)
 #> 
 #> Size : 5
-#> Initial :  0.1801396 0.2885964 0.1771319 0.1812461 0.172886 
+#> Initial :  0.1603348 0.1711028 0.3232157 0.1724882 0.1728584 
 #> Infinitesimal generator : 
 #> 5 x 5 sparse Matrix of class "dgCMatrix"
-#>                                                                           
-#> [1,] -1.061324e+03  5.235987e-02  1.127125e-25  9.839023e+02  2.183896e-04
-#> [2,]  1.209889e-02 -1.123448e+02  1.188700e-01  1.291279e-02  2.573930e+00
-#> [3,]  1.467385e-84  1.677555e+00 -1.074471e+03  4.891540e-36  1.396510e-48
-#> [4,]  2.613107e-32  1.451876e+01  9.714023e+02 -1.021438e+03  2.750421e-12
-#> [5,]  3.463362e-53  4.562652e-66  1.478035e-04  3.357871e-19 -8.272394e+02
+#>                                                                            
+#> [1,] -1.720699e+03   1.220357e+03  2.205831e-09  1.764791e-12  2.344164e-23
+#> [2,]  9.314076e-14  -1.459585e+03  4.560181e-26  1.408395e+03  1.807327e-15
+#> [3,]  7.099356e-09   6.900743e-04 -1.214720e+02  5.892671e+00  1.987985e-05
+#> [4,]  1.039192e-33   7.872872e-41  2.711964e-28 -1.479724e+03  1.458904e+03
+#> [5,]  5.024773e-71  2.744041e-135  1.068939e-32  2.814560e-41 -1.455780e+03
 #> 5 x 5 sparse Matrix of class "dgCMatrix"
 #>                                                                        
-#> [1,] 7.688721e+01 3.729835e-211 2.281306e-122 1.229387e-36 4.823690e-01
-#> [2,] 4.074875e+00  1.019899e+02  1.572422e+00 1.985961e+00 3.894666e-03
-#> [3,] 9.944944e+02  2.842794e-01  7.775000e+01 6.219898e-22 2.646421e-01
-#> [4,] 2.624369e-21  9.856690e-81  7.323236e-54 2.980665e-43 3.551686e+01
-#> [5,] 5.989362e-09  3.343306e-76  1.008148e-10 4.231130e+01 7.849279e+02
+#> [1,] 1.739722e+02 3.263703e+02 2.499649e-230 3.607425e-05  3.241429e-29
+#> [2,] 3.581884e-47 1.815804e-05 1.531810e-191 5.119061e+01  2.946817e-40
+#> [3,] 5.658095e-83 5.393856e+00  1.101848e+02 3.087892e-86 4.348361e-187
+#> [4,] 3.838007e-27 3.463705e-11 3.074047e-113 2.081958e+01  4.755933e-06
+#> [5,] 1.434667e+03 7.818166e-03  2.110520e+01 1.481279e-21  5.409933e-11
 
 ## mapfit for general MMPP
 mapfit.point(map=mmpp(5), x=cumsum(BCpAug89))
 #> 
-#> Maximum LLF: 5055.133942
-#> AIC: -10060.267883
-#> Iteration:  404 / 2000
-#> Computation time (user): 23.232000
+#> Maximum LLF: 5055.112718
+#> AIC: -10060.225436
+#> Iteration:  34 / 2000
+#> Computation time (user): 0.836000
 #> Convergence: TRUE
-#> Error (abs): 7.264097e-05 (tolerance Inf)
-#> Error (rel): 1.436974e-08 (tolerance 1.490116e-08)
+#> Error (abs): 7.531932e-05 (tolerance Inf)
+#> Error (rel): 1.489963e-08 (tolerance 1.490116e-08)
 #> 
 #> Size : 5
-#> Initial :  0.02144093 0.238745 0.401778 0.002786422 0.3352496 
+#> Initial :  0.2390191 0.004807314 0.01941634 0.3883767 0.3483806 
 #> Infinitesimal generator : 
 #> 5 x 5 sparse Matrix of class "dgCMatrix"
 #>                                                                       
-#> [1,] -844.276406  4.865555e-05  143.22925542    42.587977  181.9538205
-#> [2,]    2.104589 -1.121355e+02    0.03553884     1.121266    1.5590542
-#> [3,]    1.370654  2.864409e+00 -362.16740393     6.336612    0.1688801
-#> [4,] 1880.457155  7.690769e-05  369.80585855 -2708.771347    5.1918483
-#> [5,]    4.750041  1.419096e-15    0.61276819     7.629885 -653.0968904
+#> [1,] -1.121570e+02     0.2395869     0.3756003    1.028355    3.213956
+#> [2,]  6.083074e+01 -2933.4024676  1592.4176089  766.472038  147.987777
+#> [3,]  2.042628e+00   231.1420458 -1306.0536603  703.883531   12.460843
+#> [4,]  2.134376e+00    18.8580459    26.3579958 -401.780047    1.797643
+#> [5,]  2.076509e-07     1.3621789     1.3046626    4.278800 -642.855329
 #> 5 x 5 sparse Matrix of class "dgCMatrix"
 #>                                                 
-#> [1,] 476.5053   .       .        .        .     
-#> [2,]   .      107.315   .        .        .     
-#> [3,]   .        .     351.4268   .        .     
-#> [4,]   .        .       .      453.3164   .     
-#> [5,]   .        .       .        .      640.1042
+#> [1,] 107.2995   .        .        .       .     
+#> [2,]   .      365.6943   .        .       .     
+#> [3,]   .        .      356.5246   .       .     
+#> [4,]   .        .        .      352.632   .     
+#> [5,]   .        .        .        .     635.9097
 
 ## mapfit for ER-HMM
 mapfit.point(map=erhmm(5), x=cumsum(BCpAug89))
-#> shape:  1 1 1 1 1  llf=5055.11
-#> shape:  1 1 1 2  llf=5113.70
-#> shape:  1 1 3  llf=5121.86
-#> shape:  1 2 2  llf=5106.48
+#> shape:  1 1 1 1 1  llf=5037.67
+#> shape:  1 1 1 2  llf=5113.69
+#> shape:  1 1 3  llf=5113.51
+#> shape:  1 2 2  llf=5107.05
 #> shape:  1 4  llf=5003.21
 #> shape:  2 3  llf=5024.03
 #> shape:  5  llf=3716.53
 #> 
-#> Maximum LLF: 5121.860147
-#> AIC: -10221.720294
-#> Iteration:  71 / 2000
-#> Computation time (user): 2.689000
+#> Maximum LLF: 5113.692882
+#> AIC: -10189.385764
+#> Iteration:  330 / 2000
+#> Computation time (user): 0.598000
 #> Convergence: TRUE
-#> Error (abs): 6.302517e-05 (tolerance Inf)
-#> Error (rel): 1.230513e-08 (tolerance 1.490116e-08)
+#> Error (abs): 7.404114e-05 (tolerance Inf)
+#> Error (rel): 1.447900e-08 (tolerance 1.490116e-08)
 #> 
-#> Size : 3
-#> Shape   :  1 1 3 
-#> Initial :  0.4956884 0.08702657 0.417285 
-#> Rate    :  748.6684 111.8898 1061.68 
+#> Size : 4
+#> Shape   :  1 1 1 2 
+#> Initial :  0.3940117 0.08426369 0.03688774 0.4848368 
+#> Rate    :  803.1562 111.0084 737.5675 744.808 
 #> Transition probability : 
-#> 3 x 3 sparse Matrix of class "dgCMatrix"
-#>                                        
-#> [1,] 0.91943990 2.080601e-11 0.08056010
-#> [2,] 0.03562065 9.053646e-01 0.05901477
-#> [3,] 0.08826764 1.973662e-02 0.89199574
+#> 4 x 4 sparse Matrix of class "dgCMatrix"
+#>                                                      
+#> [1,] 0.9532439421 5.940606e-84 5.265489e-05 0.0467034
+#> [2,] 0.0240618846 9.181856e-01 4.016125e-02 0.0175913
+#> [3,] 0.0002157563 2.029701e-37 1.134961e-11 0.9997842
+#> [4,] 0.0337988634 1.421919e-02 6.906005e-02 0.8829219
 ```
 
 In the above example, `cumsum` is a function to derive cumulative sums
@@ -1023,152 +1027,114 @@ with approximate estimation (`gmmpp`).
 ``` r
 ## mapfit for general MAP with grouped data
 mapfit.group(map=map(5), counts=BCpAug89.group$counts, breaks=BCpAug89.group$breaks)
+#> Warning in emfit(map, data, initialize = FALSE, ufact = con$uniform.factor, :
+#> LLF decreses: iter=243 llf.diff=2.021064e-04
+#> Warning in emfit(map, data, initialize = FALSE, ufact = con$uniform.factor, :
+#> LLF decreses: iter=244 llf.diff=3.357905e-04
+#> Warning in emfit(map, data, initialize = FALSE, ufact = con$uniform.factor, :
+#> LLF decreses: iter=245 llf.diff=3.843208e-04
+#> Warning in emfit(map, data, initialize = FALSE, ufact = con$uniform.factor, :
+#> LLF decreses: iter=246 llf.diff=3.795430e-04
+#> Warning in emfit(map, data, initialize = FALSE, ufact = con$uniform.factor, :
+#> LLF decreses: iter=247 llf.diff=3.440563e-04
+#> Warning in emfit(map, data, initialize = FALSE, ufact = con$uniform.factor, :
+#> LLF decreses: iter=248 llf.diff=2.931387e-04
+#> Warning in emfit(map, data, initialize = FALSE, ufact = con$uniform.factor, :
+#> LLF decreses: iter=249 llf.diff=2.366138e-04
+#> Warning in emfit(map, data, initialize = FALSE, ufact = con$uniform.factor, :
+#> LLF decreses: iter=250 llf.diff=1.804370e-04
+#> Warning in emfit(map, data, initialize = FALSE, ufact = con$uniform.factor, :
+#> LLF decreses: iter=251 llf.diff=1.279358e-04
+#> Warning in emfit(map, data, initialize = FALSE, ufact = con$uniform.factor, :
+#> LLF decreses: iter=252 llf.diff=8.072483e-05
+#> Warning in emfit(map, data, initialize = FALSE, ufact = con$uniform.factor, :
+#> LLF decreses: iter=253 llf.diff=3.935129e-05
+#> Warning in emfit(map, data, initialize = FALSE, ufact = con$uniform.factor, :
+#> LLF decreses: iter=254 llf.diff=3.733157e-06
 #> 
-#> Maximum LLF: -543.092984
-#> AIC: 1176.185967
-#> Iteration:  1384 / 2000
-#> Computation time (user): 146.302000
+#> Maximum LLF: -558.880843
+#> AIC: 1207.761685
+#> Iteration:  254 / 2000
+#> Computation time (user): 9.350000
 #> Convergence: TRUE
-#> Error (abs): 8.082774e-06 (tolerance Inf)
-#> Error (rel): 1.488285e-08 (tolerance 1.490116e-08)
+#> Error (abs): 3.733157e-06 (tolerance Inf)
+#> Error (rel): 6.679702e-09 (tolerance 1.490116e-08)
 #> 
 #> Size : 5
-#> Initial :  0.07333445 0.2487455 0.1723761 0.322209 0.1833349 
+#> Initial :  0.08834222 0.0882787 0.348207 0.1329051 0.3422669 
 #> Infinitesimal generator : 
 #> 5 x 5 sparse Matrix of class "dgCMatrix"
-#>                                                                               
-#> [1,]  -3.047904e+01  3.947300e-159   1.422234e-30  1.592732e-90   6.332886e-32
-#> [2,]  5.494354e-211  -1.102898e+02  5.692130e-320  1.461261e-17  1.219775e-315
-#> [3,]   2.348635e-13   3.359617e-02  -7.633223e+02  8.883249e+00   2.059710e-05
-#> [4,]   1.508458e-01   1.453163e+00   9.181767e-03 -6.389108e+02   5.970120e-04
-#> [5,]   3.718644e-13   2.536356e-02   6.999167e+02  2.030370e-03  -7.055768e+02
-#> 5 x 5 sparse Matrix of class "dgCMatrix"
 #>                                                                          
-#> [1,] 4.046247e-293 1.724406e-115  3.047904e+01 8.542693e-87  6.102553e-29
-#> [2,] 8.445178e-279  1.050356e+02 3.123209e-310 5.254179e+00 6.617169e-319
-#> [3,]  1.956194e-10  4.377445e+00  7.441963e-03 2.244253e-04  7.500203e+02
-#> [4,]  3.752686e+00  5.794493e-02  3.165501e+00 6.301008e+02  2.200785e-01
-#> [5,]  5.331282e+00  3.002839e-01  2.479617e-08 2.000958e-04  9.440298e-04
+#> [1,] -4.387074e+02  3.925828e+01   0.09902554  2.848692e+01  5.523444e-01
+#> [2,]  4.365050e+01 -4.584885e+02   0.01583499  4.609736e+01  4.748545e-01
+#> [3,]  1.062982e-07  2.169537e-08 -99.85359508  8.628411e-09  4.209603e-03
+#> [4,]  3.070168e+01  3.939071e+01   0.04383268 -4.270626e+02  2.077473e+00
+#> [5,]  4.704852e-01  4.542294e-01   0.45815843  1.273623e+00 -6.311192e+02
+#> 5 x 5 sparse Matrix of class "dgCMatrix"
+#>                                                                   
+#> [1,] 7.898968e+00 1.489320e+02  0.5409628 2.118050e+02   1.1339139
+#> [2,] 1.499348e+02 5.725472e+00  0.8471383 2.092439e+02   2.4986669
+#> [3,] 1.014084e-11 2.531336e-09 92.6598194 2.969834e-09   7.1895660
+#> [4,] 1.249345e+02 1.324222e+02  3.6322545 9.323695e+01   0.6229761
+#> [5,] 3.600863e-01 1.034012e+00  5.0452434 4.735730e-01 621.5497829
 
 ## mapfit for general MMPP with grouped data
 mapfit.group(map=mmpp(5), counts=BCpAug89.group$counts, breaks=BCpAug89.group$breaks)
-#> Warning in emfit(map, data, initialize = FALSE, ufact = con$uniform.factor, :
-#> LLF decreses: iter=132 llf.diff=4.220933e-05
-#> Warning in emfit(map, data, initialize = FALSE, ufact = con$uniform.factor, :
-#> LLF decreses: iter=133 llf.diff=3.366376e-04
-#> Warning in emfit(map, data, initialize = FALSE, ufact = con$uniform.factor, :
-#> LLF decreses: iter=134 llf.diff=5.051768e-04
-#> Warning in emfit(map, data, initialize = FALSE, ufact = con$uniform.factor, :
-#> LLF decreses: iter=135 llf.diff=5.845536e-04
-#> Warning in emfit(map, data, initialize = FALSE, ufact = con$uniform.factor, :
-#> LLF decreses: iter=136 llf.diff=6.038050e-04
-#> Warning in emfit(map, data, initialize = FALSE, ufact = con$uniform.factor, :
-#> LLF decreses: iter=137 llf.diff=5.848563e-04
-#> Warning in emfit(map, data, initialize = FALSE, ufact = con$uniform.factor, :
-#> LLF decreses: iter=138 llf.diff=5.435768e-04
-#> Warning in emfit(map, data, initialize = FALSE, ufact = con$uniform.factor, :
-#> LLF decreses: iter=139 llf.diff=4.909857e-04
-#> Warning in emfit(map, data, initialize = FALSE, ufact = con$uniform.factor, :
-#> LLF decreses: iter=140 llf.diff=4.344059e-04
-#> Warning in emfit(map, data, initialize = FALSE, ufact = con$uniform.factor, :
-#> LLF decreses: iter=141 llf.diff=3.784562e-04
-#> Warning in emfit(map, data, initialize = FALSE, ufact = con$uniform.factor, :
-#> LLF decreses: iter=142 llf.diff=3.258503e-04
-#> Warning in emfit(map, data, initialize = FALSE, ufact = con$uniform.factor, :
-#> LLF decreses: iter=143 llf.diff=2.780067e-04
-#> Warning in emfit(map, data, initialize = FALSE, ufact = con$uniform.factor, :
-#> LLF decreses: iter=144 llf.diff=2.354965e-04
-#> Warning in emfit(map, data, initialize = FALSE, ufact = con$uniform.factor, :
-#> LLF decreses: iter=145 llf.diff=1.983613e-04
-#> Warning in emfit(map, data, initialize = FALSE, ufact = con$uniform.factor, :
-#> LLF decreses: iter=146 llf.diff=1.663313e-04
-#> Warning in emfit(map, data, initialize = FALSE, ufact = con$uniform.factor, :
-#> LLF decreses: iter=147 llf.diff=1.389718e-04
-#> Warning in emfit(map, data, initialize = FALSE, ufact = con$uniform.factor, :
-#> LLF decreses: iter=148 llf.diff=1.157771e-04
-#> Warning in emfit(map, data, initialize = FALSE, ufact = con$uniform.factor, :
-#> LLF decreses: iter=149 llf.diff=9.622870e-05
-#> Warning in emfit(map, data, initialize = FALSE, ufact = con$uniform.factor, :
-#> LLF decreses: iter=150 llf.diff=7.983006e-05
-#> Warning in emfit(map, data, initialize = FALSE, ufact = con$uniform.factor, :
-#> LLF decreses: iter=151 llf.diff=6.612451e-05
-#> Warning in emfit(map, data, initialize = FALSE, ufact = con$uniform.factor, :
-#> LLF decreses: iter=152 llf.diff=5.470362e-05
-#> Warning in emfit(map, data, initialize = FALSE, ufact = con$uniform.factor, :
-#> LLF decreses: iter=153 llf.diff=4.520912e-05
-#> Warning in emfit(map, data, initialize = FALSE, ufact = con$uniform.factor, :
-#> LLF decreses: iter=154 llf.diff=3.733118e-05
-#> Warning in emfit(map, data, initialize = FALSE, ufact = con$uniform.factor, :
-#> LLF decreses: iter=155 llf.diff=3.080462e-05
-#> Warning in emfit(map, data, initialize = FALSE, ufact = con$uniform.factor, :
-#> LLF decreses: iter=156 llf.diff=2.540439e-05
-#> Warning in emfit(map, data, initialize = FALSE, ufact = con$uniform.factor, :
-#> LLF decreses: iter=157 llf.diff=2.094063e-05
-#> Warning in emfit(map, data, initialize = FALSE, ufact = con$uniform.factor, :
-#> LLF decreses: iter=158 llf.diff=1.725397e-05
-#> Warning in emfit(map, data, initialize = FALSE, ufact = con$uniform.factor, :
-#> LLF decreses: iter=159 llf.diff=1.421116e-05
-#> Warning in emfit(map, data, initialize = FALSE, ufact = con$uniform.factor, :
-#> LLF decreses: iter=160 llf.diff=1.170111e-05
-#> Warning in emfit(map, data, initialize = FALSE, ufact = con$uniform.factor, :
-#> LLF decreses: iter=161 llf.diff=9.631476e-06
-#> Warning in emfit(map, data, initialize = FALSE, ufact = con$uniform.factor, :
-#> LLF decreses: iter=162 llf.diff=7.925587e-06
 #> 
-#> Maximum LLF: -558.890363
-#> AIC: 1167.780726
-#> Iteration:  162 / 2000
-#> Computation time (user): 14.633000
+#> Maximum LLF: -552.001900
+#> AIC: 1154.003800
+#> Iteration:  125 / 2000
+#> Computation time (user): 3.647000
 #> Convergence: TRUE
-#> Error (abs): 7.925587e-06 (tolerance Inf)
-#> Error (rel): 1.418093e-08 (tolerance 1.490116e-08)
+#> Error (abs): 7.053630e-06 (tolerance Inf)
+#> Error (rel): 1.277827e-08 (tolerance 1.490116e-08)
 #> 
 #> Size : 5
-#> Initial :  0.336854 0.1773842 0.3521996 0.1275778 0.005984325 
+#> Initial :  0.2372425 0.140096 0.2658031 0.2974207 0.05943778 
 #> Infinitesimal generator : 
 #> 5 x 5 sparse Matrix of class "dgCMatrix"
-#>                                                                      
-#> [1,] -99.872163  4.580554e-07    7.248944  7.308010e-07  5.354417e-07
-#> [2,]   1.524902 -4.724140e+02    2.329234  9.475050e+01  1.416705e+01
-#> [3,]   5.248968  2.461266e+00 -631.368618  1.141778e+00  4.811211e-01
-#> [4,]   2.299920  1.491683e+02    2.076641 -5.287208e+02  1.580929e+01
-#> [5,]   4.886126  1.779647e+01   27.937475  7.346608e+02 -1.144126e+03
+#>                                                                           
+#> [1,] -1.098693e+02  2.274380e-24  2.277741e-24  4.708425e+00  3.125740e-26
+#> [2,]  4.795687e-01 -5.558558e+02  1.860242e+02  5.744892e+00  3.647608e-01
+#> [3,]  3.949739e+00  9.562197e+01 -4.660104e+02  2.709016e+00  4.994044e-01
+#> [4,]  4.724129e-12  3.915684e+00  1.763015e+00 -6.494633e+02  3.204138e+00
+#> [5,]  1.376147e-26  6.782792e+00  1.234345e+01  1.834301e-06 -1.912625e+01
 #> 5 x 5 sparse Matrix of class "dgCMatrix"
-#>                                                  
-#> [1,] 92.62322   .        .        .        .     
-#> [2,]  .       359.6423   .        .        .     
-#> [3,]  .         .      622.0355   .        .     
-#> [4,]  .         .        .      359.3667   .     
-#> [5,]  .         .        .        .      358.8456
+#>                                                      
+#> [1,] 105.1609   .        .        .      .           
+#> [2,]   .      363.2423   .        .      .           
+#> [3,]   .        .      363.2303   .      .           
+#> [4,]   .        .        .      640.5805 .           
+#> [5,]   .        .        .        .      3.537054e-32
 
 ## mapfit for general MMPP with grouped data (approximation)
 mapfit.group(map=gmmpp(5), counts=BCpAug89.group$counts, breaks=BCpAug89.group$breaks)
 #> 
-#> Maximum LLF: -828.051682
-#> AIC: 1706.103365
-#> Iteration:  102 / 2000
-#> Computation time (user): 5.667000
+#> Maximum LLF: -828.051539
+#> AIC: 1706.103079
+#> Iteration:  114 / 2000
+#> Computation time (user): 3.520000
 #> Convergence: TRUE
-#> Error (abs): 1.213698e-05 (tolerance Inf)
-#> Error (rel): 1.465727e-08 (tolerance 1.490116e-08)
+#> Error (abs): 1.145677e-05 (tolerance Inf)
+#> Error (rel): 1.383582e-08 (tolerance 1.490116e-08)
 #> 
 #> Size : 5
-#> Initial :  0.07402404 0.2640609 0.3241613 0.1628244 0.1749294 
+#> Initial :  0.2640954 0.3241791 0.07398854 0.1627991 0.1749379 
 #> Infinitesimal generator : 
 #> 5 x 5 Matrix of class "dgeMatrix"
 #>               [,1]          [,2]          [,3]          [,4]          [,5]
-#> [1,] -1.090465e+03  1.460739e-05   95.43625590  1.975754e-14  8.219658e-09
-#> [2,]  1.744402e-05 -4.659664e+02   90.09109238  2.693177e-08  9.094447e+00
-#> [3,]  1.931501e+01  8.079529e+01 -571.48907351  5.930851e-09  7.751839e-08
-#> [4,]  2.794275e-14  1.946525e-03    0.01169835 -9.466821e+01  9.465456e+01
-#> [5,]  4.592685e+00  5.077813e-06    9.12293102  8.811722e+01 -2.984222e+02
+#> [1,] -4.658071e+02  9.008398e+01  4.931988e-04  1.301715e-13  9.099262e+00
+#> [2,]  8.080085e+01 -5.717041e+02  1.930821e+01  3.421568e-13  6.146991e-11
+#> [3,]  1.098043e-04  9.543605e+01 -1.090417e+03  1.208433e-17  2.142681e-07
+#> [4,]  5.084848e-05  4.412567e-08  7.893025e-16 -9.466865e+01  9.466860e+01
+#> [5,]  8.306021e-10  9.153708e+00  4.582965e+00  8.809966e+01 -2.983904e+02
 #> 5 x 5 Matrix of class "dgeMatrix"
 #>          [,1]     [,2]     [,3]         [,4]     [,5]
-#> [1,] 995.0287   0.0000   0.0000 0.000000e+00   0.0000
-#> [2,]   0.0000 366.7809   0.0000 0.000000e+00   0.0000
-#> [3,]   0.0000   0.0000 471.3788 0.000000e+00   0.0000
-#> [4,]   0.0000   0.0000   0.0000 1.022278e-06   0.0000
-#> [5,]   0.0000   0.0000   0.0000 0.000000e+00 196.5894
+#> [1,] 366.6233   0.0000   0.0000 0.000000e+00   0.0000
+#> [2,]   0.0000 471.5951   0.0000 0.000000e+00   0.0000
+#> [3,]   0.0000   0.0000 994.9813 0.000000e+00   0.0000
+#> [4,]   0.0000   0.0000   0.0000 1.713903e-07   0.0000
+#> [5,]   0.0000   0.0000   0.0000 0.000000e+00 196.5541
 ```
 
 ### References

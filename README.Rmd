@@ -275,6 +275,9 @@ The functions `mapfit.point` and `mapfit.group` select an appropriate algorithm 
 
 Here we demonstrate MAP fitting with point and grouped data. The data used in this example is the traffic data; BCpAug89, which consists of time intervals for packet arrivals and is frequently used in several papers as a benchmark. We use only the first 1000 arrival times.
 ```{r bcpaug89}
+RNGkind(kind = "Mersenne-Twister")
+set.seed(1234)
+
 data(BCpAug89)
 BCpAug89
 ```

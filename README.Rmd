@@ -111,7 +111,7 @@ PH distributions are classified to sub-classes by the structure of $\boldsymbol{
 - canonical form 1 (CF1): One of the minimal representations of acyclic PH distribution. The matrix $\boldsymbol{Q}$ becomes a bidiagonal matrix whose entries are sorted in increasing order. In the tool, this is referred to as `cf1' class.
 - hyper-Erlang distribution: One of the representations of acyclic PH distribution. The distribution consists of a mixture of Erlang distributions. In the tool, this is referred to as `herlang' class.
 
-The parameters of `ph` class are $\boldsymbol{\alpha}$, $\boldsymbol{Q}$ and $\boldsymbol{\xi}$, which are defined as members, called *slots*, of S4 class in R. To represent the matrix $\boldsymbol{Q}$, we use `Matrix` package which is an external package of R. The slots of `cf1` class are inherited from the `ph` class. In addition to inherited slots, `cf1` has a slot `rate` to store the absolute values of diagonal elements of $\boldsymbol{Q}$. The `herlang` class has the slots for the mixed ratio, shape parameters of Erlang components, rate parameters of Erlang components. Both of `cf1` and `herlang` classes can be transformed to `ph` class by using `as' method of R.
+The parameters of `ph` class are $\boldsymbol{\alpha}$, $\boldsymbol{Q}$ and $\boldsymbol{\xi}$, which are defined as members of R6 class in R. To represent the matrix $\boldsymbol{Q}$, we use `Matrix` package which is an external package of R. The `cf1` class are inherited from the `ph` class. In addition to inherited members, `cf1` has a member `rate` to store the absolute values of diagonal elements of $\boldsymbol{Q}$. The `herlang` class has the member for the mixed ratio as `alpha`, shape parameters of Erlang components `shape`, rate parameters of Erlang components `rate`. `herlang` classes can be transformed to `ph` class by using `as.gph` method of R. `cf1` has members for `alpha`, `Q` and `xi`.
 
 The R functions for PH parameter estimation are;
 
@@ -194,11 +194,18 @@ If we use only point data to estimate PH paramters with high orders, the overfit
 ## estimate PH parameters from 100 samples (overfitting example)
 (result.point <- phfit.point(ph=cf1(100), x=wsample))
 
+## 3 moments match
+m1 <- gamma(1+1/2)
+m2 <- gamma(1+2/2)
+m3 <- gamma(1+3/2)
+(result.3mom <- phfit.3mom(m1, m2, m3))
+
 library(ggplot2)
 ggplot(data.frame(x=seq(0, 3, length.out=100)), aes(x=x)) +
   stat_function(fun=dweibull, args=list(shape=2, scale=1), aes_(colour='exact')) +
-  stat_function(fun=dph, args=list(ph=result.point$model), aes_(colour='from point data')) +
-  stat_function(fun=dph, args=list(ph=result.density$model), aes_(colour='from density'))
+  stat_function(fun=dphase, args=list(ph=result.3mom), aes_(colour='from moment matching')) +
+  stat_function(fun=dphase, args=list(ph=result.point$model), aes_(colour='from point data')) +
+  stat_function(fun=dphase, args=list(ph=result.density$model), aes_(colour='from density'))
 ```
 
 ### References

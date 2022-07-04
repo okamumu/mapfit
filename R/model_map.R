@@ -239,7 +239,7 @@ MAPClass <- R6::R6Class(
 #'
 #' @note
 #' This function can omit several patterns of arguments. For example, `map(5)`
-#' omit the arguments `alpha`, `Q` and `xi`. In this case, the default values are
+#' omit the arguments `alpha`, `D0` `D1` and `xi`. In this case, the default values are
 #' assigned to them.
 #'
 #' @examples

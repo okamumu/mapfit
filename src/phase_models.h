@@ -47,30 +47,6 @@ struct HErlangEres {
     HErlangEres(const V& _eb, const V& _ew) : etotal(0), eb(_eb), ew(_ew) {}
 };
 
-struct HErlangWorkSpace1 {
-  using Type = std::vector<double>;
-  std::vector<std::vector<double>> perl0;
-  std::vector<std::vector<double>> perl1;
-  
-  HErlangWorkSpace1(int m, int n) :
-    perl0(std::vector<std::vector<double>>(m, std::vector<double>(n))),
-    perl1(std::vector<std::vector<double>>(m, std::vector<double>(n))) {}
-};
-
-struct HErlangWorkSpace2 {
-  using Type = std::vector<double>;
-  std::vector<std::vector<double>> perl0;
-  std::vector<std::vector<double>> perl1;
-  std::vector<std::vector<double>> cerl0;
-  std::vector<std::vector<double>> cerl1;
-  
-  HErlangWorkSpace2(int m, int n) :
-    perl0(std::vector<std::vector<double>>(m, std::vector<double>(n))),
-    perl1(std::vector<std::vector<double>>(m, std::vector<double>(n))),
-    cerl0(std::vector<std::vector<double>>(m+2, std::vector<double>(n))),
-    cerl1(std::vector<std::vector<double>>(m+2, std::vector<double>(n))) {}
-};
-
 template <typename T1, typename T2, typename T0>
 struct GPH {
   T1 alpha;
@@ -129,15 +105,54 @@ struct GPHEres {
       en(_en) {}
 };
 
-template <typename E>
 struct GPHWorkSpace1 {
-  using Type = E;
-  std::vector<E> vf;
-  std::vector<E> vb;
-  std::vector<E> vc;
+  std::vector<std::vector<double>> vf;
+  std::vector<std::vector<double>> vb;
+  std::vector<std::vector<double>> vc;
   
-  GPHWorkSpace1(int m) {
-  }
+  GPHWorkSpace1(int m, int n) :
+    vf(std::vector<std::vector<double>>(m+1, std::vector<double>(n))),
+    vb(std::vector<std::vector<double>>(m+1, std::vector<double>(n))),
+    vc(std::vector<std::vector<double>>(m+1, std::vector<double>(n)))
+    {}
+};
+
+struct GPHWorkSpace2 {
+  std::vector<std::vector<double>> barvf;
+  std::vector<std::vector<double>> barvb;
+  std::vector<std::vector<double>> vb;
+  std::vector<std::vector<double>> vc;
+  
+  GPHWorkSpace2(int m, int n) :
+    barvf(std::vector<std::vector<double>>(m+1, std::vector<double>(n))),
+    barvb(std::vector<std::vector<double>>(m+1, std::vector<double>(n))),
+    vb(std::vector<std::vector<double>>(m+1, std::vector<double>(n))),
+    vc(std::vector<std::vector<double>>(m+1, std::vector<double>(n)))
+  {}
+};
+
+struct HErlangWorkSpace1 {
+  std::vector<std::vector<double>> perl0;
+  std::vector<std::vector<double>> perl1;
+  
+  HErlangWorkSpace1(int m, int n) :
+    perl0(std::vector<std::vector<double>>(m+1, std::vector<double>(n))),
+    perl1(std::vector<std::vector<double>>(m+1, std::vector<double>(n)))
+  {}
+};
+
+struct HErlangWorkSpace2 {
+  std::vector<std::vector<double>> perl0;
+  std::vector<std::vector<double>> perl1;
+  std::vector<std::vector<double>> cerl0;
+  std::vector<std::vector<double>> cerl1;
+  
+  HErlangWorkSpace2(int m, int n) :
+    perl0(std::vector<std::vector<double>>(m+1, std::vector<double>(n))),
+    perl1(std::vector<std::vector<double>>(m+1, std::vector<double>(n))),
+    cerl0(std::vector<std::vector<double>>(m+2, std::vector<double>(n))),
+    cerl1(std::vector<std::vector<double>>(m+2, std::vector<double>(n)))
+  {}
 };
 
 #endif

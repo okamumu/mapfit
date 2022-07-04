@@ -33,7 +33,7 @@ void test_estep_wtime(NumericVector alpha,
   double qv = unif(P, di, 1.01);
   auto model = GPH<NumericVector, NumericMatrix, IntegerVector>(alpha, Q, P, xi, qv, di);
 
-  auto work = GPHWorkSpace1<std::vector<double>>(m);
+  auto work = GPHWorkSpace1(m, n);
   llf = estep(model, dat, eres, options, work);
   Rcout << llf << std::endl;
   Rcout << eres.eb << std::endl;
@@ -82,7 +82,7 @@ void test_estep_wtime_csc(NumericVector alpha,
   double qv = unif(P, di, 1.01);
   auto model = GPH<NumericVector, S4matrix<CSCMatrixT>, IntegerVector>(alpha, Q, P, xi, qv, di);
 
-  auto work = GPHWorkSpace1<std::vector<double>>(m);
+  auto work = GPHWorkSpace1(m, n);
   llf = estep(model, dat, eres, options, work);
   Rcout << llf << std::endl;
   Rcout << eres.eb << std::endl;
@@ -131,7 +131,7 @@ void test_estep_wtime_csr(NumericVector alpha,
   double qv = unif(P, di, 1.01);
   auto model = GPH<NumericVector, S4matrix<CSRMatrixT>, IntegerVector>(alpha, Q, P, xi, qv, di);
   
-  auto work = GPHWorkSpace1<std::vector<double>>(m);
+  auto work = GPHWorkSpace1(m, n);
   llf = estep(model, dat, eres, options, work);
   Rcout << llf << std::endl;
   Rcout << eres.eb << std::endl;
@@ -180,7 +180,7 @@ void test_estep_wtime_coo(NumericVector alpha,
   double qv = unif(P, di, 1.01);
   auto model = GPH<NumericVector, S4matrix<COOMatrixT>, IntegerVector>(alpha, Q, P, xi, qv, di);
   
-  auto work = GPHWorkSpace1<std::vector<double>>(m);
+  auto work = GPHWorkSpace1(m, n);
   llf = estep(model, dat, eres, options, work);
   Rcout << llf << std::endl;
   Rcout << eres.eb << std::endl;
@@ -227,7 +227,7 @@ void test_estep_group(NumericVector alpha,
   double qv = unif(P, di, 1.01);
   auto model = GPH<NumericVector, NumericMatrix, IntegerVector>(alpha, Q, P, xi, qv, di);
   
-  auto work = GPHWorkSpace1<std::vector<double>>(m);
+  auto work = GPHWorkSpace2(m, n);
   llf = estep(model, dat, eres, options, work);
   Rcout << llf << std::endl;
   Rcout << eres.eb << std::endl;
@@ -279,7 +279,7 @@ void test_estep_group_csc(NumericVector alpha,
   double qv = unif(P, di, 1.01);
   auto model = GPH<NumericVector, SparseT, IntegerVector>(alpha, Q, P, xi, qv, di);
   
-  auto work = GPHWorkSpace1<std::vector<double>>(m);
+  auto work = GPHWorkSpace2(m, n);
   llf = estep(model, dat, eres, options, work);
   Rcout << llf << std::endl;
   Rcout << eres.eb << std::endl;
@@ -331,7 +331,7 @@ void test_estep_group_csr(NumericVector alpha,
   double qv = unif(P, di, 1.01);
   auto model = GPH<NumericVector, SparseT, IntegerVector>(alpha, Q, P, xi, qv, di);
   
-  auto work = GPHWorkSpace1<std::vector<double>>(m);
+  auto work = GPHWorkSpace2(m, n);
   llf = estep(model, dat, eres, options, work);
   Rcout << llf << std::endl;
   Rcout << eres.eb << std::endl;
@@ -383,7 +383,7 @@ void test_estep_group_coo(NumericVector alpha,
   double qv = unif(P, di, 1.01);
   auto model = GPH<NumericVector, SparseT, IntegerVector>(alpha, Q, P, xi, qv, di);
   
-  auto work = GPHWorkSpace1<std::vector<double>>(m);
+  auto work = GPHWorkSpace2(m, n);
   llf = estep(model, dat, eres, options, work);
   Rcout << llf << std::endl;
   Rcout << eres.eb << std::endl;
@@ -433,7 +433,7 @@ void test_estep_group_poi(
   auto gph = GPH<NumericVector, NumericMatrix, IntegerVector>(alpha, Q, P, xi, qv, di);
   auto model = GPHPoi<GPH<NumericVector, NumericMatrix, IntegerVector>>(gph, omega);
   
-  auto work = GPHWorkSpace1<std::vector<double>>(m);
+  auto work = GPHWorkSpace2(m, n);
   llf = estep(model, dat, eres, options, work);
   Rcout << llf << std::endl;
   Rcout << eres.eb << std::endl;

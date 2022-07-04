@@ -51,8 +51,6 @@ double estep(
     OptionT& options,
     WorkSpace& work) {
   
-  using trait1 = vector_traits<typename WorkSpace::Type>;
-
   const int m = data.size();
   const double* tdat = vector_traits<T4,double>::value(data.time);
   const double* wdat = vector_traits<T5,double>::value(data.weights);
@@ -64,13 +62,17 @@ double estep(
   // alloc
   int right = poi::rightbound(qv*tmax, options.poisson_eps) + 1;
   std::vector<double> prob(right+1);
-  std::vector<std::vector<double>> vf(m+1, std::vector<double>(n));
-  std::vector<std::vector<double>> vb(m+1, std::vector<double>(n));
-  std::vector<std::vector<double>> vc(m+1, std::vector<double>(n));
   std::vector<std::vector<double>> vx(right+1, std::vector<double>(n));
+  // std::vector<std::vector<double>> vf(m+1, std::vector<double>(n));
+  // std::vector<std::vector<double>> vb(m+1, std::vector<double>(n));
+  // std::vector<std::vector<double>> vc(m+1, std::vector<double>(n));
   std::vector<double> blf(m+1);
   std::vector<double> tmpv(n);
   std::vector<double> xtmp(n);
+
+  std::vector<std::vector<double>>& vf(work.vf);
+  std::vector<std::vector<double>>& vb(work.vb);
+  std::vector<std::vector<double>>& vc(work.vc);
   
   double scale;
   double llf = 0.0;
@@ -193,8 +195,6 @@ double estep(
     OptionT& options,
     WorkSpace& work) {
   
-  using trait1 = vector_traits<typename WorkSpace::Type>;
-  
   const int m = data.size();
   const double* tdat = stride_vector_traits<T4,double>::value(data.time);
   const int* gdat = stride_vector_traits<T5,int>::value(data.counts);
@@ -208,22 +208,24 @@ double estep(
   std::vector<double> vone(n, 1.0);
   gesv(TRANS{}, -1.0, model.Q, model.alpha, baralpha);
   
-  // alloc
+  // work
   int right = poi::rightbound(qv*tmax, options.poisson_eps) + 1;
   std::vector<double> prob(right+1);
+  std::vector<std::vector<double>> vx(right+1, std::vector<double>(n, 0));
   std::vector<double> tmpvf(n);
   std::vector<double> tmpvb(n);
   std::vector<double> tmpv(n);
-
-  std::vector<std::vector<double>> barvf(m+1, std::vector<double>(n));
-  std::vector<std::vector<double>> barvb(m+1, std::vector<double>(n));
-  std::vector<std::vector<double>> vb(m+1, std::vector<double>(n));
-
-  std::vector<std::vector<double>> vc(m+1, std::vector<double>(n));
-  std::vector<std::vector<double>> vx(right+1, std::vector<double>(n, 0));
-
+  // std::vector<std::vector<double>> barvf(m+1, std::vector<double>(n));
+  // std::vector<std::vector<double>> barvb(m+1, std::vector<double>(n));
+  // std::vector<std::vector<double>> vb(m+1, std::vector<double>(n));
+  // std::vector<std::vector<double>> vc(m+1, std::vector<double>(n));
   std::vector<double> wg(m+2);
   std::vector<double> wp(m+2);
+
+  std::vector<std::vector<double>>& barvf(work.barvf);
+  std::vector<std::vector<double>>& barvb(work.barvb);
+  std::vector<std::vector<double>>& vb(work.vb);
+  std::vector<std::vector<double>>& vc(work.vc);
 
   double scale;
   double llf = 0.0;
@@ -405,8 +407,6 @@ double estep(
     OptionT& options,
     WorkSpace& work) {
   
-  using trait1 = vector_traits<typename WorkSpace::Type>;
-  
   const int m = data.size();
   const double* tdat = stride_vector_traits<T4,double>::value(data.time);
   const int* gdat = stride_vector_traits<T5,int>::value(data.counts);
@@ -421,23 +421,25 @@ double estep(
   std::vector<double> vone(n, 1.0);
   gesv(TRANS{}, -1.0, model.gph.Q, model.gph.alpha, baralpha);
   
-  // alloc
+  // work
   int right = poi::rightbound(qv*tmax, options.poisson_eps) + 1;
   std::vector<double> prob(right+1);
+  std::vector<std::vector<double>> vx(right+1, std::vector<double>(n, 0));
   std::vector<double> tmpvf(n);
   std::vector<double> tmpvb(n);
   std::vector<double> tmpv(n);
-  
-  std::vector<std::vector<double>> barvf(m+1, std::vector<double>(n));
-  std::vector<std::vector<double>> barvb(m+1, std::vector<double>(n));
-  std::vector<std::vector<double>> vb(m+1, std::vector<double>(n));
-  
-  std::vector<std::vector<double>> vc(m+1, std::vector<double>(n));
-  std::vector<std::vector<double>> vx(right+1, std::vector<double>(n, 0));
-  
+  // std::vector<std::vector<double>> barvf(m+1, std::vector<double>(n));
+  // std::vector<std::vector<double>> barvb(m+1, std::vector<double>(n));
+  // std::vector<std::vector<double>> vb(m+1, std::vector<double>(n));
+  // std::vector<std::vector<double>> vc(m+1, std::vector<double>(n));
   std::vector<double> wg(m+2);
   std::vector<double> wp(m+2);
   
+  std::vector<std::vector<double>>& barvf(work.barvf);
+  std::vector<std::vector<double>>& barvb(work.barvb);
+  std::vector<std::vector<double>>& vb(work.vb);
+  std::vector<std::vector<double>>& vc(work.vc);
+
   double scale;
   double llf = 0.0;
   double tllf = 0.0;

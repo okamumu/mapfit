@@ -48,8 +48,8 @@ List emfit_cf1_wtime(NumericVector alpha,
     std::vector<double>(n),
     std::vector<double>(n),
     H);
-  auto work = GPHWorkSpace1<std::vector<double>>(m);
-  
+  auto work = GPHWorkSpace1(m, n);
+
   auto opts = EMOptions();
   opts.maxiter = maxiter;
   opts.atol = atol;
@@ -104,11 +104,11 @@ List emfit_cf1_group(NumericVector alpha,
   auto gph = GPH<NumericVector, MatrixT, IntegerVector>(al, Q, P, xi, qv, di);
   auto model = CF1<NumericVector, GPH<NumericVector, MatrixT, IntegerVector>>(alpha, rate, gph);
   
-  auto tdat = as<NumericVector>(data["time"]);
+  auto tdat = as<NumericVector>(data["intervals"]);
   auto gdat = as<IntegerVector>(data["counts"]);
-  auto idat = as<IntegerVector>(data["indicators"]);
-  double maxtime = as<double>(data["maxtime"]);
-  int glast = as<int>(data["last"]);
+  auto idat = as<IntegerVector>(data["instants"]);
+  double maxtime = as<double>(data["maxinterval"]);
+  int glast = as<int>(data["lastcount"]);
   auto m = tdat.length();
   auto dat = PHGroupSample<NumericVector,IntegerVector,IntegerVector>(tdat, gdat, idat, maxtime, glast);
   
@@ -117,7 +117,7 @@ List emfit_cf1_group(NumericVector alpha,
     std::vector<double>(n),
     std::vector<double>(n),
     H);
-  auto work = GPHWorkSpace1<std::vector<double>>(m);
+  auto work = GPHWorkSpace2(m, n);
   
   auto opts = EMOptions();
   opts.maxiter = maxiter;
@@ -175,11 +175,11 @@ List emfit_cf1_group_poi(double omega,
   auto gphpoi = GPHPoi<GPH<NumericVector, MatrixT, IntegerVector>>(gph, omega);
   auto model = CF1<NumericVector, GPHPoi<GPH<NumericVector, MatrixT, IntegerVector>>>(alpha, rate, gphpoi);
   
-  auto tdat = as<NumericVector>(data["time"]);
+  auto tdat = as<NumericVector>(data["intervals"]);
   auto gdat = as<IntegerVector>(data["counts"]);
-  auto idat = as<IntegerVector>(data["indicators"]);
-  double maxtime = as<double>(data["maxtime"]);
-  int glast = as<int>(data["last"]);
+  auto idat = as<IntegerVector>(data["instants"]);
+  double maxtime = as<double>(data["maxinterval"]);
+  int glast = as<int>(data["lastcount"]);
   auto m = tdat.length();
   auto dat = PHGroupSample<NumericVector,IntegerVector,IntegerVector>(tdat, gdat, idat, maxtime, glast);
   
@@ -188,7 +188,7 @@ List emfit_cf1_group_poi(double omega,
     std::vector<double>(n),
     std::vector<double>(n),
     H);
-  auto work = GPHWorkSpace1<std::vector<double>>(m);
+  auto work = GPHWorkSpace2(m, n);
   
   auto opts = EMOptions();
   opts.maxiter = maxiter;
@@ -235,7 +235,7 @@ Q <- rbind(
   c(0.0, 0.0, -8.0))
 xi <- c(0.0, 0.0, 8.0)
 rate <- c(2.0, 5.0, 8.0)
-dat <- list(time=c(1,2,1,3,4), counts=c(1,3,-1,2,4), indicators=c(0,0,0,1,0), last=10, maxtime=4)
+dat <- list(intervals=c(1,2,1,3,4), counts=c(1,3,-1,2,4), instants=c(0,0,0,1,0), lastcount=10, maxinterval=4)
 options <- list(maxiter=10, abstol=1.0e-3, reltol=1.0e-6,
                 steps=1, em.verbose=TRUE, uniform.factor=1.01,
                 poisson.eps=1.0e-8)
@@ -251,7 +251,7 @@ Q <- rbind(
 xi <- c(0.0, 0.0, 8.0)
 rate <- c(2.0, 5.0, 8.0)
 omega <- 10
-dat <- list(time=c(1,2,1,3,4), counts=c(1,3,-1,2,4), indicators=c(0,0,0,1,0), last=10, maxtime=4)
+dat <- list(intervals=c(1,2,1,3,4), counts=c(1,3,-1,2,4), instants=c(0,0,0,1,0), lastcount=10, maxinterval=4)
 options <- list(maxiter=10, abstol=1.0e-3, reltol=1.0e-6,
                 steps=1, em.verbose=TRUE, uniform.factor=1.01,
                 poisson.eps=1.0e-8)

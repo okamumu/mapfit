@@ -8,10 +8,15 @@
 CF1 <- R6::R6Class(
   "CF1",
   inherit = GPH,
+  private = list(
+    param.rate = NULL
+  ),
   public = list(
-    #' @field rate A vector of rates
-    rate = NULL,
-    
+    #' @description 
+    #' Get rate
+    #' @return An instance of rate
+    rate = function() private$param.rate,
+
     #' @description
     #' Create a CF1
     #' @param alpha A vector of initial probability
@@ -19,7 +24,7 @@ CF1 <- R6::R6Class(
     #' @return An instance of CF1
     initialize = function(alpha, rate) {
       phase_cf1_sort(alpha, rate)
-      self$rate <- rate
+      private$param.rate <- rate
       size <- length(alpha)
       xi <- numeric(size)
       xi[size] <- rate[size]
@@ -39,8 +44,49 @@ CF1 <- R6::R6Class(
     #' @param ... Others
     print = function(...) {
       cat(gettextf("Size : %d\n", self$size()))
-      cat("Initial : ", self$alpha, "\n")
-      cat("Rate    : ", self$rate, "\n")
+      cat("Initial : ", super$alpha(), "\n")
+      cat("Rate    : ", self$rate(), "\n")
+    },
+    
+    #' @description 
+    #' Generate a sample of CF1
+    #' @param ... Others
+    #' @return A sample of CF1
+    sample = function(...) {
+      i <- which(c(rmultinom(n=1, size=1, prob=super$alpha())) == 1)
+      sum(sapply(self$rate()[i:self$size()], function(r) rexp(1, rate=r)))
+    },
+    
+    #' @description 
+    #' Run EM
+    #' @param data A dataframe
+    #' @param options A list of options
+    #' @param ... Others
+    emfit = function(data, options, ...) {
+      con <- list(...)
+      nmsC <- names(options)
+      options[(namc <- names(con))] <- con
+
+      alpha <- super$alpha()
+      rate <- self$rate()
+      Q <- super$Q()
+      xi <- super$xi()
+      P <- super$make.matrix()
+      H <- super$make.matrix()
+      switch(class(data),
+        "phase.time" = emfit_cf1_wtime(alpha, rate, data, options, Q, P, H),
+        "phase.group" = emfit_cf1_group(alpha, rate, data, options, Q, P, H)
+      )
+    },
+    
+    #' @description 
+    #' Initialize with data
+    #' @param data A dataframe
+    #' @param options A list of options
+    #' @param ... Others
+    init = function(data, options, ...) {
+      ph <- cf1.param(data, self$size(), options, ...)
+      self$initialize(ph$alpha(), ph$rate())
     }
   )
 )
@@ -86,3 +132,143 @@ cf1 <- function(size, alpha, rate) {
   }
   CF1$new(alpha, rate)
 }
+
+#' Determine CF1 parameters
+#' 
+#' Determine CF1 parameters based on the power rule.
+#' 
+#' @param size An integer of the number of phases
+#' @param m A value of mean of data
+#' @param s A value of fraction of minimum and maximum rates
+#' @return A list of alpha and rate
+
+cf1.param.power <- function(size, mean, s) {
+  alpha <- rep(1.0/size, size)
+  rate <- numeric(size)
+  
+  p <- exp(1.0/(size-1) * log(s))
+  total <- 1.0
+  tmp <- 1.0
+  for (i in 2:size) {
+    tmp <- tmp * i / ((i-1) * p)
+    total <- total + tmp
+  }
+  base <- total / (size * mean)
+  tmp <- base
+  for (i in 1:size) {
+    rate[i] <- tmp
+    tmp <- tmp * p
+  }
+  cf1(alpha=alpha, rate=rate)
+}
+
+#' Determine CF1 parameters
+#' 
+#' Determine CF1 parameters based on the linear rule.
+#' 
+#' @param size An integer of the number of phases
+#' @param m A value of mean of data
+#' @param s A value of fraction of minimum and maximum rates
+#' @return A list of alpha and rate
+
+cf1.param.linear <- function(size, mean, s) {
+  alpha <- rep(1.0/size, size)
+  rate <- numeric(size)
+  
+  al <- (s-1)/(size-1)
+  total <- 1.0
+  for (i in 2:size) {
+    total <- total + i / (al * (i-1) + 1)
+  }
+  base <- total / (size * mean)
+  for (i in 1:size) {
+    tmp <- base * (al * (i-1) + 1)
+    rate[i] <- tmp
+  }
+  cf1(alpha=alpha, rate=rate)
+}
+
+#' Create CF1 with data information
+#' 
+#' Crate CF1 with the first moment of a given data. This function calls cf1.param.linear
+#' and cf1.param.power to determine CF1. After execute 5 EM steps, the model with the smallest
+#' LLF is selected.
+#' 
+#' @param data A dataframe
+#' @param size An integer for the number of phases
+#' @param options A list of options for EM steps
+#' @param ... Others. This can provide additional options for EM steps.
+#' @examples
+#' dat <- data.frame.phase.group(c(1,2,0,4), seq(0,10,length.out=5)) # group data
+#' 
+#' ## Create an instance of CF1
+#' p <- cf1.param(data, 5)
+#' 
+#' @export
+
+cf1.param <- function(data, size, options, ...) {
+  con <- list(...)
+  nmsC <- names(options)
+  options[(namc <- names(con))] <- con
+
+  diff.init <- options$cf1.diff.init
+  scale.init <- options$cf1.scale.init
+  verbose <- options$cf1.verbose
+  maxiter.init <- options$cf1.maxiter
+  
+  if (verbose) cat("Initializing CF1 ...\n")
+  m <- mean(data)
+  maxllf <- -Inf
+  for (x in scale.init) {
+    for (s in diff.init) {
+      ph <- cf1.param.linear(size, m * x, s)
+      phres <- try(ph$emfit(data, options, maxiter=maxiter.init), silent = TRUE)
+      if (!is(phres, "try-error")) {
+        if (is.finite(phres$llf)) {
+          if (maxllf < phres$llf) {
+            maxllf <- phres$llf
+            maxph <- ph
+            if (verbose) cat("o")
+          }
+          else {
+            if (verbose) cat("x")
+          }
+        }
+        else {
+          if (verbose) cat("-")
+        }
+      }
+      else {
+        if (verbose) cat("-")
+      }
+    }
+    if (verbose) cat("\n")
+    
+    for (s in diff.init) {
+      ph <- cf1.param.power(size, m * x, s)
+      phres <- try(ph$emfit(data, options, maxiter = maxiter.init), silent = TRUE)
+      if (!is(phres, "try-error")) {
+        if (is.finite(phres$llf)) {
+          if (maxllf < phres$llf) {
+            maxllf <- phres$llf
+            maxph <- ph
+            if (verbose) cat("o")
+          }
+          else {
+            if (verbose) cat("x")
+          }
+        }
+        else {
+          if (verbose) cat("-")
+        }
+      }
+      else {
+        if (verbose) cat("-")
+      }
+    }
+    if (verbose) cat("\n")
+  }
+  maxph
+}
+
+

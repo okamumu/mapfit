@@ -22,20 +22,12 @@ the uniformization technique.
 This function provides the values of complementary c.d.f. for
 PH distribution with the uniformization technique.
 }
-\section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{alpha}}{A vector of initial probability}
-
-\item{\code{Q}}{A matrix of infinitesimal generator}
-
-\item{\code{xi}}{An exit vector of transient states to the absorbing state}
-}
-\if{html}{\out{</div>}}
-}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
+\item \href{#method-GPH-alpha}{\code{GPH$alpha()}}
+\item \href{#method-GPH-Q}{\code{GPH$Q()}}
+\item \href{#method-GPH-xi}{\code{GPH$xi()}}
 \item \href{#method-GPH-new}{\code{GPH$new()}}
 \item \href{#method-GPH-size}{\code{GPH$size()}}
 \item \href{#method-GPH-df}{\code{GPH$df()}}
@@ -45,7 +37,48 @@ PH distribution with the uniformization technique.
 \item \href{#method-GPH-cdf}{\code{GPH$cdf()}}
 \item \href{#method-GPH-ccdf}{\code{GPH$ccdf()}}
 \item \href{#method-GPH-sample}{\code{GPH$sample()}}
+\item \href{#method-GPH-emfit}{\code{GPH$emfit()}}
+\item \href{#method-GPH-init}{\code{GPH$init()}}
 \item \href{#method-GPH-clone}{\code{GPH$clone()}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-GPH-alpha"></a>}}
+\if{latex}{\out{\hypertarget{method-GPH-alpha}{}}}
+\subsection{Method \code{alpha()}}{
+Get alpha
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{GPH$alpha()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+A vector of alpha
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-GPH-Q"></a>}}
+\if{latex}{\out{\hypertarget{method-GPH-Q}{}}}
+\subsection{Method \code{Q()}}{
+Get Q
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{GPH$Q()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+A matrix of Q
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-GPH-xi"></a>}}
+\if{latex}{\out{\hypertarget{method-GPH-xi}{}}}
+\subsection{Method \code{xi()}}{
+Get xi
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{GPH$xi()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+A vector of xi
 }
 }
 \if{html}{\out{<hr>}}
@@ -233,6 +266,48 @@ Make a sample
 }
 \subsection{Returns}{
 A sample of GPH
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-GPH-emfit"></a>}}
+\if{latex}{\out{\hypertarget{method-GPH-emfit}{}}}
+\subsection{Method \code{emfit()}}{
+Run EM
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{GPH$emfit(data, options, ...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{data}}{A dataframe}
+
+\item{\code{options}}{A list of options}
+
+\item{\code{...}}{Others}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-GPH-init"></a>}}
+\if{latex}{\out{\hypertarget{method-GPH-init}{}}}
+\subsection{Method \code{init()}}{
+Initialize with data
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{GPH$init(data, ...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{data}}{A dataframe}
+
+\item{\code{...}}{Others}
+
+\item{\code{options}}{A list of options}
+}
+\if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}

@@ -111,7 +111,7 @@ PH distributions are classified to sub-classes by the structure of $\boldsymbol{
 - canonical form 1 (CF1): One of the minimal representations of acyclic PH distribution. The matrix $\boldsymbol{Q}$ becomes a bidiagonal matrix whose entries are sorted in increasing order. In the tool, this is referred to as `cf1' class.
 - hyper-Erlang distribution: One of the representations of acyclic PH distribution. The distribution consists of a mixture of Erlang distributions. In the tool, this is referred to as `herlang' class.
 
-The parameters of `ph` class are $\boldsymbol{\alpha}$, $\boldsymbol{Q}$ and $\boldsymbol{\xi}$, which are defined as members, called *slots*, of S4 class in R. To represent the matrix $\boldsymbol{Q}$, we use `Matrix` package which is an external package of R. The slots of `cf1` class are inherited from the `ph` class. In addition to inherited slots, `cf1` has a slot `rate` to store the absolute values of diagonal elements of $\boldsymbol{Q}$. The `herlang` class has the slots for the mixed ratio, shape parameters of Erlang components, rate parameters of Erlang components. Both of `cf1` and `herlang` classes can be transformed to `ph` class by using `as' method of R.
+The parameters of `ph` class are $\boldsymbol{\alpha}$, $\boldsymbol{Q}$ and $\boldsymbol{\xi}$, which are defined as members of R6 class in R. To represent the matrix $\boldsymbol{Q}$, we use `Matrix` package which is an external package of R. The `cf1` class are inherited from the `ph` class. In addition to inherited members, `cf1` has a member `rate` to store the absolute values of diagonal elements of $\boldsymbol{Q}$. The `herlang` class has the member for the mixed ratio as `alpha`, shape parameters of Erlang components `shape`, rate parameters of Erlang components `rate`. `herlang` classes can be transformed to `ph` class by using `as.gph` method of R. `cf1` has members for `alpha`, `Q` and `xi`.
 
 The R functions for PH parameter estimation are;
 
@@ -145,7 +145,7 @@ phfit.point(ph=ph(5), x=wsample)
 phfit.point(ph=cf1(5), x=wsample)
 
 ## phfit with Hyper-Erlang
-phfit.point(ph=herlang(5), x=wsample, ubound=3)
+phfit.point(ph=herlang(5), x=wsample, herlang.ubound=3)
 ```
 In the above example, the number of Erlang components is restructured to 3 or less by using `ubound` argument (see [2] in detail).
 
@@ -197,8 +197,8 @@ If we use only point data to estimate PH paramters with high orders, the overfit
 library(ggplot2)
 ggplot(data.frame(x=seq(0, 3, length.out=100)), aes(x=x)) +
   stat_function(fun=dweibull, args=list(shape=2, scale=1), aes_(colour='exact')) +
-  stat_function(fun=dph, args=list(ph=result.point$model), aes_(colour='from point data')) +
-  stat_function(fun=dph, args=list(ph=result.density$model), aes_(colour='from density'))
+  stat_function(fun=dphase, args=list(ph=result.point$model), aes_(colour='from point data')) +
+  stat_function(fun=dphase, args=list(ph=result.density$model), aes_(colour='from density'))
 ```
 
 ### References
@@ -210,109 +210,109 @@ ggplot(data.frame(x=seq(0, 3, length.out=100)), aes(x=x)) +
 - [5] A. Bobbio and A. Horvath and M. Telek, Matching three moments with minimal acyclic phase type distributions, Stochastic Models, 21(2/3), 303-326, 2005.
 - [6] T. Osogami and M. Harchol-Balter, Closed form solutions for mapping general distributions to minimal PH distributions, Performance Evaluation, 63(6), 524-552, 2006.
 
-## MAP Fitting
+<!-- ## MAP Fitting -->
 
-### Overview
+<!-- ### Overview -->
 
-MAP (Markovian arrival process) is a stochastic point process whose arrival rates are dominated by a CTMC. The CTMC expresses the internal state of MAP called a phase process. MAP is generally defined by an initial probability vector $\boldsymbol{\alpha}$ and two matrices for infinitesimal generators $\boldsymbol{D}_0$, $\boldsymbol{D}_1$. Let $\boldsymbol{\pi}(n,t)$ be the row vector whose i-th entry is the probability that the phase process is i at time t and n arrivals occur before time t. Then we have the following differential equations:
-$$
-\frac{d}{dt} \boldsymbol{\pi}(n,t) = \boldsymbol{\pi}(n,t) \boldsymbol{D}_0 + \boldsymbol{\pi}(n-1,t) \boldsymbol{D}_1, \quad \text{for $n = 1, 2, \ldots$},
-$$
-$$
-\frac{d}{dt} \boldsymbol{\pi}(0,t) = \boldsymbol{\pi}(0,t) \boldsymbol{D}_0, \quad \boldsymbol{\pi}(0,0) = \boldsymbol{\alpha},
-$$
-where $\boldsymbol{D}_0$ and $\boldsymbol{D}_1$ are infinitesimal generators of phase process without and with arrivals, respectively. Note that $\boldsymbol{D}_0 + \boldsymbol{D}_1$ becomes the infinitesimal generator of phase process. Similar to PH fitting, the purpose of MAP fitting is to find MAP parameters $\boldsymbol{\alpha}$, $\boldsymbol{D}_0$ and $\boldsymbol{D}_1$ so that the estimated MAP fits to observed data. In MAP fitting, there are also two approaches; MM method and MLE. The MM method for MAP is to determine MAP parameters with marginal/joint moments and k-lag correlation [1]. MLE is to find MAP parameters maximizing the log-likelihood function. We implement MLE approaches in the tool.
+<!-- MAP (Markovian arrival process) is a stochastic point process whose arrival rates are dominated by a CTMC. The CTMC expresses the internal state of MAP called a phase process. MAP is generally defined by an initial probability vector $\boldsymbol{\alpha}$ and two matrices for infinitesimal generators $\boldsymbol{D}_0$, $\boldsymbol{D}_1$. Let $\boldsymbol{\pi}(n,t)$ be the row vector whose i-th entry is the probability that the phase process is i at time t and n arrivals occur before time t. Then we have the following differential equations: -->
+<!-- $$ -->
+<!-- \frac{d}{dt} \boldsymbol{\pi}(n,t) = \boldsymbol{\pi}(n,t) \boldsymbol{D}_0 + \boldsymbol{\pi}(n-1,t) \boldsymbol{D}_1, \quad \text{for $n = 1, 2, \ldots$}, -->
+<!-- $$ -->
+<!-- $$ -->
+<!-- \frac{d}{dt} \boldsymbol{\pi}(0,t) = \boldsymbol{\pi}(0,t) \boldsymbol{D}_0, \quad \boldsymbol{\pi}(0,0) = \boldsymbol{\alpha}, -->
+<!-- $$ -->
+<!-- where $\boldsymbol{D}_0$ and $\boldsymbol{D}_1$ are infinitesimal generators of phase process without and with arrivals, respectively. Note that $\boldsymbol{D}_0 + \boldsymbol{D}_1$ becomes the infinitesimal generator of phase process. Similar to PH fitting, the purpose of MAP fitting is to find MAP parameters $\boldsymbol{\alpha}$, $\boldsymbol{D}_0$ and $\boldsymbol{D}_1$ so that the estimated MAP fits to observed data. In MAP fitting, there are also two approaches; MM method and MLE. The MM method for MAP is to determine MAP parameters with marginal/joint moments and k-lag correlation [1]. MLE is to find MAP parameters maximizing the log-likelihood function. We implement MLE approaches in the tool. -->
 
-### Data for MAP fitting
+<!-- ### Data for MAP fitting -->
 
-mapfit deals with point data and grouped data in MAP fitting. The point data for MAP fitting is a time series for arrivals. The grouped data for MAP fitting consists of break points and counts which are made from a time series for arrivals.
+<!-- mapfit deals with point data and grouped data in MAP fitting. The point data for MAP fitting is a time series for arrivals. The grouped data for MAP fitting consists of break points and counts which are made from a time series for arrivals. -->
 
-|Arrival No.|Time (sec)|
-|:-:|:-:|
-|1 | 1.340 |
-|2 | 1.508 |
-|3 | 4.176 |
-|4 | 8.140 |
-|5 | 11.036|
-|6 | 15.072 |
-|7 | 17.892 |
-|8 | 20.604 |
-|9 | 22.032 |
-|10 | 24.300 |
-|... | ... |
+<!-- |Arrival No.|Time (sec)| -->
+<!-- |:-:|:-:| -->
+<!-- |1 | 1.340 | -->
+<!-- |2 | 1.508 | -->
+<!-- |3 | 4.176 | -->
+<!-- |4 | 8.140 | -->
+<!-- |5 | 11.036| -->
+<!-- |6 | 15.072 | -->
+<!-- |7 | 17.892 | -->
+<!-- |8 | 20.604 | -->
+<!-- |9 | 22.032 | -->
+<!-- |10 | 24.300 | -->
+<!-- |... | ... | -->
 
-The above table shows an example of point data that consists of arrival times.
+<!-- The above table shows an example of point data that consists of arrival times. -->
 
-|Time interval | Counts |
-|:-:|:-:|
-|[0, 5]| 3 |
-|[5, 10]| 1 |
-|[10, 15]| 1 |
-|[15, 20]| 2 |
-|[20, 25]| 4 |
-|...|...|
+<!-- |Time interval | Counts | -->
+<!-- |:-:|:-:| -->
+<!-- |[0, 5]| 3 | -->
+<!-- |[5, 10]| 1 | -->
+<!-- |[10, 15]| 1 | -->
+<!-- |[15, 20]| 2 | -->
+<!-- |[20, 25]| 4 | -->
+<!-- |...|...| -->
 
-The above table shows an example of grouped data. The grouped data is made from the point data by counting the number of arrivals in every 5 seconds. Note that missing values cannot be treated in MAP fitting of this version of tool.
+<!-- The above table shows an example of grouped data. The grouped data is made from the point data by counting the number of arrivals in every 5 seconds. Note that missing values cannot be treated in MAP fitting of this version of tool. -->
 
-### Models and Methods
+<!-- ### Models and Methods -->
 
-mapfit has three classes (models) for MAP, which have different parameter estimation algorithms.
+<!-- mapfit has three classes (models) for MAP, which have different parameter estimation algorithms. -->
 
-- general MAP: MAP with no constraint on parameters. This class is referred to as `map` in the tool. Also, the tool uses a Markov modulated Poisson process (MMPP) as a specific structure of `map`, which can be generated by an `mmpp` command.
-- HMM (hidden Markov model) with Erlang outputs (ER-HMM): One of MAP representation where Erlang outputs correspond to time intervals between two successive arrivals [2]. In the tool, this class is referred to as `erhmm`.
-- MMPP with grouped data: MMPP with approximate parameter estimation. This is referred to as `gmmpp` in the tool, and is essentially same as `mmpp` except for parameter estimation algorithm. In the parameter estimation of `gmmpp`, it is assumed that at most one phase change is allowed in one observed time interval [3].
+<!-- - general MAP: MAP with no constraint on parameters. This class is referred to as `map` in the tool. Also, the tool uses a Markov modulated Poisson process (MMPP) as a specific structure of `map`, which can be generated by an `mmpp` command. -->
+<!-- - HMM (hidden Markov model) with Erlang outputs (ER-HMM): One of MAP representation where Erlang outputs correspond to time intervals between two successive arrivals [2]. In the tool, this class is referred to as `erhmm`. -->
+<!-- - MMPP with grouped data: MMPP with approximate parameter estimation. This is referred to as `gmmpp` in the tool, and is essentially same as `mmpp` except for parameter estimation algorithm. In the parameter estimation of `gmmpp`, it is assumed that at most one phase change is allowed in one observed time interval [3]. -->
 
-The `map` class consists of parameters $\alpha$, $D_0$ and $D_1$, which are given by slots of S4 class in R. The `gmmpp` class also has the slots `alpha`, `D0` and `D1` as model parameters. The `erhmm` class has an initial probability vector for HMM states (`alpha`), a probability transition matrix for HMM states (`P`), the shape parameters for Erlang distribution (`shape`) and the rate parameters for Erlang distribution (`rate`). The S4 class `erhmm` can be transformed to `map` by using `as` method.
+<!-- The `map` class consists of parameters $\alpha$, $D_0$ and $D_1$, which are given by slots of S4 class in R. The `gmmpp` class also has the slots `alpha`, `D0` and `D1` as model parameters. The `erhmm` class has an initial probability vector for HMM states (`alpha`), a probability transition matrix for HMM states (`P`), the shape parameters for Erlang distribution (`shape`) and the rate parameters for Erlang distribution (`rate`). The S4 class `erhmm` can be transformed to `map` by using `as` method. -->
 
-The tool has the follwoing MAP fitting functions:
+<!-- The tool has the follwoing MAP fitting functions: -->
 
-- `mapfit.point`: MLEs for general MAP and ER-HMM from point data. The estimation algorithm for general MAP is the EM algorithm introduced in [4]. The algorithm for ER-HMM is the EM algorithm proposed in [2].
-- `mapfit.group`: MLEs for general MAP and `gmmpp` from grouped data. Both the estimation algorithms for general MAP and `gmmpp` are presented in [3]. Note that `erhmm` cannot be used in the case of grouped data.
+<!-- - `mapfit.point`: MLEs for general MAP and ER-HMM from point data. The estimation algorithm for general MAP is the EM algorithm introduced in [4]. The algorithm for ER-HMM is the EM algorithm proposed in [2]. -->
+<!-- - `mapfit.group`: MLEs for general MAP and `gmmpp` from grouped data. Both the estimation algorithms for general MAP and `gmmpp` are presented in [3]. Note that `erhmm` cannot be used in the case of grouped data. -->
 
-The functions `mapfit.point` and `mapfit.group` select an appropriate algorithm depending on the class of a given MAP. These functions return a list including the estimated model (`map`, `erhmm` or `gmmpp`), the maximum log-likelihood (llf), Akaike information criterion (aic) and other statistics of the estimation algorithm. In general, `erhmm` for point data and `gmmpp` for grouped data are much faster than general MAP.
+<!-- The functions `mapfit.point` and `mapfit.group` select an appropriate algorithm depending on the class of a given MAP. These functions return a list including the estimated model (`map`, `erhmm` or `gmmpp`), the maximum log-likelihood (llf), Akaike information criterion (aic) and other statistics of the estimation algorithm. In general, `erhmm` for point data and `gmmpp` for grouped data are much faster than general MAP. -->
 
-### Example
+<!-- ### Example -->
 
-Here we demonstrate MAP fitting with point and grouped data. The data used in this example is the traffic data; BCpAug89, which consists of time intervals for packet arrivals and is frequently used in several papers as a benchmark. We use only the first 1000 arrival times.
-```{r bcpaug89}
-data(BCpAug89)
-BCpAug89
-```
-Using this point data, we can estimate parameters for general MAP with 5 states, MMPP with 5 states and ER-HMM with 5 states by the following commands, respectively;
-```{r mapfitpint1}
-## mapfit for general MAP
-mapfit.point(map=map(5), x=cumsum(BCpAug89))
+<!-- Here we demonstrate MAP fitting with point and grouped data. The data used in this example is the traffic data; BCpAug89, which consists of time intervals for packet arrivals and is frequently used in several papers as a benchmark. We use only the first 1000 arrival times. -->
+<!-- ```{r bcpaug89} -->
+<!-- data(BCpAug89) -->
+<!-- BCpAug89 -->
+<!-- ``` -->
+<!-- Using this point data, we can estimate parameters for general MAP with 5 states, MMPP with 5 states and ER-HMM with 5 states by the following commands, respectively; -->
+<!-- ```{r mapfitpint1} -->
+<!-- ## mapfit for general MAP -->
+<!-- mapfit.point(map=map(5), x=cumsum(BCpAug89)) -->
 
-## mapfit for general MMPP
-mapfit.point(map=mmpp(5), x=cumsum(BCpAug89))
+<!-- ## mapfit for general MMPP -->
+<!-- mapfit.point(map=mmpp(5), x=cumsum(BCpAug89)) -->
 
-## mapfit for ER-HMM
-mapfit.point(map=erhmm(5), x=cumsum(BCpAug89))
-```
-In the above example, `cumsum` is a function to derive cumulative sums because `BCpAug89` provides time difference data. The estimation with `erhmm` is much faster than others.
+<!-- ## mapfit for ER-HMM -->
+<!-- mapfit.point(map=erhmm(5), x=cumsum(BCpAug89)) -->
+<!-- ``` -->
+<!-- In the above example, `cumsum` is a function to derive cumulative sums because `BCpAug89` provides time difference data. The estimation with `erhmm` is much faster than others. -->
 
-Next we present MAP fitting with grouped data. The grouped data is made from `BCpAug89` by using `hist` function, i.e.,
-```{r genmapgroup}
-BCpAug89.group<-hist(cumsum(BCpAug89), breaks=seq(0,2.7,0.01), plot=FALSE)
+<!-- Next we present MAP fitting with grouped data. The grouped data is made from `BCpAug89` by using `hist` function, i.e., -->
+<!-- ```{r genmapgroup} -->
+<!-- BCpAug89.group<-hist(cumsum(BCpAug89), breaks=seq(0,2.7,0.01), plot=FALSE) -->
 
-BCpAug89.group$breaks
+<!-- BCpAug89.group$breaks -->
 
-BCpAug89.group$counts
-```
-In the above, break points are set as a time point sequence from 0 to 2.7 by 0.01, which is generated by a `seq` function. Using the grouped data, we have the estimated parameters for general MAP, MMPP and MMPP with approximate estimation (`gmmpp`).
-```{r mapfitall}
-## mapfit for general MAP with grouped data
-mapfit.group(map=map(5), counts=BCpAug89.group$counts, breaks=BCpAug89.group$breaks)
+<!-- BCpAug89.group$counts -->
+<!-- ``` -->
+<!-- In the above, break points are set as a time point sequence from 0 to 2.7 by 0.01, which is generated by a `seq` function. Using the grouped data, we have the estimated parameters for general MAP, MMPP and MMPP with approximate estimation (`gmmpp`). -->
+<!-- ```{r mapfitall} -->
+<!-- ## mapfit for general MAP with grouped data -->
+<!-- mapfit.group(map=map(5), counts=BCpAug89.group$counts, breaks=BCpAug89.group$breaks) -->
 
-## mapfit for general MMPP with grouped data
-mapfit.group(map=mmpp(5), counts=BCpAug89.group$counts, breaks=BCpAug89.group$breaks)
+<!-- ## mapfit for general MMPP with grouped data -->
+<!-- mapfit.group(map=mmpp(5), counts=BCpAug89.group$counts, breaks=BCpAug89.group$breaks) -->
 
-## mapfit for general MMPP with grouped data (approximation)
-mapfit.group(map=gmmpp(5), counts=BCpAug89.group$counts, breaks=BCpAug89.group$breaks)
-```
+<!-- ## mapfit for general MMPP with grouped data (approximation) -->
+<!-- mapfit.group(map=gmmpp(5), counts=BCpAug89.group$counts, breaks=BCpAug89.group$breaks) -->
+<!-- ``` -->
 
-### References
+<!-- ### References -->
 
-- [1] G. Horvath, P. Buchholz and M. Telek, A MAP fitting approach with independent approximation of the inter-arrival time distribution and the lag correlation, Proceedings of the 2nd International Conference on the Quantitative Evaluation of Systems (QEST2005), 124-133, 2005.
-- [2] H. Okamura and T. Dohi, Faster maximum likelihood estimation algorithms for Markovian arrival processes, Proceedings of 6th International Conference on Quantitative Evaluation of Systems (QEST2009), 73-82, 2009.
-- [3] H. Okamura, T. Dohi and K.S. Trivedi, Markovian arrival process parameter estimation with group data, IEEE/ACM Transactions on Networking, 17(4), 1326-1339, 2009.
+<!-- - [1] G. Horvath, P. Buchholz and M. Telek, A MAP fitting approach with independent approximation of the inter-arrival time distribution and the lag correlation, Proceedings of the 2nd International Conference on the Quantitative Evaluation of Systems (QEST2005), 124-133, 2005. -->
+<!-- - [2] H. Okamura and T. Dohi, Faster maximum likelihood estimation algorithms for Markovian arrival processes, Proceedings of 6th International Conference on Quantitative Evaluation of Systems (QEST2009), 73-82, 2009. -->
+<!-- - [3] H. Okamura, T. Dohi and K.S. Trivedi, Markovian arrival process parameter estimation with group data, IEEE/ACM Transactions on Networking, 17(4), 1326-1339, 2009. -->

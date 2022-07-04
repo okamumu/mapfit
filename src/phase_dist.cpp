@@ -46,6 +46,7 @@ NumericVector phase_dist_pdf(
       copy(tmpv, x);
       axpy(prob[u], x, vf);
     }
+    scal(1.0/weight, vf);
     y[k] = dot(vf, xi);
   }
 
@@ -91,6 +92,7 @@ NumericVector phase_dist_ccdf(
       copy(tmpv, x);
       axpy(prob[u], x, vf);
     }
+    scal(1.0/weight, vf);
     y[k] = asum(vf);
   }
   

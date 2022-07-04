@@ -55,11 +55,11 @@ List emfit_herlang_group(NumericVector alpha,
                          List options) {
   auto model = HErlang<NumericVector, IntegerVector>(alpha, shape, rate);
   auto n = model.size();
-  auto tdat = as<NumericVector>(data["time"]);
+  auto tdat = as<NumericVector>(data["intervals"]);
   auto gdat = as<IntegerVector>(data["counts"]);
-  auto idat = as<IntegerVector>(data["indicators"]);
-  double maxtime = as<double>(data["maxtime"]);
-  int glast = as<int>(data["last"]);
+  auto idat = as<IntegerVector>(data["instants"]);
+  double maxtime = as<double>(data["maxinterval"]);
+  int glast = as<int>(data["lastcount"]);
   auto m = tdat.length();
   auto dat = PHGroupSample<NumericVector,IntegerVector,IntegerVector>(tdat, gdat, idat, maxtime, glast);
   auto eres = HErlangEres<std::vector<double>>(std::vector<double>(n), std::vector<double>(n));
@@ -100,11 +100,11 @@ List emfit_herlang_group_poi(NumericVector alpha,
                          List options) {
   auto model = HErlangPoi<NumericVector, IntegerVector>(alpha, shape, rate, omega);
   auto n = model.size();
-  auto tdat = as<NumericVector>(data["time"]);
+  auto tdat = as<NumericVector>(data["intervals"]);
   auto gdat = as<IntegerVector>(data["counts"]);
-  auto idat = as<IntegerVector>(data["indicators"]);
-  double maxtime = as<double>(data["maxtime"]);
-  int glast = as<int>(data["last"]);
+  auto idat = as<IntegerVector>(data["instants"]);
+  double maxtime = as<double>(data["maxinterval"]);
+  int glast = as<int>(data["lastcount"]);
   auto m = tdat.length();
   auto dat = PHGroupSample<NumericVector,IntegerVector,IntegerVector>(tdat, gdat, idat, maxtime, glast);
   auto eres = HErlangEres<std::vector<double>>(std::vector<double>(n), std::vector<double>(n));
@@ -149,7 +149,7 @@ print(result)
 alpha <- c(0.4, 0.6)
 rate <- c(1.0, 2.0)
 shape <- c(1, 2)
-dat <- list(time=c(1,2,1,3,4), counts=c(1,3,-1,2,4), indicators=c(0,0,0,1,0), last=10, maxtime=4)
+dat <- list(intervals=c(1,2,1,3,4), counts=c(1,3,-1,2,4), instants=c(0,0,0,1,0), lastcount=10, maxinterval=4)
 options <- list(maxiter=10, abstol=1.0e-3, reltol=1.0e-6, steps=5, em.verbose=TRUE)
 result <- emfit_herlang_group(alpha, shape, rate, dat, options)
 print(result)
@@ -158,7 +158,7 @@ alpha <- c(0.4, 0.6)
 rate <- c(1.0, 2.0)
 shape <- c(1, 2)
 omega <- 10.0
-dat <- list(time=c(1,2,1,3,4), counts=c(1,3,-1,2,4), indicators=c(0,0,0,1,0), last=10, maxtime=4)
+dat <- list(intervals=c(1,2,1,3,4), counts=c(1,3,-1,2,4), instants=c(0,0,0,1,0), lastcount=10, maxinterval=4)
 options <- list(maxiter=10, abstol=1.0e-3, reltol=1.0e-6, steps=5, em.verbose=TRUE)
 result <- emfit_herlang_group_poi(alpha, shape, rate, omega, dat, options)
 print(result)

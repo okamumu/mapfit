@@ -3,154 +3,214 @@
 #' A continuous distribution dominated by a continuous-time Markov chain.
 #' A random time is given by an absorbing time.
 #' 
-GPH <- R6::R6Class("GPH",
-    private = list(
-      matclass = "dgCMatrix",
-      P = NULL
-    ),
-    public = list(
-      #' @field alpha A vector of initial probability
-      alpha = NULL,
-      
-      #' @field Q A matrix of infinitesimal generator
-      Q = NULL,
-      
-      #' @field xi An exit vector of transient states to the absorbing state
-      xi = NULL,
-    
-      #' @description
-      #' Create a GPH
-      #' @param alpha A vector of initial probability
-      #' @param Q An infinitesimal generator
-      #' @param xi An exit rate vector
-      #' @return An instance of GPH
-      initialize = function(alpha, Q, xi) {
-        self$alpha <- alpha
-        self$Q <- as(Q, private$matclass)
-        self$xi <- xi
-        private$P <- as(Q, private$matclass)
-      },
-      
-      #' @description 
-      #' The number of phases
-      #' @return The number of phases
-      size = function() {
-        length(self$alpha)
-      },
+GPH <- R6::R6Class(
+  "GPH",
+  private = list(
+    param.alpha = NULL,
+    param.Q = NULL,
+    param.xi = NULL,
+    matclass = "dgCMatrix",
 
-      #' @description 
-      #' Degrees of freedom
-      #' @return The degrees of freedom
-      df = function() {
-        zero <- 1.0e-8
-        sum(self$alpha > zero) - 1 + sum(abs(self$Q) > zero) +
-          sum(self$xi > zero) - size + sum(abs(Matrix::diag(selfQ)) < zero)
-      },
-      
-      #' @description 
-      #' Moments of GPH
-      #' @param k A value to indicate the degrees of moments. k-th moment
-      #' @param ... Others
-      #' @return A vector of moments from 1st to k-th moments
-      moment = function(k, ...) {
-        tmp <- self$alpha
-        A <- t(-as.matrix(self$Q))
-        tmp2 <- 1.0
-        res <- numeric(0)
-        for (i in 1:k) {
-          tmp <- solve(a=A, b=tmp)
-          tmp2 <- tmp2 * i
-          res <- c(res, tmp2 * sum(tmp))
-        }
-        res
-      },
-      
-      #' @description 
-      #' Print
-      #' @param ... Others
-      print = function(...) {
-        cat(gettextf("Size : %d\n", self$size()))
-        cat("Initial : ", self$alpha, "\n")
-        cat("Exit    : ", self$xi, "\n")
-        cat("Infinitesimal generator : \n")
-        print(self$Q)
-      },
-      
-      #' @description 
-      #' PDF
-      #' @param x A vector of points
-      #' @param poisson.eps A value of tolerance error for uniformization
-      #' @param ufactor A value of uniformization factor
-      #' @param ... Others
-      #' @return A vector of densities.
-      #' @note
-      #' This function provides the values of p.d.f. for PH distribution with
-      #' the uniformization technique.
-      pdf = function(x, poisson.eps = 1.0e-8, ufactor = 1.01, ...) {
-        inv <- order(order(x))
-        sx <- sort(x)
-        dt <- c(sx[1], diff(sx))
-        y <- phase_dist_pdf(dt, max(dt), self$alpha, self$Q, self$xi,
-                            poisson.eps, ufactor, private$P)
-        y[inv]
-      },
-      
-      #' @description 
-      #' CDF
-      #' @param x A vector of points
-      #' @param poisson.eps A value of tolerance error for uniformization
-      #' @param ufactor A value of uniformization factor
-      #' @param ... Others
-      #' @return A vector of probabilities
-      #' @note
-      #' This function provides the values of c.d.f. for PH distribution with
-      #' the uniformization technique.
-      cdf = function(x, poisson.eps = 1.0e-8, ufactor = 1.01, ...) {
-        inv <- order(order(x))
-        sx <- sort(x)
-        dt <- c(sx[1], diff(sx))
-        y <- phase_dist_ccdf(dt, max(dt), self$alpha, self$Q,
-                             poisson.eps, ufactor, private$P)
-        1 - y[inv]
-      },
+    make.matrix = function() {
+      as(as.matrix(private$param.Q), private$matclass)
+    }      
+  ),
+  public = list(
+    #' @description 
+    #' Get alpha
+    #' @return A vector of alpha
+    alpha = function() private$param.alpha,
 
-      #' @description 
-      #' Complementary CDF
-      #' @param x A vector of points
-      #' @param poisson.eps A value of tolerance error for uniformization
-      #' @param ufactor A value of uniformization factor
-      #' @param ... Others
-      #' @return A vector of probabilies
-      #' @note
-      #' This function provides the values of complementary c.d.f. for
-      #' PH distribution with the uniformization technique.
-      ccdf = function(x, poisson.eps = 1.0e-8, ufactor = 1.01, ...) {
-        inv <- order(order(x))
-        sx <- sort(x)
-        dt <- c(sx[1], diff(sx))
-        y <- phase_dist_ccdf(dt, max(dt), self$alpha, self$Q,
-                            poisson.eps, ufactor, private$P)
-        y[inv]
-      },
-      
-      #' @description 
-      #' Make a sample
-      #' @param ... Others
-      #' @return A sample of GPH
-      sample = function(...) {
-        s <- which(as.vector(rmultinom(n=1, size=1, prob=c(self$alpha,0)))==1)
-        t <- 0
-        while (s != self$size()+1) {
-          x <- c(self$Q[s,], self$xi[s])
-          r <- -x[s]
-          p <- x / r
-          p[s] <- p[s] + 1
-          t <- t + rexp(n=1, rate=r)
-          s <- which(as.vector(rmultinom(n=1, size=1, prob=p))==1)
-        }
-        t
+    #' @description 
+    #' Get Q
+    #' @return A matrix of Q
+    Q = function() private$param.Q,
+
+    #' @description 
+    #' Get xi
+    #' @return A vector of xi
+    xi = function() private$param.xi,
+
+    #' @description
+    #' Create a GPH
+    #' @param alpha A vector of initial probability
+    #' @param Q An infinitesimal generator
+    #' @param xi An exit rate vector
+    #' @return An instance of GPH
+    initialize = function(alpha, Q, xi) {
+      # check
+      if (!(length(alpha) == length(xi) && length(alpha) == dim(Q)[1] && length(alpha) == dim(Q)[2])) {
+        stop(sprintf("Error: vector and matrix size are wrong"))
       }
-    )
+      private$param.alpha <- alpha / sum(alpha)
+      diag(Q) <- 0
+      diag(Q) <- -(apply(Q, 1, sum) + xi)
+      private$param.Q <- as(Q, private$matclass)
+      private$param.xi <- xi
+    },
+    
+    #' @description 
+    #' The number of phases
+    #' @return The number of phases
+    size = function() {
+      length(self$alpha())
+    },
+
+    #' @description 
+    #' Degrees of freedom
+    #' @return The degrees of freedom
+    df = function() {
+      zero <- 1.0e-8
+      sum(self$alpha() > zero) - 1 + sum(abs(self$Q()) > zero) +
+        sum(self$xi() > zero) - self$size() + sum(abs(Matrix::diag(self$Q())) < zero)
+    },
+    
+    #' @description 
+    #' Moments of GPH
+    #' @param k A value to indicate the degrees of moments. k-th moment
+    #' @param ... Others
+    #' @return A vector of moments from 1st to k-th moments
+    moment = function(k, ...) {
+      tmp <- self$alpha()
+      A <- t(-as.matrix(self$Q()))
+      tmp2 <- 1.0
+      res <- numeric(0)
+      for (i in 1:k) {
+        tmp <- solve(a=A, b=tmp)
+        tmp2 <- tmp2 * i
+        res <- c(res, tmp2 * sum(tmp))
+      }
+      res
+    },
+    
+    #' @description 
+    #' Print
+    #' @param ... Others
+    print = function(...) {
+      cat(gettextf("Size : %d\n", self$size()))
+      cat("Initial : ", self$alpha(), "\n")
+      cat("Exit    : ", self$xi(), "\n")
+      cat("Infinitesimal generator : \n")
+      print(self$Q())
+    },
+    
+    #' @description 
+    #' PDF
+    #' @param x A vector of points
+    #' @param poisson.eps A value of tolerance error for uniformization
+    #' @param ufactor A value of uniformization factor
+    #' @param ... Others
+    #' @return A vector of densities.
+    #' @note
+    #' This function provides the values of p.d.f. for PH distribution with
+    #' the uniformization technique.
+    pdf = function(x, poisson.eps = 1.0e-8, ufactor = 1.01, ...) {
+      alpha <- self$alpha()
+      Q <- self$Q()
+      xi <- self$xi()
+      P <- private$make.matrix()
+      inv <- order(order(x))
+      sx <- sort(x)
+      dt <- c(sx[1], diff(sx))
+      y <- phase_dist_pdf(dt, max(dt), alpha, Q, xi, poisson.eps, ufactor, P)
+      y[inv]
+    },
+    
+    #' @description 
+    #' CDF
+    #' @param x A vector of points
+    #' @param poisson.eps A value of tolerance error for uniformization
+    #' @param ufactor A value of uniformization factor
+    #' @param ... Others
+    #' @return A vector of probabilities
+    #' @note
+    #' This function provides the values of c.d.f. for PH distribution with
+    #' the uniformization technique.
+    cdf = function(x, poisson.eps = 1.0e-8, ufactor = 1.01, ...) {
+      alpha <- self$alpha()
+      Q <- self$Q()
+      P <- private$make.matrix()
+      inv <- order(order(x))
+      sx <- sort(x)
+      dt <- c(sx[1], diff(sx))
+      y <- phase_dist_ccdf(dt, max(dt), alpha, Q, poisson.eps, ufactor, P)
+      1 - y[inv]
+    },
+
+    #' @description 
+    #' Complementary CDF
+    #' @param x A vector of points
+    #' @param poisson.eps A value of tolerance error for uniformization
+    #' @param ufactor A value of uniformization factor
+    #' @param ... Others
+    #' @return A vector of probabilies
+    #' @note
+    #' This function provides the values of complementary c.d.f. for
+    #' PH distribution with the uniformization technique.
+    ccdf = function(x, poisson.eps = 1.0e-8, ufactor = 1.01, ...) {
+      alpha <- self$alpha()
+      Q <- self$Q()
+      P <- private$make.matrix()
+      inv <- order(order(x))
+      sx <- sort(x)
+      dt <- c(sx[1], diff(sx))
+      y <- phase_dist_ccdf(dt, max(dt), alpha, Q, poisson.eps, ufactor, P)
+      y[inv]
+    },
+    
+    #' @description 
+    #' Make a sample
+    #' @param ... Others
+    #' @return A sample of GPH
+    sample = function(...) {
+      size <- self$size()
+      alpha <- self$alpha()
+      Q <- self$Q()
+      xi <- self$xi()
+      s <- which(as.vector(rmultinom(n=1, size=1, prob=c(alpha,0)))==1)
+      t <- 0
+      while (s != size+1) {
+        x <- c(Q[s,], xi[s])
+        r <- -x[s]
+        p <- x / r
+        p[s] <- p[s] + 1
+        t <- t + rexp(n=1, rate=r)
+        s <- which(as.vector(rmultinom(n=1, size=1, prob=p))==1)
+      }
+      t
+    },
+    
+    #' @description 
+    #' Run EM
+    #' @param data A dataframe
+    #' @param options A list of options
+    #' @param ... Others
+    emfit = function(data, options, ...) {
+      con <- list(...)
+      nmsC <- names(options)
+      options[(namc <- names(con))] <- con
+
+      alpha <- self$alpha()
+      Q <- self$Q()
+      xi <- self$xi()
+      P <- private$make.matrix()
+      H <- private$make.matrix()
+      switch(class(data),
+             "phase.time" = emfit_gph_wtime(alpha, Q, xi, data, options, P, H),
+             "phase.group" = emfit_gph_group(alpha, Q, xi, data, options, P, H)
+      )
+    },
+    
+    #' @description 
+    #' Initialize with data
+    #' @param data A dataframe
+    #' @param options A list of options
+    #' @param ... Others
+    init = function(data, ...) {
+      ph <- gph.param(data, self)
+      self$initialize(ph$alpha(), ph$Q(), ph$xi())
+    }
+  )
 )
 
 #' Create GPH distribution
@@ -209,6 +269,39 @@ ph <- function(size, alpha, Q, xi) {
   GPH$new(alpha=alpha, Q=Q, xi=xi)
 }
 
+#' Create a Coxian PH distribution
+#' 
+#' Create an instance of coxian PH distribution.
+#' 
+#' @param size An integer for the number of phases
+#' @return An instance of coxian PH distribution
+#' 
+#' @note
+#' Coxian PH distribution is the PH distribution whose infinitesimal
+#' generator is given by a upper bi-diagonal matrix. This is also called
+#' canonical form 3.
+#' 
+#' @examples
+#' ## create a Coxian PH with 5 phases
+#' (param1 <- ph.coxian(5))
+#'
+#' @export
+
+ph.coxian <- function(size) {
+  if (size <= 1) {
+    ph(size)
+  } else {
+    alpha <- c(1, rep(0,size-1))
+    xi <- rep(1, size)
+    Q <- matrix(0, size, size)
+    for (i in 1:(size-1)) {
+      Q[i,i] <- -2
+      Q[i,i+1] <- 1
+    }
+    Q[size,size] <- -1
+    ph(alpha=alpha, Q=Q, xi=xi)
+  }
+}
 
 #' Create a bi-diagonal PH distribution
 #' 
@@ -428,73 +521,34 @@ ph.var <- function(ph, ...) {
   x[2] - x[1]^2
 }
 
-#' setMethod("emfit.init", signature(model = "ph"),
-#'   function(model, data, verbose = list(), ...) {
-#'     ph.param.random(size=model@size, data=data,
-#'       skelpi=model@alpha, skelQ=as.matrix(model@Q),
-#'       skelxi=model@xi, verbose=verbose, class=class(model@Q))
-#'   }
-#' )
+
+#' Generate GPH using the information on data
 #' 
-#' ph.param.random <- function(size, data, skelpi, skelQ, skelxi, verbose, class) {
-#'   if (missing(size)) size <- length(skelpi)
-#'   if (missing(skelpi)) skelpi <- rep(1, size)
-#'   if (missing(skelQ)) skelQ <- matrix(1, size, size)
-#'   if (missing(skelxi)) skelxi <- rep(1, size)
+#' Generate GPH randomly and adjust parameters to fit its first moment to
+#' the first moment of data.
 #' 
-#'   mean <- mapfit.mean(data)
+#' @param data A dataframe
+#' @param skel An instance of skeleton of GPH.
+#' @param ... Others
+#' @return An instance of GPH
 #' 
-#'   alpha <- skelpi * runif(size)
-#'   alpha <- alpha / sum(alpha)
-#' 
-#'   diag(skelQ) <- 0
-#'   Q <- skelQ * matrix(runif(size*size), size, size)
-#'   xi <- skelxi * runif(size)
-#'   diag(Q) <- -(apply(Q, 1, sum) + xi)
-#' 
-#'   p <- ph(alpha=alpha, Q=Q, xi=xi, class=class)
-#'   m <- ph.mean(p) / mean
-#'   p@Q <- as(as.matrix(p@Q * m), class)
-#'   p@xi <- p@xi * m
-#'   p
-#' }
-#' 
-#' #### estep
-#' 
-#' setMethod("emfit.estep", signature(model = "ph", data = "phdata.wtime"),
-#'   function(model, data, ufact = 1.01, eps = sqrt(.Machine$double.eps), ...) {
-#'     res <- .Call('phfit_estep_gen_wtime', PACKAGE='mapfit', model, data, eps, ufact)
-#'     list(eres=list(etotal=res[[1]], eb=res[[2]], ey=res[[3]], ez=res[[4]], en=res[[5]]), llf=res[[6]])
-#'   })
-#' 
-#' setMethod("emfit.estep", signature(model = "ph", data = "phdata.group"),
-#'   function(model, data, ufact = 1.01, eps = sqrt(.Machine$double.eps), ...) {
-#' 
-#'   data@data$instant[is.na(data@data$counts)] <- 0
-#'   data@data$counts[is.na(data@data$counts)] <- -1
-#'   l <- data@size
-#'   if (is.infinite(data@data$time[l])) {
-#'     gdatlast <- data@data$counts[l]
-#'     data@data <- data@data[-l,]
-#'     data@size <- data@size - 1
-#'   } else {
-#'     gdatlast <- 0
-#'   }
-#' 
-#'   ba <- msolve(alpha=1.0, A=-as.matrix(model@Q), x=model@alpha, transpose=TRUE)
-#' 
-#'   res <- .Call('phfit_estep_gen_group', PACKAGE='mapfit', model, ba, data, gdatlast, eps, ufact)
-#'   list(eres=list(etotal=res[[1]], eb=res[[2]], ey=res[[3]], ez=res[[4]], en=res[[5]]), llf=res[[6]])
-#'   })
-#' 
-#' #### mstep
-#' 
-#' setMethod("emfit.mstep", signature(model = "ph"),
-#'   function(model, eres, data, ...) {
-#'     res <- .Call('phfit_mstep_gen', PACKAGE='mapfit', model, eres, data)
-#'     model@alpha <- res[[1]]
-#'     model@xi <- res[[2]]
-#'     model@Q@x <- res[[3]]
-#'     model
-#'   })
-#' 
+#' @export
+
+gph.param <- function(data, skel, ...) {
+  size <- skel$size()
+  alpha <- skel$alpha()
+  Q <- skel$Q()
+  xi <- skel$xi()
+  
+  alpha <- alpha * runif(size)
+  alpha <- alpha / sum(alpha)
+  Q <- as.matrix(Q) * matrix(runif(size*size), size, size)
+  xi <- xi * runif(size)
+  diag(Q) <- 0
+  diag(Q) <- -(apply(Q, 1, sum) + xi)
+  scale <- sum(solve(a=-t(Q), b=alpha)) / mean(data)
+  Q <- Q * scale
+  xi <- xi * scale
+  ph(alpha=alpha, Q=Q, xi=xi)
+}
+

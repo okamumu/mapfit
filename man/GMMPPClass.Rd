@@ -18,6 +18,7 @@ A point process dominated by a continuous-time Markov chain.
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-GMMPPClass-new}{\code{GMMPPClass$new()}}
+\item \href{#method-GMMPPClass-copy}{\code{GMMPPClass$copy()}}
 \item \href{#method-GMMPPClass-emfit}{\code{GMMPPClass$emfit()}}
 \item \href{#method-GMMPPClass-clone}{\code{GMMPPClass$clone()}}
 }
@@ -63,6 +64,19 @@ Create a MAP
 }
 \subsection{Returns}{
 An instance of MAP
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-GMMPPClass-copy"></a>}}
+\if{latex}{\out{\hypertarget{method-GMMPPClass-copy}{}}}
+\subsection{Method \code{copy()}}{
+copy
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{GMMPPClass$copy()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+A new instance
 }
 }
 \if{html}{\out{<hr>}}

@@ -22,6 +22,7 @@ is determiend by the ascending order.
 \itemize{
 \item \href{#method-CF1Class-rate}{\code{CF1Class$rate()}}
 \item \href{#method-CF1Class-new}{\code{CF1Class$new()}}
+\item \href{#method-CF1Class-copy}{\code{CF1Class$copy()}}
 \item \href{#method-CF1Class-print}{\code{CF1Class$print()}}
 \item \href{#method-CF1Class-sample}{\code{CF1Class$sample()}}
 \item \href{#method-CF1Class-emfit}{\code{CF1Class$emfit()}}
@@ -77,6 +78,19 @@ Create a CF1
 }
 \subsection{Returns}{
 An instance of CF1
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-CF1Class-copy"></a>}}
+\if{latex}{\out{\hypertarget{method-CF1Class-copy}{}}}
+\subsection{Method \code{copy()}}{
+copy
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{CF1Class$copy()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+A new instance
 }
 }
 \if{html}{\out{<hr>}}

@@ -18,6 +18,7 @@ A mixture of Erlang distributions. A subclass of PH distributions.
 \item \href{#method-HErlangClass-shape}{\code{HErlangClass$shape()}}
 \item \href{#method-HErlangClass-rate}{\code{HErlangClass$rate()}}
 \item \href{#method-HErlangClass-new}{\code{HErlangClass$new()}}
+\item \href{#method-HErlangClass-copy}{\code{HErlangClass$copy()}}
 \item \href{#method-HErlangClass-size}{\code{HErlangClass$size()}}
 \item \href{#method-HErlangClass-df}{\code{HErlangClass$df()}}
 \item \href{#method-HErlangClass-moment}{\code{HErlangClass$moment()}}
@@ -92,6 +93,19 @@ Create a hyper-Erlang distribution
 }
 \subsection{Returns}{
 An instance of HErlang
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-HErlangClass-copy"></a>}}
+\if{latex}{\out{\hypertarget{method-HErlangClass-copy}{}}}
+\subsection{Method \code{copy()}}{
+copy
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{HErlangClass$copy()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+A new instance
 }
 }
 \if{html}{\out{<hr>}}

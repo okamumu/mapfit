@@ -20,6 +20,7 @@ A special case of MAP.
 \item \href{#method-ERHMMClass-P}{\code{ERHMMClass$P()}}
 \item \href{#method-ERHMMClass-xi}{\code{ERHMMClass$xi()}}
 \item \href{#method-ERHMMClass-new}{\code{ERHMMClass$new()}}
+\item \href{#method-ERHMMClass-copy}{\code{ERHMMClass$copy()}}
 \item \href{#method-ERHMMClass-size}{\code{ERHMMClass$size()}}
 \item \href{#method-ERHMMClass-df}{\code{ERHMMClass$df()}}
 \item \href{#method-ERHMMClass-print}{\code{ERHMMClass$print()}}
@@ -122,6 +123,19 @@ Create an ERHMM
 }
 \subsection{Returns}{
 An instance of ERHMM
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ERHMMClass-copy"></a>}}
+\if{latex}{\out{\hypertarget{method-ERHMMClass-copy}{}}}
+\subsection{Method \code{copy()}}{
+copy
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ERHMMClass$copy()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+A new instance
 }
 }
 \if{html}{\out{<hr>}}

@@ -19,6 +19,7 @@ A point process dominated by a continuous-time Markov chain.
 \item \href{#method-MAPClass-D1}{\code{MAPClass$D1()}}
 \item \href{#method-MAPClass-xi}{\code{MAPClass$xi()}}
 \item \href{#method-MAPClass-new}{\code{MAPClass$new()}}
+\item \href{#method-MAPClass-copy}{\code{MAPClass$copy()}}
 \item \href{#method-MAPClass-size}{\code{MAPClass$size()}}
 \item \href{#method-MAPClass-df}{\code{MAPClass$df()}}
 \item \href{#method-MAPClass-print}{\code{MAPClass$print()}}
@@ -106,6 +107,19 @@ Create a MAP
 }
 \subsection{Returns}{
 An instance of MAP
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-MAPClass-copy"></a>}}
+\if{latex}{\out{\hypertarget{method-MAPClass-copy}{}}}
+\subsection{Method \code{copy()}}{
+copy
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{MAPClass$copy()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+A new instance
 }
 }
 \if{html}{\out{<hr>}}

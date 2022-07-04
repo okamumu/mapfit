@@ -29,6 +29,7 @@ PH distribution with the uniformization technique.
 \item \href{#method-GPHClass-Q}{\code{GPHClass$Q()}}
 \item \href{#method-GPHClass-xi}{\code{GPHClass$xi()}}
 \item \href{#method-GPHClass-new}{\code{GPHClass$new()}}
+\item \href{#method-GPHClass-copy}{\code{GPHClass$copy()}}
 \item \href{#method-GPHClass-size}{\code{GPHClass$size()}}
 \item \href{#method-GPHClass-df}{\code{GPHClass$df()}}
 \item \href{#method-GPHClass-moment}{\code{GPHClass$moment()}}
@@ -103,6 +104,19 @@ Create a GPH
 }
 \subsection{Returns}{
 An instance of GPH
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-GPHClass-copy"></a>}}
+\if{latex}{\out{\hypertarget{method-GPHClass-copy}{}}}
+\subsection{Method \code{copy()}}{
+copy
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{GPHClass$copy()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+A new instance
 }
 }
 \if{html}{\out{<hr>}}

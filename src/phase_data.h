@@ -82,4 +82,28 @@ struct PHGroupSamplePoi{
   }
 };
 
+// left-truncated and right-censored saample
+
+template <typename VT, typename VI>
+struct PHLeftRightSample{
+  using TimeType = VT;
+  using IndicatorType = VI;
+  VT time;
+  VI nu; // indicator: 0 exact, 1 right censoring, 3 left truncation
+  double maxtime;
+
+  PHLeftRightSample(
+    const VT& _time,
+    const VI& _nu,
+    double _maxtime)
+    : time(_time),
+      nu(_nu),
+      maxtime(_maxtime){}
+  
+  inline int size() const {
+    using trait = vector_traits<VT>;
+    return trait::size(time);
+  }
+};
+
 #endif

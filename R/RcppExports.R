@@ -25,6 +25,10 @@ emfit_cf1_group_poi <- function(omega, alpha, rate, data, options, Q0, P0, H0) {
     .Call(`_mapfit_emfit_cf1_group_poi`, omega, alpha, rate, data, options, Q0, P0, H0)
 }
 
+emfit_cf1_leftright <- function(alpha, rate, data, options, Q0, P0, H0) {
+    .Call(`_mapfit_emfit_cf1_leftright`, alpha, rate, data, options, Q0, P0, H0)
+}
+
 emfit_gph_wtime <- function(alpha, Q0, xi, data, options, P0, H0) {
     .Call(`_mapfit_emfit_gph_wtime`, alpha, Q0, xi, data, options, P0, H0)
 }
@@ -35,6 +39,10 @@ emfit_gph_group <- function(alpha, Q0, xi, data, options, P0, H0) {
 
 emfit_gph_group_poi <- function(omega, alpha, Q0, xi, data, options, P0, H0) {
     .Call(`_mapfit_emfit_gph_group_poi`, omega, alpha, Q0, xi, data, options, P0, H0)
+}
+
+emfit_gph_leftright <- function(alpha, Q0, xi, data, options, P0, H0) {
+    .Call(`_mapfit_emfit_gph_leftright`, alpha, Q0, xi, data, options, P0, H0)
 }
 
 emfit_herlang_wtime <- function(alpha, shape, rate, data, options) {

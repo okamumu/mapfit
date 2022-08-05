@@ -83,7 +83,8 @@ CF1Class <- R6::R6Class(
       H <- super$make.matrix()
       switch(class(data),
         "phase.time" = emfit_cf1_wtime(alpha, rate, data, options, Q, P, H),
-        "phase.group" = emfit_cf1_group(alpha, rate, data, options, Q, P, H)
+        "phase.group" = emfit_cf1_group(alpha, rate, data, options, Q, P, H),
+        "phase.surv" = emfit_cf1_leftright(alpha, rate, data, options, Q, P, H)
       )
     },
     

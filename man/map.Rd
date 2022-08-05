@@ -23,7 +23,7 @@ Create an instance of MAP
 }
 \note{
 This function can omit several patterns of arguments. For example, \code{map(5)}
-omit the arguments \code{alpha}, \code{Q} and \code{xi}. In this case, the default values are
+omit the arguments \code{alpha}, \code{D0} \code{D1} and \code{xi}. In this case, the default values are
 assigned to them.
 }
 \examples{

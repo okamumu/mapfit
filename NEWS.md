@@ -1,3 +1,7 @@
+# mapfit 1.1.0
+
+- Add survival for PH with left-truncated and right-censored data
+
 # mapfit 1.0.0
 
 - Refactor with Rcpp

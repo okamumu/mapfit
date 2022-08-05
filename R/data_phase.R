@@ -129,3 +129,75 @@ mean.phase.group <- function(x, ...) {
   m <- sum(time * counts) + sum(time[ind])
   m / (sum(counts) + sum(ind))
 }
+
+#' Create left-truncated and right-censored data for phase
+#' 
+#' Provide the data.frame for left-truncated and right-censored data.
+#' 
+#' @param x A vector of time points
+#' @param delta A vector of indicators whether x is censoring time or not. If delta=1, the corresponding x is the censoring time
+#' If delta=0, the corresponding x is the event time.
+#' @param tau A vector of left-truncation time points. If tau is missing, all the left-truncation times are NA (no truncation).
+#' @return A dataframe
+#' @examples
+#' dat <- data.frame.phase.surv(x=c(1.0, 4.5, 1.2), delta=c(1, 0, 0), tau=c(NA, 2.0, NA))
+#' print(dat)
+#' mean(dat)
+#' 
+#' @export
+
+data.frame.phase.surv <- function(x, delta, tau) {
+  if (missing(delta)) {
+    delta <- rep(0, length(x))
+  }
+  if (missing(tau)) {
+    tau <- rep(NA, length(x))
+  }
+
+  # length check
+  if (! (length(x) == length(delta) && length(x) == length(tau))) {
+    stop(sprintf("The length of time, counts, indicators should be same. x=%d, delta=%d, tau=%d",
+                 length(x), length(delta), length(tau)))
+  }
+  # value check
+  s <- is.finite(tau)
+  if (all(x[s] >= tau[s]) != TRUE) {
+    stop(sprintf("The left-truncation time should be less than or equal to x"))
+  }
+  if (all(delta == 1 | delta == 0) != TRUE) {
+    stop(sprintf("The delta should be 0 or 1"))
+  }
+  
+  # replace na to 0.0
+  tau[is.na(tau)] <- 0.0
+  d <- sapply(delta, function(v) ifelse(v==1, 0, 1))
+
+  t <- c(x, tau)
+  nu <- c(d, rep(3, length(x)))
+  
+  s <- order(t)
+  dt <- diff(c(0, t[s]))
+  nu <- nu[s]
+  
+  data <- list(
+    intervals = dt,
+    nu = nu,
+    maxinterval = max(dt))
+  class(data) <- "phase.surv"
+  data
+}
+
+#' @aliases data.frame.phase.surv
+#' @export
+print.phase.surv <- function(x, ...) {
+  print(data.frame(intervals=x$intervals, nu=x$nu))
+}
+
+#' @aliases data.frame.phase.surv
+#' @export
+mean.phase.surv <- function(x, ...) {
+  s <- (x$nu == 0) | (x$nu == 1)
+  t <- cumsum(x$intervals)[s]
+  m <- sum(t)
+  m / length(t)
+}

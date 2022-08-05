@@ -266,7 +266,56 @@ phfit.density <- function(
   result
 }
 
-#' @aliases phfit.point phfit.group
+#' PH fitting with left-truncated and right-censored data
+#' 
+#' Estimates PH parameters from left-truncated and right-censored data.
+#' 
+#' @param ph An object of R6 class for PH. The estimation algorithm is selected depending on this class.
+#' @param x A vector for point data (censoring time or event time).
+#' @param delta A vector of indicators whether x is censoring time or not. If delta=1, the corresponding x is the censoring time
+#' If delta=0, the corresponding x is the event time.
+#' @param tau A vector of left-truncation time points. If tau is missing, all the left-truncation times are NA (no truncation).
+#' @param ... Further options for fitting methods.
+#' @return
+#' Returns a list with components, which is an object of S3 class \code{phfit.result};
+#' \item{model}{an object for estimated PH class.}
+#' \item{llf}{a value of the maximum log-likelihood.}
+#' \item{df}{a value of degrees of freedom of the model.}
+#' \item{aic}{a value of Akaike information criterion.}
+#' \item{iter}{the number of iterations.}
+#' \item{convergence}{a logical value for the convergence of estimation algorithm.}
+#' \item{ctime}{computation time (user time).}
+#' \item{data}{an object for data class}
+#' \item{aerror}{a value of absolute error for llf at the last step of algorithm.}
+#' \item{rerror}{a value of relative error for llf at the last step of algorithm.}
+#' \item{options}{a list of optiions used for fitting.}
+#' \item{call}{the matched call.}
+#' 
+#' @export
+
+phfit.surv <- function(ph, x, delta, tau, ...) {
+  call <- match.call()
+  ph <- ph$copy()
+  
+  options <- emoptions()
+  con <- list(...)
+  nmsC <- names(options)
+  options[(namc <- names(con))] <- con
+  if (length(noNms <- namc[!namc %in% nmsC])) 
+    warning("unknown names in control: ", paste(noNms, collapse = ", "))
+  
+  data <- data.frame.phase.surv(x=x, delta=delta, tau=tau)
+  if (options$initialize == TRUE) {
+    ph$init(data, options)
+  }
+  tres <- system.time(result <- ph$emfit(data, options, ...))
+  result <- c(result, list(model=ph, aic=-2*(result$llf - ph$df()), df=ph$df(),
+                           data=data, ctime=tres[1], options=options, call=call))
+  class(result) <- "phfit.result"
+  result
+}
+
+#' @aliases phfit.point phfit.group phfit.surv
 #' @export
 
 print.phfit.result <- function (x, ...) {

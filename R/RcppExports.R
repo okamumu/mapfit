@@ -13,10 +13,6 @@ emfit_gmmpp_group <- function(alpha, xi, xD0, xD1, data, options, xP0, xP1, xen0
     .Call(`_mapfit_emfit_gmmpp_group`, alpha, xi, xD0, xD1, data, options, xP0, xP1, xen0, xen1, xG, xPsiT1, xPsiT2, xPsiN1, xPsiN2, xtmpm)
 }
 
-emfit_cf1_wtime <- function(alpha, rate, data, options, Q0, P0, H0) {
-    .Call(`_mapfit_emfit_cf1_wtime`, alpha, rate, data, options, Q0, P0, H0)
-}
-
 emfit_cf1_group <- function(alpha, rate, data, options, Q0, P0, H0) {
     .Call(`_mapfit_emfit_cf1_group`, alpha, rate, data, options, Q0, P0, H0)
 }
@@ -29,8 +25,8 @@ emfit_cf1_leftright <- function(alpha, rate, data, options, Q0, P0, H0) {
     .Call(`_mapfit_emfit_cf1_leftright`, alpha, rate, data, options, Q0, P0, H0)
 }
 
-emfit_gph_wtime <- function(alpha, Q0, xi, data, options, P0, H0) {
-    .Call(`_mapfit_emfit_gph_wtime`, alpha, Q0, xi, data, options, P0, H0)
+emfit_cf1_wtime <- function(alpha, rate, data, options, Q0, P0, H0) {
+    .Call(`_mapfit_emfit_cf1_wtime`, alpha, rate, data, options, Q0, P0, H0)
 }
 
 emfit_gph_group <- function(alpha, Q0, xi, data, options, P0, H0) {
@@ -45,8 +41,8 @@ emfit_gph_leftright <- function(alpha, Q0, xi, data, options, P0, H0) {
     .Call(`_mapfit_emfit_gph_leftright`, alpha, Q0, xi, data, options, P0, H0)
 }
 
-emfit_herlang_wtime <- function(alpha, shape, rate, data, options) {
-    .Call(`_mapfit_emfit_herlang_wtime`, alpha, shape, rate, data, options)
+emfit_gph_wtime <- function(alpha, Q0, xi, data, options, P0, H0) {
+    .Call(`_mapfit_emfit_gph_wtime`, alpha, Q0, xi, data, options, P0, H0)
 }
 
 emfit_herlang_group <- function(alpha, shape, rate, data, options) {
@@ -55,6 +51,10 @@ emfit_herlang_group <- function(alpha, shape, rate, data, options) {
 
 emfit_herlang_group_poi <- function(alpha, shape, rate, omega, data, options) {
     .Call(`_mapfit_emfit_herlang_group_poi`, alpha, shape, rate, omega, data, options)
+}
+
+emfit_herlang_wtime <- function(alpha, shape, rate, data, options) {
+    .Call(`_mapfit_emfit_herlang_wtime`, alpha, shape, rate, data, options)
 }
 
 markov_gth_dense <- function(Q, x) {

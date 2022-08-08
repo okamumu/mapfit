@@ -2,7 +2,7 @@
 #define MAPFIT_PHASE_CF1
 
 #include <Rcpp.h>
-#include "phase_gen.h"
+#include "phase_gen_mstep.h"
 
 template <typename G1, typename G2, typename G0, typename T1, typename GPHT>
 void phcopy(const GPH<G1,G2,G0>& gph, CF1<T1,GPHT>& cf1) {

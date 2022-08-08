@@ -1,10 +1,10 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-#include "phase_gen.h"
-#include "phase_cf1.h"
+#include "unif.h"
 #include "poisson.h"
 #include "blas.h"
+#include "phase_cf1.h"
 
 // [[Rcpp::export]]
 NumericVector phase_dist_pdf(

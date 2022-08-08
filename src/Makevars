@@ -2,9 +2,17 @@ PKG_LIBS = $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)
 OBJECTS = \
 	gamma.o \
 	phase_dist.o \
-	emfit_phase_gen.o \
-	emfit_phase_cf1.o \
-	emfit_phase_herlang.o \
+	emfit_phase_gen_wtime.o \
+	emfit_phase_gen_group.o \
+	emfit_phase_gen_grouppoi.o \
+	emfit_phase_gen_leftright.o \
+	emfit_phase_cf1_wtime.o \
+	emfit_phase_cf1_group.o \
+	emfit_phase_cf1_grouppoi.o \
+	emfit_phase_cf1_leftright.o \
+	emfit_phase_herlang_wtime.o \
+	emfit_phase_herlang_group.o \
+	emfit_phase_herlang_grouppoi.o \
 	emfit_map_gen.o \
 	emfit_map_erhmm.o \
 	emfit_map_gmmpp.o \

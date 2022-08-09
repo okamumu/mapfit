@@ -33,28 +33,56 @@ emfit_gph_group <- function(alpha, Q0, xi, data, options, P0, H0) {
     .Call(`_mapfit_emfit_gph_group`, alpha, Q0, xi, data, options, P0, H0)
 }
 
+llf_gph_group <- function(alpha, Q0, xi, data, eps, ufactor, P0) {
+    .Call(`_mapfit_llf_gph_group`, alpha, Q0, xi, data, eps, ufactor, P0)
+}
+
 emfit_gph_group_poi <- function(omega, alpha, Q0, xi, data, options, P0, H0) {
     .Call(`_mapfit_emfit_gph_group_poi`, omega, alpha, Q0, xi, data, options, P0, H0)
+}
+
+llf_gph_group_poi <- function(omega, alpha, Q0, xi, data, eps, ufactor, P0) {
+    .Call(`_mapfit_llf_gph_group_poi`, omega, alpha, Q0, xi, data, eps, ufactor, P0)
 }
 
 emfit_gph_leftright <- function(alpha, Q0, xi, data, options, P0, H0) {
     .Call(`_mapfit_emfit_gph_leftright`, alpha, Q0, xi, data, options, P0, H0)
 }
 
+llf_gph_leftright <- function(alpha, Q0, xi, data, eps, ufactor, P0) {
+    .Call(`_mapfit_llf_gph_leftright`, alpha, Q0, xi, data, eps, ufactor, P0)
+}
+
 emfit_gph_wtime <- function(alpha, Q0, xi, data, options, P0, H0) {
     .Call(`_mapfit_emfit_gph_wtime`, alpha, Q0, xi, data, options, P0, H0)
+}
+
+llf_gph_wtime <- function(alpha, Q0, xi, data, eps, ufactor, P0) {
+    .Call(`_mapfit_llf_gph_wtime`, alpha, Q0, xi, data, eps, ufactor, P0)
 }
 
 emfit_herlang_group <- function(alpha, shape, rate, data, options) {
     .Call(`_mapfit_emfit_herlang_group`, alpha, shape, rate, data, options)
 }
 
+llf_herlang_group <- function(alpha, shape, rate, data) {
+    .Call(`_mapfit_llf_herlang_group`, alpha, shape, rate, data)
+}
+
 emfit_herlang_group_poi <- function(alpha, shape, rate, omega, data, options) {
     .Call(`_mapfit_emfit_herlang_group_poi`, alpha, shape, rate, omega, data, options)
 }
 
+llf_herlang_group_poi <- function(alpha, shape, rate, omega, data) {
+    .Call(`_mapfit_llf_herlang_group_poi`, alpha, shape, rate, omega, data)
+}
+
 emfit_herlang_wtime <- function(alpha, shape, rate, data, options) {
     .Call(`_mapfit_emfit_herlang_wtime`, alpha, shape, rate, data, options)
+}
+
+llf_herlang_wtime <- function(alpha, shape, rate, data) {
+    .Call(`_mapfit_llf_herlang_wtime`, alpha, shape, rate, data)
 }
 
 markov_gth_dense <- function(Q, x) {

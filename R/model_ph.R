@@ -212,10 +212,30 @@ GPHClass <- R6::R6Class(
       switch(class(data),
              "phase.time" = emfit_gph_wtime(alpha, Q, xi, data, options, P, H),
              "phase.group" = emfit_gph_group(alpha, Q, xi, data, options, P, H),
-             "phase.surv" = emfit_gph_leftright(alpha, Q, xi, data, options, P, H)
+             "phase.surv" = emfit_gph_leftright(alpha, Q, xi, data, options, P, H),
+             stop("phfit cannot use the dataform.")
       )
     },
     
+    #' @description 
+    #' Compute LLF
+    #' @param data A dataframe
+    #' @param poisson.eps A value of tolerance error for uniformization
+    #' @param ufactor A value of uniformization factor
+    #' @param ... Others
+    llf = function(data, poisson.eps = 1.0e-8, ufactor = 1.01, ...) {
+      alpha <- self$alpha()
+      Q <- self$Q()
+      xi <- self$xi()
+      P <- private$make.matrix()
+      switch(class(data),
+             "phase.time" = llf_gph_wtime(alpha, Q, xi, data, poisson.eps, ufactor, P),
+             "phase.group" = llf_gph_group(alpha, Q, xi, data, poisson.eps, ufactor, P),
+             "phase.surv" = llf_gph_leftright(alpha, Q, xi, data, poisson.eps, ufactor, P),
+             stop("phfit cannot use the dataform.")
+      )
+    },
+
     #' @description 
     #' Initialize with data
     #' @param data A dataframe

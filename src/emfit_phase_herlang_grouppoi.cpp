@@ -50,7 +50,28 @@ List emfit_herlang_group_poi(NumericVector alpha,
     Named("llf") = opts.llf,
     Named("convergence") = opts.status == Convergence);
 }
- 
+
+// [[Rcpp::export]]
+double llf_herlang_group_poi(NumericVector alpha,
+                             IntegerVector shape,
+                             NumericVector rate,
+                             double omega,
+                             List data) {
+  auto model = HErlangPoi<NumericVector, IntegerVector>(alpha, shape, rate, omega);
+  auto n = model.size();
+  auto tdat = as<NumericVector>(data["intervals"]);
+  auto gdat = as<IntegerVector>(data["counts"]);
+  auto idat = as<IntegerVector>(data["instants"]);
+  double maxtime = as<double>(data["maxinterval"]);
+  int glast = as<int>(data["lastcount"]);
+  auto m = tdat.length();
+  auto dat = PHGroupSample<NumericVector,IntegerVector,IntegerVector>(tdat, gdat, idat, maxtime, glast);
+  auto eres = HErlangEres<std::vector<double>>(std::vector<double>(n), std::vector<double>(n));
+  auto work = HErlangWorkSpaceGroupPoi(m, n);
+
+  return estep(model, dat, eres, 0, work);
+}
+
 /*** R
 alpha <- c(0.4, 0.6)
 rate <- c(1.0, 2.0)
@@ -60,4 +81,5 @@ dat <- list(intervals=c(1,2,1,3,4), counts=c(1,3,-1,2,4), instants=c(0,0,0,1,0),
 options <- list(maxiter=10, abstol=1.0e-3, reltol=1.0e-6, steps=5, em.verbose=TRUE)
 result <- emfit_herlang_group_poi(alpha, shape, rate, omega, dat, options)
 print(result)
+print(llf_herlang_group_poi(alpha, shape, rate, omega, dat))
 */

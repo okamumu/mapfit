@@ -162,6 +162,23 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// llf_gph_group
+double llf_gph_group(NumericVector alpha, S4 Q0, NumericVector xi, List data, double eps, double ufactor, S4 P0);
+RcppExport SEXP _mapfit_llf_gph_group(SEXP alphaSEXP, SEXP Q0SEXP, SEXP xiSEXP, SEXP dataSEXP, SEXP epsSEXP, SEXP ufactorSEXP, SEXP P0SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type alpha(alphaSEXP);
+    Rcpp::traits::input_parameter< S4 >::type Q0(Q0SEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type xi(xiSEXP);
+    Rcpp::traits::input_parameter< List >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< double >::type eps(epsSEXP);
+    Rcpp::traits::input_parameter< double >::type ufactor(ufactorSEXP);
+    Rcpp::traits::input_parameter< S4 >::type P0(P0SEXP);
+    rcpp_result_gen = Rcpp::wrap(llf_gph_group(alpha, Q0, xi, data, eps, ufactor, P0));
+    return rcpp_result_gen;
+END_RCPP
+}
 // emfit_gph_group_poi
 List emfit_gph_group_poi(double omega, NumericVector alpha, S4 Q0, NumericVector xi, List data, List options, S4 P0, S4 H0);
 RcppExport SEXP _mapfit_emfit_gph_group_poi(SEXP omegaSEXP, SEXP alphaSEXP, SEXP Q0SEXP, SEXP xiSEXP, SEXP dataSEXP, SEXP optionsSEXP, SEXP P0SEXP, SEXP H0SEXP) {
@@ -177,6 +194,24 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< S4 >::type P0(P0SEXP);
     Rcpp::traits::input_parameter< S4 >::type H0(H0SEXP);
     rcpp_result_gen = Rcpp::wrap(emfit_gph_group_poi(omega, alpha, Q0, xi, data, options, P0, H0));
+    return rcpp_result_gen;
+END_RCPP
+}
+// llf_gph_group_poi
+double llf_gph_group_poi(double omega, NumericVector alpha, S4 Q0, NumericVector xi, List data, double eps, double ufactor, S4 P0);
+RcppExport SEXP _mapfit_llf_gph_group_poi(SEXP omegaSEXP, SEXP alphaSEXP, SEXP Q0SEXP, SEXP xiSEXP, SEXP dataSEXP, SEXP epsSEXP, SEXP ufactorSEXP, SEXP P0SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< double >::type omega(omegaSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type alpha(alphaSEXP);
+    Rcpp::traits::input_parameter< S4 >::type Q0(Q0SEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type xi(xiSEXP);
+    Rcpp::traits::input_parameter< List >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< double >::type eps(epsSEXP);
+    Rcpp::traits::input_parameter< double >::type ufactor(ufactorSEXP);
+    Rcpp::traits::input_parameter< S4 >::type P0(P0SEXP);
+    rcpp_result_gen = Rcpp::wrap(llf_gph_group_poi(omega, alpha, Q0, xi, data, eps, ufactor, P0));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -197,6 +232,23 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// llf_gph_leftright
+double llf_gph_leftright(NumericVector alpha, S4 Q0, NumericVector xi, List data, double eps, double ufactor, S4 P0);
+RcppExport SEXP _mapfit_llf_gph_leftright(SEXP alphaSEXP, SEXP Q0SEXP, SEXP xiSEXP, SEXP dataSEXP, SEXP epsSEXP, SEXP ufactorSEXP, SEXP P0SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type alpha(alphaSEXP);
+    Rcpp::traits::input_parameter< S4 >::type Q0(Q0SEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type xi(xiSEXP);
+    Rcpp::traits::input_parameter< List >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< double >::type eps(epsSEXP);
+    Rcpp::traits::input_parameter< double >::type ufactor(ufactorSEXP);
+    Rcpp::traits::input_parameter< S4 >::type P0(P0SEXP);
+    rcpp_result_gen = Rcpp::wrap(llf_gph_leftright(alpha, Q0, xi, data, eps, ufactor, P0));
+    return rcpp_result_gen;
+END_RCPP
+}
 // emfit_gph_wtime
 List emfit_gph_wtime(NumericVector alpha, S4 Q0, NumericVector xi, List data, List options, S4 P0, S4 H0);
 RcppExport SEXP _mapfit_emfit_gph_wtime(SEXP alphaSEXP, SEXP Q0SEXP, SEXP xiSEXP, SEXP dataSEXP, SEXP optionsSEXP, SEXP P0SEXP, SEXP H0SEXP) {
@@ -214,6 +266,23 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// llf_gph_wtime
+double llf_gph_wtime(NumericVector alpha, S4 Q0, NumericVector xi, List data, double eps, double ufactor, S4 P0);
+RcppExport SEXP _mapfit_llf_gph_wtime(SEXP alphaSEXP, SEXP Q0SEXP, SEXP xiSEXP, SEXP dataSEXP, SEXP epsSEXP, SEXP ufactorSEXP, SEXP P0SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type alpha(alphaSEXP);
+    Rcpp::traits::input_parameter< S4 >::type Q0(Q0SEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type xi(xiSEXP);
+    Rcpp::traits::input_parameter< List >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< double >::type eps(epsSEXP);
+    Rcpp::traits::input_parameter< double >::type ufactor(ufactorSEXP);
+    Rcpp::traits::input_parameter< S4 >::type P0(P0SEXP);
+    rcpp_result_gen = Rcpp::wrap(llf_gph_wtime(alpha, Q0, xi, data, eps, ufactor, P0));
+    return rcpp_result_gen;
+END_RCPP
+}
 // emfit_herlang_group
 List emfit_herlang_group(NumericVector alpha, IntegerVector shape, NumericVector rate, List data, List options);
 RcppExport SEXP _mapfit_emfit_herlang_group(SEXP alphaSEXP, SEXP shapeSEXP, SEXP rateSEXP, SEXP dataSEXP, SEXP optionsSEXP) {
@@ -226,6 +295,20 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< List >::type data(dataSEXP);
     Rcpp::traits::input_parameter< List >::type options(optionsSEXP);
     rcpp_result_gen = Rcpp::wrap(emfit_herlang_group(alpha, shape, rate, data, options));
+    return rcpp_result_gen;
+END_RCPP
+}
+// llf_herlang_group
+double llf_herlang_group(NumericVector alpha, IntegerVector shape, NumericVector rate, List data);
+RcppExport SEXP _mapfit_llf_herlang_group(SEXP alphaSEXP, SEXP shapeSEXP, SEXP rateSEXP, SEXP dataSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type alpha(alphaSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type shape(shapeSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type rate(rateSEXP);
+    Rcpp::traits::input_parameter< List >::type data(dataSEXP);
+    rcpp_result_gen = Rcpp::wrap(llf_herlang_group(alpha, shape, rate, data));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -245,6 +328,21 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// llf_herlang_group_poi
+double llf_herlang_group_poi(NumericVector alpha, IntegerVector shape, NumericVector rate, double omega, List data);
+RcppExport SEXP _mapfit_llf_herlang_group_poi(SEXP alphaSEXP, SEXP shapeSEXP, SEXP rateSEXP, SEXP omegaSEXP, SEXP dataSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type alpha(alphaSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type shape(shapeSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type rate(rateSEXP);
+    Rcpp::traits::input_parameter< double >::type omega(omegaSEXP);
+    Rcpp::traits::input_parameter< List >::type data(dataSEXP);
+    rcpp_result_gen = Rcpp::wrap(llf_herlang_group_poi(alpha, shape, rate, omega, data));
+    return rcpp_result_gen;
+END_RCPP
+}
 // emfit_herlang_wtime
 List emfit_herlang_wtime(NumericVector alpha, IntegerVector shape, NumericVector rate, List data, List options);
 RcppExport SEXP _mapfit_emfit_herlang_wtime(SEXP alphaSEXP, SEXP shapeSEXP, SEXP rateSEXP, SEXP dataSEXP, SEXP optionsSEXP) {
@@ -257,6 +355,20 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< List >::type data(dataSEXP);
     Rcpp::traits::input_parameter< List >::type options(optionsSEXP);
     rcpp_result_gen = Rcpp::wrap(emfit_herlang_wtime(alpha, shape, rate, data, options));
+    return rcpp_result_gen;
+END_RCPP
+}
+// llf_herlang_wtime
+double llf_herlang_wtime(NumericVector alpha, IntegerVector shape, NumericVector rate, List data);
+RcppExport SEXP _mapfit_llf_herlang_wtime(SEXP alphaSEXP, SEXP shapeSEXP, SEXP rateSEXP, SEXP dataSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type alpha(alphaSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type shape(shapeSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type rate(rateSEXP);
+    Rcpp::traits::input_parameter< List >::type data(dataSEXP);
+    rcpp_result_gen = Rcpp::wrap(llf_herlang_wtime(alpha, shape, rate, data));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -354,12 +466,19 @@ static const R_CallMethodDef CallEntries[] = {
     {"_mapfit_emfit_cf1_leftright", (DL_FUNC) &_mapfit_emfit_cf1_leftright, 7},
     {"_mapfit_emfit_cf1_wtime", (DL_FUNC) &_mapfit_emfit_cf1_wtime, 7},
     {"_mapfit_emfit_gph_group", (DL_FUNC) &_mapfit_emfit_gph_group, 7},
+    {"_mapfit_llf_gph_group", (DL_FUNC) &_mapfit_llf_gph_group, 7},
     {"_mapfit_emfit_gph_group_poi", (DL_FUNC) &_mapfit_emfit_gph_group_poi, 8},
+    {"_mapfit_llf_gph_group_poi", (DL_FUNC) &_mapfit_llf_gph_group_poi, 8},
     {"_mapfit_emfit_gph_leftright", (DL_FUNC) &_mapfit_emfit_gph_leftright, 7},
+    {"_mapfit_llf_gph_leftright", (DL_FUNC) &_mapfit_llf_gph_leftright, 7},
     {"_mapfit_emfit_gph_wtime", (DL_FUNC) &_mapfit_emfit_gph_wtime, 7},
+    {"_mapfit_llf_gph_wtime", (DL_FUNC) &_mapfit_llf_gph_wtime, 7},
     {"_mapfit_emfit_herlang_group", (DL_FUNC) &_mapfit_emfit_herlang_group, 5},
+    {"_mapfit_llf_herlang_group", (DL_FUNC) &_mapfit_llf_herlang_group, 4},
     {"_mapfit_emfit_herlang_group_poi", (DL_FUNC) &_mapfit_emfit_herlang_group_poi, 6},
+    {"_mapfit_llf_herlang_group_poi", (DL_FUNC) &_mapfit_llf_herlang_group_poi, 5},
     {"_mapfit_emfit_herlang_wtime", (DL_FUNC) &_mapfit_emfit_herlang_wtime, 5},
+    {"_mapfit_llf_herlang_wtime", (DL_FUNC) &_mapfit_llf_herlang_wtime, 4},
     {"_mapfit_markov_gth_dense", (DL_FUNC) &_mapfit_markov_gth_dense, 2},
     {"_mapfit_markov_gth_s4", (DL_FUNC) &_mapfit_markov_gth_s4, 2},
     {"_mapfit_map_gth_s4", (DL_FUNC) &_mapfit_map_gth_s4, 3},

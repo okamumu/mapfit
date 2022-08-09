@@ -38,6 +38,7 @@ is determiend by the ascending order.
 <li><span class="pkg-link" data-pkg="mapfit" data-topic="GPHClass" data-id="ccdf"><a href='../../mapfit/html/GPHClass.html#method-GPHClass-ccdf'><code>mapfit::GPHClass$ccdf()</code></a></li>
 <li><span class="pkg-link" data-pkg="mapfit" data-topic="GPHClass" data-id="cdf"><a href='../../mapfit/html/GPHClass.html#method-GPHClass-cdf'><code>mapfit::GPHClass$cdf()</code></a></li>
 <li><span class="pkg-link" data-pkg="mapfit" data-topic="GPHClass" data-id="df"><a href='../../mapfit/html/GPHClass.html#method-GPHClass-df'><code>mapfit::GPHClass$df()</code></a></li>
+<li><span class="pkg-link" data-pkg="mapfit" data-topic="GPHClass" data-id="llf"><a href='../../mapfit/html/GPHClass.html#method-GPHClass-llf'><code>mapfit::GPHClass$llf()</code></a></li>
 <li><span class="pkg-link" data-pkg="mapfit" data-topic="GPHClass" data-id="moment"><a href='../../mapfit/html/GPHClass.html#method-GPHClass-moment'><code>mapfit::GPHClass$moment()</code></a></li>
 <li><span class="pkg-link" data-pkg="mapfit" data-topic="GPHClass" data-id="pdf"><a href='../../mapfit/html/GPHClass.html#method-GPHClass-pdf'><code>mapfit::GPHClass$pdf()</code></a></li>
 <li><span class="pkg-link" data-pkg="mapfit" data-topic="GPHClass" data-id="size"><a href='../../mapfit/html/GPHClass.html#method-GPHClass-size'><code>mapfit::GPHClass$size()</code></a></li>

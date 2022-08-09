@@ -68,6 +68,34 @@ List emfit_gph_wtime(NumericVector alpha,
     Named("convergence") = opts.status == Convergence);
 }
 
+// [[Rcpp::export]]
+double llf_gph_wtime(NumericVector alpha,
+                     S4 Q0,
+                     NumericVector xi,
+                     List data,
+                     double eps,
+                     double ufactor,
+                     S4 P0) {
+  using MatrixT = S4matrix<CSCMatrixT>;
+  auto Q = MatrixT(Q0);
+  auto P = MatrixT(P0);
+
+  int n = alpha.length();
+  IntegerVector di(n);
+  diag(Q, di);
+  copy(Q, P);
+  double qv = unif(P, di, ufactor);
+  auto model = GPH<NumericVector, MatrixT, IntegerVector>(alpha, Q, P, xi, qv, di);
+  
+  auto tdat = as<NumericVector>(data["time"]);
+  auto wdat = as<NumericVector>(data["weights"]);
+  double maxtime = as<double>(data["maxtime"]);
+  auto m = tdat.length();
+  auto dat = PHWeightSample<NumericVector,NumericVector>(tdat, wdat, maxtime);
+  
+  return llf(model, dat, eps);
+}
+
 /*** R
 alpha <- c(0.2, 0.6, 0.2)
 Q <- rbind(
@@ -81,5 +109,6 @@ options <- list(maxiter=10, abstol=1.0e-3, reltol=1.0e-6,
                 poisson.eps=1.0e-8)
 result <- emfit_gph_wtime(alpha, as(Q, "dgCMatrix"), xi, dat, options, as(Q, "dgCMatrix"), as(Q, "dgCMatrix"))
 print(result)
+print(llf_gph_wtime(result$alpha, result$Q, result$xi, dat, 1.0e-8, 1.01, as(Q, "dgCMatrix")))
 */
 

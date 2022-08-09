@@ -48,6 +48,25 @@ List emfit_herlang_wtime(NumericVector alpha,
     Named("convergence") = opts.status == Convergence);
 }
 
+// [[Rcpp::export]]
+double llf_herlang_wtime(NumericVector alpha,
+                         IntegerVector shape,
+                         NumericVector rate,
+                         List data) {
+  
+  auto model = HErlang<NumericVector, IntegerVector>(alpha, shape, rate);
+  auto n = model.size();
+  auto tdat = as<NumericVector>(data["time"]);
+  auto wdat = as<NumericVector>(data["weights"]);
+  double maxtime = as<double>(data["maxtime"]);
+  auto m = tdat.length();
+  auto dat = PHWeightSample<NumericVector,NumericVector>(tdat, wdat, maxtime);
+  auto eres = HErlangEres<std::vector<double>>(std::vector<double>(n), std::vector<double>(n));
+  auto work = HErlangWorkSpaceWTime(m,n);
+  
+  return estep(model, dat, eres, 0, work);
+}
+
 /*** R
 alpha <- c(0.4, 0.6)
 rate <- c(1.0, 2.0)
@@ -56,4 +75,5 @@ dat <- list(time=c(1,2,1,3,4), weights=c(1,3,4,2,4), maxtime=4)
 options <- list(maxiter=10, abstol=1.0e-3, reltol=1.0e-6, steps=5, em.verbose=TRUE)
 result <- emfit_herlang_wtime(alpha, shape, rate, dat, options)
 print(result)
+print(llf_herlang_wtime(alpha, shape, rate, dat))
 */

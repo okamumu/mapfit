@@ -140,7 +140,23 @@ HErlangClass <- R6::R6Class(
       rate <- self$rate()
       switch(class(data),
              "phase.time" = emfit_herlang_wtime(mixrate, shape, rate, data, options),
-             "phase.group" = emfit_herlang_group(mixrate, shape, rate, data, options)
+             "phase.group" = emfit_herlang_group(mixrate, shape, rate, data, options),
+             stop("phfit cannot use the dataform.")
+      )
+    },
+    
+    #' @description 
+    #' Compute LLF
+    #' @param data A dataframe
+    #' @param ... Others
+    llf = function(data, ...) {
+      mixrate <- self$mixrate()
+      shape <- self$shape()
+      rate <- self$rate()
+      switch(class(data),
+             "phase.time" = llf_herlang_wtime(mixrate, shape, rate, data),
+             "phase.group" = llf_herlang_group(mixrate, shape, rate, data),
+             stop("phfit cannot use the dataform.")
       )
     },
     

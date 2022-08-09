@@ -28,6 +28,7 @@ A mixture of Erlang distributions. A subclass of PH distributions.
 \item \href{#method-HErlangClass-ccdf}{\code{HErlangClass$ccdf()}}
 \item \href{#method-HErlangClass-sample}{\code{HErlangClass$sample()}}
 \item \href{#method-HErlangClass-emfit}{\code{HErlangClass$emfit()}}
+\item \href{#method-HErlangClass-llf}{\code{HErlangClass$llf()}}
 \item \href{#method-HErlangClass-init}{\code{HErlangClass$init()}}
 \item \href{#method-HErlangClass-clone}{\code{HErlangClass$clone()}}
 }
@@ -274,6 +275,25 @@ Run EM
 \item{\code{data}}{A dataframe}
 
 \item{\code{options}}{A list of options}
+
+\item{\code{...}}{Others}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-HErlangClass-llf"></a>}}
+\if{latex}{\out{\hypertarget{method-HErlangClass-llf}{}}}
+\subsection{Method \code{llf()}}{
+Compute LLF
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{HErlangClass$llf(data, ...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{data}}{A dataframe}
 
 \item{\code{...}}{Others}
 }

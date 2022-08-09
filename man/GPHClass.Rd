@@ -39,6 +39,7 @@ PH distribution with the uniformization technique.
 \item \href{#method-GPHClass-ccdf}{\code{GPHClass$ccdf()}}
 \item \href{#method-GPHClass-sample}{\code{GPHClass$sample()}}
 \item \href{#method-GPHClass-emfit}{\code{GPHClass$emfit()}}
+\item \href{#method-GPHClass-llf}{\code{GPHClass$llf()}}
 \item \href{#method-GPHClass-init}{\code{GPHClass$init()}}
 \item \href{#method-GPHClass-clone}{\code{GPHClass$clone()}}
 }
@@ -297,6 +298,29 @@ Run EM
 \item{\code{data}}{A dataframe}
 
 \item{\code{options}}{A list of options}
+
+\item{\code{...}}{Others}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-GPHClass-llf"></a>}}
+\if{latex}{\out{\hypertarget{method-GPHClass-llf}{}}}
+\subsection{Method \code{llf()}}{
+Compute LLF
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{GPHClass$llf(data, poisson.eps = 1e-08, ufactor = 1.01, ...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{data}}{A dataframe}
+
+\item{\code{poisson.eps}}{A value of tolerance error for uniformization}
+
+\item{\code{ufactor}}{A value of uniformization factor}
 
 \item{\code{...}}{Others}
 }

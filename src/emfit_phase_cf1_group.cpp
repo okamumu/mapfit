@@ -80,6 +80,21 @@ List emfit_cf1_group(NumericVector alpha,
 }
 
 /*** R
+alpha <- c(1.0)
+Q <- rbind(
+  c(-2.0))
+xi <- c(2.0)
+rate <- c(2.0)
+dat <- list(intervals=c(1,2,1,3,4), counts=c(1,3,-1,2,4), instants=c(0,0,0,1,0), lastcount=10, maxinterval=4)
+options <- list(maxiter=10, abstol=1.0e-3, reltol=1.0e-6,
+                steps=1, em.verbose=TRUE, uniform.factor=1.01,
+                poisson.eps=1.0e-8)
+matclass <- "dgCMatrix"
+result <- emfit_cf1_group(alpha, rate, dat, options, as(Q, matclass), as(Q, matclass), as(Q, matclass))
+print(result)
+*/
+
+/*
 alpha <- c(0.2, 0.6, 0.2)
 Q <- rbind(
   c(-2.0, 2.0, 0.0),

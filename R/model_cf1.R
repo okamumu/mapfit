@@ -155,18 +155,22 @@ cf1.param.power <- function(size, mean, s) {
   alpha <- rep(1.0/size, size)
   rate <- numeric(size)
   
-  p <- exp(1.0/(size-1) * log(s))
-  total <- 1.0
-  tmp <- 1.0
-  for (i in 2:size) {
-    tmp <- tmp * i / ((i-1) * p)
-    total <- total + tmp
-  }
-  base <- total / (size * mean)
-  tmp <- base
-  for (i in 1:size) {
-    rate[i] <- tmp
-    tmp <- tmp * p
+  if (size != 1) {
+    p <- exp(1.0/(size-1) * log(s))
+    total <- 1.0
+    tmp <- 1.0
+    for (i in 2:size) {
+      tmp <- tmp * i / ((i-1) * p)
+      total <- total + tmp
+    }
+    base <- total / (size * mean)
+    tmp <- base
+    for (i in 1:size) {
+      rate[i] <- tmp
+      tmp <- tmp * p
+    }
+  } else {
+    rate[1] <- 1.0/mean
   }
   cf1(alpha=alpha, rate=rate)
 }
@@ -184,15 +188,19 @@ cf1.param.linear <- function(size, mean, s) {
   alpha <- rep(1.0/size, size)
   rate <- numeric(size)
   
-  al <- (s-1)/(size-1)
-  total <- 1.0
-  for (i in 2:size) {
-    total <- total + i / (al * (i-1) + 1)
-  }
-  base <- total / (size * mean)
-  for (i in 1:size) {
-    tmp <- base * (al * (i-1) + 1)
-    rate[i] <- tmp
+  if (size != 1) {
+    al <- (s-1)/(size-1)
+    total <- 1.0
+    for (i in 2:size) {
+      total <- total + i / (al * (i-1) + 1)
+    }
+    base <- total / (size * mean)
+    for (i in 1:size) {
+      tmp <- base * (al * (i-1) + 1)
+      rate[i] <- tmp
+    }
+  } else {
+    rate[1] <- 1.0/mean
   }
   cf1(alpha=alpha, rate=rate)
 }

@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 [![Codecov test coverage](https://codecov.io/gh/okamumu/mapfit/branch/main/graph/badge.svg)](https://app.codecov.io/gh/okamumu/mapfit?branch=main)
 <!-- badges: end -->
 
-The goal of mapfit is to estimate parameters of phase-type distribution (PH) and Markovian arrival process (MAP). PH/MAP fitting is required in the analysis of non-Markovian models involving general distributions. By replacing general distributions with estimated PH/MAP, we have approximate the non-Markovian models with continuous-time Markov chains (CTMCs). Our tool offers
+The goal of mapfit is to estimate parameters of phase-type distribution (PH) and Markovian arrival process (MAP). PH/MAP fitting is required in the analysis of non-Markovian models involving general distributions. By replacing general distributions with estimated PH/MAP, we can approximate the non-Markovian models with continuous-time Markov chains (CTMCs). Our tool offers
 
 * PH/MAP fitting with grouped data
 * PH fitting with theoretical probability density functions.

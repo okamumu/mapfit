@@ -18,7 +18,7 @@
 #' \item{data}{an object for data class}
 #' \item{aerror}{a value of absolute error for llf at the last step of algorithm.}
 #' \item{rerror}{a value of relative error for llf at the last step of algorithm.}
-#' \item{options}{a list of optiions used for fitting.}
+#' \item{options}{a list of options used for fitting.}
 #' \item{call}{the matched call.}
 #' 
 #' @examples 

@@ -450,7 +450,7 @@ as.map <- function(x) {
 #' Determine ERHMM parameters with k-means.
 #' 
 #' @param data A dataframe
-#' @param skel An instance of ERHMM used as a skelton
+#' @param skel An instance of ERHMM used as a skeleton
 #' @param ... Others
 #' @return An instance of ERHMM
 

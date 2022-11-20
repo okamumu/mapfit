@@ -26,17 +26,17 @@ A point process dominated by a continuous-time Markov chain.
 \if{html}{\out{
 <details><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="mapfit" data-topic="MAPClass" data-id="D0"><a href='../../mapfit/html/MAPClass.html#method-MAPClass-D0'><code>mapfit::MAPClass$D0()</code></a></li>
-<li><span class="pkg-link" data-pkg="mapfit" data-topic="MAPClass" data-id="D1"><a href='../../mapfit/html/MAPClass.html#method-MAPClass-D1'><code>mapfit::MAPClass$D1()</code></a></li>
-<li><span class="pkg-link" data-pkg="mapfit" data-topic="MAPClass" data-id="acf"><a href='../../mapfit/html/MAPClass.html#method-MAPClass-acf'><code>mapfit::MAPClass$acf()</code></a></li>
-<li><span class="pkg-link" data-pkg="mapfit" data-topic="MAPClass" data-id="alpha"><a href='../../mapfit/html/MAPClass.html#method-MAPClass-alpha'><code>mapfit::MAPClass$alpha()</code></a></li>
-<li><span class="pkg-link" data-pkg="mapfit" data-topic="MAPClass" data-id="df"><a href='../../mapfit/html/MAPClass.html#method-MAPClass-df'><code>mapfit::MAPClass$df()</code></a></li>
-<li><span class="pkg-link" data-pkg="mapfit" data-topic="MAPClass" data-id="init"><a href='../../mapfit/html/MAPClass.html#method-MAPClass-init'><code>mapfit::MAPClass$init()</code></a></li>
-<li><span class="pkg-link" data-pkg="mapfit" data-topic="MAPClass" data-id="jmoment"><a href='../../mapfit/html/MAPClass.html#method-MAPClass-jmoment'><code>mapfit::MAPClass$jmoment()</code></a></li>
-<li><span class="pkg-link" data-pkg="mapfit" data-topic="MAPClass" data-id="mmoment"><a href='../../mapfit/html/MAPClass.html#method-MAPClass-mmoment'><code>mapfit::MAPClass$mmoment()</code></a></li>
-<li><span class="pkg-link" data-pkg="mapfit" data-topic="MAPClass" data-id="print"><a href='../../mapfit/html/MAPClass.html#method-MAPClass-print'><code>mapfit::MAPClass$print()</code></a></li>
-<li><span class="pkg-link" data-pkg="mapfit" data-topic="MAPClass" data-id="size"><a href='../../mapfit/html/MAPClass.html#method-MAPClass-size'><code>mapfit::MAPClass$size()</code></a></li>
-<li><span class="pkg-link" data-pkg="mapfit" data-topic="MAPClass" data-id="xi"><a href='../../mapfit/html/MAPClass.html#method-MAPClass-xi'><code>mapfit::MAPClass$xi()</code></a></li>
+<li><span class="pkg-link" data-pkg="mapfit" data-topic="MAPClass" data-id="D0"><a href='../../mapfit/html/MAPClass.html#method-MAPClass-D0'><code>mapfit::MAPClass$D0()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mapfit" data-topic="MAPClass" data-id="D1"><a href='../../mapfit/html/MAPClass.html#method-MAPClass-D1'><code>mapfit::MAPClass$D1()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mapfit" data-topic="MAPClass" data-id="acf"><a href='../../mapfit/html/MAPClass.html#method-MAPClass-acf'><code>mapfit::MAPClass$acf()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mapfit" data-topic="MAPClass" data-id="alpha"><a href='../../mapfit/html/MAPClass.html#method-MAPClass-alpha'><code>mapfit::MAPClass$alpha()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mapfit" data-topic="MAPClass" data-id="df"><a href='../../mapfit/html/MAPClass.html#method-MAPClass-df'><code>mapfit::MAPClass$df()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mapfit" data-topic="MAPClass" data-id="init"><a href='../../mapfit/html/MAPClass.html#method-MAPClass-init'><code>mapfit::MAPClass$init()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mapfit" data-topic="MAPClass" data-id="jmoment"><a href='../../mapfit/html/MAPClass.html#method-MAPClass-jmoment'><code>mapfit::MAPClass$jmoment()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mapfit" data-topic="MAPClass" data-id="mmoment"><a href='../../mapfit/html/MAPClass.html#method-MAPClass-mmoment'><code>mapfit::MAPClass$mmoment()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mapfit" data-topic="MAPClass" data-id="print"><a href='../../mapfit/html/MAPClass.html#method-MAPClass-print'><code>mapfit::MAPClass$print()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mapfit" data-topic="MAPClass" data-id="size"><a href='../../mapfit/html/MAPClass.html#method-MAPClass-size'><code>mapfit::MAPClass$size()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mapfit" data-topic="MAPClass" data-id="xi"><a href='../../mapfit/html/MAPClass.html#method-MAPClass-xi'><code>mapfit::MAPClass$xi()</code></a></span></li>
 </ul>
 </details>
 }}

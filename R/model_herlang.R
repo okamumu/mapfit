@@ -110,7 +110,7 @@ HErlangClass <- R6::R6Class(
     #' Complementary CDF
     #' @param q A vector of points
     #' @param ... Others
-    #' @return A vector of probabilies
+    #' @return A vector of probabilities
     ccdf = function(q, ...) {
       sapply(q, function(x) sum(apply(cbind(self$mixrate(), self$shape(), self$rate()), 1,
         function(param) param[1] * pgamma(q=x, shape=param[2], rate=param[3], lower.tail=FALSE))))
@@ -254,7 +254,7 @@ AHerlangClass <- R6::R6Class(
     #' Complementary CDF
     #' @param q A vector of points
     #' @param ... Others
-    #' @return A vector of probabilies
+    #' @return A vector of probabilities
     ccdf = function(q, ...) {
       private$param.herlang$ccdf(q, ...)
     },

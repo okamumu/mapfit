@@ -101,7 +101,7 @@ The above table shows an example of the grouped data on break points 0, 10, 20, 
 |[90, 100]| 0 |
 |[100, Inf)| `NA` |
 
-On the other hand, the aboe table shows an example of another grouped data. In this case, several samples are truncated at 100 but we do not know the exact number of truncated samples.
+On the other hand, the above table shows an example of another grouped data. In this case, several samples are truncated at 100 but we do not know the exact number of truncated samples.
 
 ### Models and Methods
 
@@ -132,7 +132,7 @@ RNGkind(kind = "Mersenne-Twister")
 set.seed(1234)
 wsample <- rweibull(100, shape=2, scale=1)
 ```
-`wsample` is set to a vector including a hundred IID samples generated from Weibull distribution with scale parameter 1 and shape parameter 2. `set.seed(1234)` means determing the seed of random numbers.
+`wsample` is set to a vector including a hundred IID samples generated from Weibull distribution with scale parameter 1 and shape parameter 2. `set.seed(1234)` means determining the seed of random numbers.
 ```{r wsample2}
 wsample
 ```
@@ -182,14 +182,14 @@ phfit.density(ph=herlang(5), f=dweibull, shape=2, scale=1)
 ```
 The last two arguments for each execution are parameters of `dweibull` function. User-defined functions are also used as density functions in similar manner.
 
-Usually, the PH fitting with density is used for the PH expansion (PH approximation) in which known general desitributions are replaced with the PH distributions estimated from these density functions. Compared to PH fitting with samples, PH fitting with density function tends to be accurate, because density function has more information than samples. Therefore, in the case of PH fitting with density function, we can treat PH distributions with high orders without causing overfitting, i.e., it is possible to perform PH fitting even if PH has 100 states;
+Usually, the PH fitting with density is used for the PH expansion (PH approximation) in which known general distributions are replaced with the PH distributions estimated from these density functions. Compared to PH fitting with samples, PH fitting with density function tends to be accurate, because density function has more information than samples. Therefore, in the case of PH fitting with density function, we can treat PH distributions with high orders without causing overfitting, i.e., it is possible to perform PH fitting even if PH has 100 states;
 ```{r phfit_density2}
 ## estimate PH parameters from the density function
 (result.density <- phfit.density(ph=cf1(100), f=dweibull, shape=2, scale=1))
 ```
 The result provides a highly-accurate approximation for Weibull distribution. However, from the viewpoint of computation time, it should be noted that only `cf1` or `herlang` with lower/upper bounds of Erlang components can be applied to PH fitting with high orders. In the above example, although the number of states is 100, the execution time is in a few seconds because of the refinement of EM algorithm [1].
 
-If we use only point data to estimate PH paramters with high orders, the overfitting is happen.
+If we use only point data to estimate PH parameters with high orders, the overfitting is happen.
 ```{r draw_plot}
 ## estimate PH parameters from 100 samples (overfitting example)
 (result.point <- phfit.point(ph=cf1(100), x=wsample))
@@ -271,7 +271,7 @@ mapfit has three classes (models) for MAP, which have different parameter estima
 
 The `map` class consists of parameters $\alpha$, $D_0$ and $D_1$, which are given by slots of S4 class in R. The `gmmpp` class also has the slots `alpha`, `D0` and `D1` as model parameters. The `erhmm` class has an initial probability vector for HMM states (`alpha`), a probability transition matrix for HMM states (`P`), the shape parameters for Erlang distribution (`shape`) and the rate parameters for Erlang distribution (`rate`). The S4 class `erhmm` can be transformed to `map` by using `as` method.
 
-The tool has the follwoing MAP fitting functions:
+The tool has the following MAP fitting functions:
 
 - `mapfit.point`: MLEs for general MAP and ER-HMM from point data. The estimation algorithm for general MAP is the EM algorithm introduced in [4]. The algorithm for ER-HMM is the EM algorithm proposed in [2].
 - `mapfit.group`: MLEs for general MAP and `gmmpp` from grouped data. Both the estimation algorithms for general MAP and `gmmpp` are presented in [3]. Note that `erhmm` cannot be used in the case of grouped data.

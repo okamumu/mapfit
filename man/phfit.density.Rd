@@ -37,7 +37,7 @@ the positive domain [0,infinity).}
 \value{
 Returns a list with components, which is an object of S3 class \code{phfit.result};
 \item{model}{an object for estimated PH class.}
-\item{llf}{a value of the maximum log-likelihood (a netative value of the cross entropy).}
+\item{llf}{a value of the maximum log-likelihood (a negative value of the cross entropy).}
 \item{df}{a value of degrees of freedom of the model.}
 \item{KL}{a value of Kullback-Leibler divergence.}
 \item{iter}{the number of iterations.}

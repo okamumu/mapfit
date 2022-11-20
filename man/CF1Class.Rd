@@ -12,7 +12,7 @@ Canonical phase-type distribution
 A continuous distribution dominated by a continuous-time Markov chain.
 A random time is given by an absorbing time. In the CF1 (canonical form 1),
 the infinitesimal generator is given by a bi-diagonal matrix, and whose order
-is determiend by the ascending order.
+is determined by the ascending order.
 }
 \section{Super class}{
 \code{\link[mapfit:GPHClass]{mapfit::GPHClass}} -> \code{CF1Class}
@@ -33,15 +33,15 @@ is determiend by the ascending order.
 \if{html}{\out{
 <details><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="mapfit" data-topic="GPHClass" data-id="Q"><a href='../../mapfit/html/GPHClass.html#method-GPHClass-Q'><code>mapfit::GPHClass$Q()</code></a></li>
-<li><span class="pkg-link" data-pkg="mapfit" data-topic="GPHClass" data-id="alpha"><a href='../../mapfit/html/GPHClass.html#method-GPHClass-alpha'><code>mapfit::GPHClass$alpha()</code></a></li>
-<li><span class="pkg-link" data-pkg="mapfit" data-topic="GPHClass" data-id="ccdf"><a href='../../mapfit/html/GPHClass.html#method-GPHClass-ccdf'><code>mapfit::GPHClass$ccdf()</code></a></li>
-<li><span class="pkg-link" data-pkg="mapfit" data-topic="GPHClass" data-id="cdf"><a href='../../mapfit/html/GPHClass.html#method-GPHClass-cdf'><code>mapfit::GPHClass$cdf()</code></a></li>
-<li><span class="pkg-link" data-pkg="mapfit" data-topic="GPHClass" data-id="df"><a href='../../mapfit/html/GPHClass.html#method-GPHClass-df'><code>mapfit::GPHClass$df()</code></a></li>
-<li><span class="pkg-link" data-pkg="mapfit" data-topic="GPHClass" data-id="moment"><a href='../../mapfit/html/GPHClass.html#method-GPHClass-moment'><code>mapfit::GPHClass$moment()</code></a></li>
-<li><span class="pkg-link" data-pkg="mapfit" data-topic="GPHClass" data-id="pdf"><a href='../../mapfit/html/GPHClass.html#method-GPHClass-pdf'><code>mapfit::GPHClass$pdf()</code></a></li>
-<li><span class="pkg-link" data-pkg="mapfit" data-topic="GPHClass" data-id="size"><a href='../../mapfit/html/GPHClass.html#method-GPHClass-size'><code>mapfit::GPHClass$size()</code></a></li>
-<li><span class="pkg-link" data-pkg="mapfit" data-topic="GPHClass" data-id="xi"><a href='../../mapfit/html/GPHClass.html#method-GPHClass-xi'><code>mapfit::GPHClass$xi()</code></a></li>
+<li><span class="pkg-link" data-pkg="mapfit" data-topic="GPHClass" data-id="Q"><a href='../../mapfit/html/GPHClass.html#method-GPHClass-Q'><code>mapfit::GPHClass$Q()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mapfit" data-topic="GPHClass" data-id="alpha"><a href='../../mapfit/html/GPHClass.html#method-GPHClass-alpha'><code>mapfit::GPHClass$alpha()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mapfit" data-topic="GPHClass" data-id="ccdf"><a href='../../mapfit/html/GPHClass.html#method-GPHClass-ccdf'><code>mapfit::GPHClass$ccdf()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mapfit" data-topic="GPHClass" data-id="cdf"><a href='../../mapfit/html/GPHClass.html#method-GPHClass-cdf'><code>mapfit::GPHClass$cdf()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mapfit" data-topic="GPHClass" data-id="df"><a href='../../mapfit/html/GPHClass.html#method-GPHClass-df'><code>mapfit::GPHClass$df()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mapfit" data-topic="GPHClass" data-id="moment"><a href='../../mapfit/html/GPHClass.html#method-GPHClass-moment'><code>mapfit::GPHClass$moment()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mapfit" data-topic="GPHClass" data-id="pdf"><a href='../../mapfit/html/GPHClass.html#method-GPHClass-pdf'><code>mapfit::GPHClass$pdf()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mapfit" data-topic="GPHClass" data-id="size"><a href='../../mapfit/html/GPHClass.html#method-GPHClass-size'><code>mapfit::GPHClass$size()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mapfit" data-topic="GPHClass" data-id="xi"><a href='../../mapfit/html/GPHClass.html#method-GPHClass-xi'><code>mapfit::GPHClass$xi()</code></a></span></li>
 </ul>
 </details>
 }}

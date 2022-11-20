@@ -18,7 +18,7 @@
 #' \item{data}{an object for data class}
 #' \item{aerror}{a value of absolute error for llf at the last step of algorithm.}
 #' \item{rerror}{a value of relative error for llf at the last step of algorithm.}
-#' \item{options}{a list of optiions used for fitting.}
+#' \item{options}{a list of options used for fitting.}
 #' \item{call}{the matched call.}
 #' 
 #' @examples 
@@ -110,7 +110,7 @@ phfit.point <- function(ph, x, weights, ...) {
 #' @note
 #' In this method, we can handle truncated data using \code{NA} and \code{Inf};
 #' \code{phfit.group(ph=cf1(5), counts=c(countsdata, NA), breaks=c(breakdata, +Inf))}
-#' \code{NA} means missing of count data at the conrredponding interval, and \code{Inf} ia allowed to put 
+#' \code{NA} means missing of count data at the corresponding interval, and \code{Inf} is allowed to put 
 #' the last of breaks or intervals which represents a special interval [the last break point,infinity).
 #' 
 #' @examples
@@ -186,7 +186,7 @@ phfit.group <- function(ph, counts, breaks, intervals, instants, ...) {
 #' @return
 #' Returns a list with components, which is an object of S3 class \code{phfit.result};
 #' \item{model}{an object for estimated PH class.}
-#' \item{llf}{a value of the maximum log-likelihood (a netative value of the cross entropy).}
+#' \item{llf}{a value of the maximum log-likelihood (a negative value of the cross entropy).}
 #' \item{df}{a value of degrees of freedom of the model.}
 #' \item{KL}{a value of Kullback-Leibler divergence.}
 #' \item{iter}{the number of iterations.}

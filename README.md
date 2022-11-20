@@ -141,7 +141,7 @@ at 100.
 |  \[90, 100\]  |   0    |
 |  \[100, Inf)  |  `NA`  |
 
-On the other hand, the aboe table shows an example of another grouped
+On the other hand, the above table shows an example of another grouped
 data. In this case, several samples are truncated at 100 but we do not
 know the exact number of truncated samples.
 
@@ -231,7 +231,7 @@ wsample <- rweibull(100, shape=2, scale=1)
 
 `wsample` is set to a vector including a hundred IID samples generated
 from Weibull distribution with scale parameter 1 and shape parameter 2.
-`set.seed(1234)` means determing the seed of random numbers.
+`set.seed(1234)` means determining the seed of random numbers.
 
 ``` r
 wsample
@@ -267,7 +267,7 @@ phfit.point(ph=ph(5), x=wsample)
 #> DF: 29
 #> AIC: 176.873999
 #> Iteration:  2000 / 2000
-#> Computation time (user): 1.703000
+#> Computation time (user): 1.978000
 #> Convergence: FALSE
 #> Error (abs): 2.658413e-05 (tolerance Inf)
 #> Error (rel): 4.472655e-07 (tolerance 1.490116e-08)
@@ -298,7 +298,7 @@ phfit.point(ph=cf1(5), x=wsample)
 #> DF: 9
 #> AIC: 136.832116
 #> Iteration:  2000 / 2000
-#> Computation time (user): 1.550000
+#> Computation time (user): 1.731000
 #> Convergence: FALSE
 #> Error (abs): 1.497201e-06 (tolerance Inf)
 #> Error (rel): 2.519859e-08 (tolerance 1.490116e-08)
@@ -358,7 +358,7 @@ phfit.group(ph=ph(5), counts=h.res$counts, breaks=h.res$breaks)
 #> DF: 29
 #> AIC: 103.625059
 #> Iteration:  1648 / 2000
-#> Computation time (user): 0.323000
+#> Computation time (user): 0.355000
 #> Convergence: TRUE
 #> Error (abs): 3.396318e-07 (tolerance Inf)
 #> Error (rel): 1.488795e-08 (tolerance 1.490116e-08)
@@ -389,7 +389,7 @@ phfit.group(ph=cf1(5), counts=h.res$counts, breaks=h.res$breaks)
 #> DF: 9
 #> AIC: 63.623811
 #> Iteration:  1300 / 2000
-#> Computation time (user): 0.231000
+#> Computation time (user): 0.256000
 #> Convergence: TRUE
 #> Error (abs): 3.388332e-07 (tolerance Inf)
 #> Error (rel): 1.485335e-08 (tolerance 1.490116e-08)
@@ -412,7 +412,7 @@ phfit.group(ph=herlang(5), counts=h.res$counts, breaks=h.res$breaks)
 #> DF: 4
 #> AIC: 55.176618
 #> Iteration:  204 / 2000
-#> Computation time (user): 0.011000
+#> Computation time (user): 0.012000
 #> Convergence: TRUE
 #> Error (abs): 3.487320e-07 (tolerance Inf)
 #> Error (rel): 1.478410e-08 (tolerance 1.490116e-08)
@@ -436,7 +436,7 @@ phfit.density(ph=ph(5), f=dweibull, shape=2, scale=1)
 #> DF: 29
 #> KL: 0.003678
 #> Iteration:  2000 / 2000
-#> Computation time (user): 2.003000
+#> Computation time (user): 2.199000
 #> Convergence: FALSE
 #> Error (abs): 4.373887e-05 (tolerance Inf)
 #> Error (rel): 3.878266e-06 (tolerance 1.490116e-08)
@@ -467,7 +467,7 @@ phfit.density(ph=cf1(5), f=dweibull, shape=2, scale=1)
 #> DF: 9
 #> KL: 0.002069
 #> Iteration:  2000 / 2000
-#> Computation time (user): 1.450000
+#> Computation time (user): 1.586000
 #> Convergence: FALSE
 #> Error (abs): 2.767693e-07 (tolerance Inf)
 #> Error (rel): 2.460694e-08 (tolerance 1.490116e-08)
@@ -490,7 +490,7 @@ phfit.density(ph=herlang(5), f=dweibull, shape=2, scale=1)
 #> DF: 4
 #> KL: 0.009694
 #> Iteration:  77 / 2000
-#> Computation time (user): 0.010000
+#> Computation time (user): 0.012000
 #> Convergence: TRUE
 #> Error (abs): 1.461348e-07 (tolerance Inf)
 #> Error (rel): 1.282881e-08 (tolerance 1.490116e-08)
@@ -506,7 +506,7 @@ function. User-defined functions are also used as density functions in
 similar manner.
 
 Usually, the PH fitting with density is used for the PH expansion (PH
-approximation) in which known general desitributions are replaced with
+approximation) in which known general distributions are replaced with
 the PH distributions estimated from these density functions. Compared to
 PH fitting with samples, PH fitting with density function tends to be
 accurate, because density function has more information than samples.
@@ -529,7 +529,7 @@ is possible to perform PH fitting even if PH has 100 states;
 #> DF: 199
 #> KL: 0.000000
 #> Iteration:  40 / 2000
-#> Computation time (user): 0.379000
+#> Computation time (user): 0.402000
 #> Convergence: TRUE
 #> Error (abs): 1.596614e-07 (tolerance Inf)
 #> Error (rel): 1.424445e-08 (tolerance 1.490116e-08)
@@ -546,8 +546,8 @@ components can be applied to PH fitting with high orders. In the above
 example, although the number of states is 100, the execution time is in
 a few seconds because of the refinement of EM algorithm \[1\].
 
-If we use only point data to estimate PH paramters with high orders, the
-overfitting is happen.
+If we use only point data to estimate PH parameters with high orders,
+the overfitting is happen.
 
 ``` r
 ## estimate PH parameters from 100 samples (overfitting example)
@@ -564,7 +564,7 @@ overfitting is happen.
 #> DF: 185
 #> AIC: 471.009213
 #> Iteration:  2000 / 2000
-#> Computation time (user): 13.735000
+#> Computation time (user): 14.520000
 #> Convergence: FALSE
 #> Error (abs): 2.196319e-05 (tolerance Inf)
 #> Error (rel): 4.348748e-07 (tolerance 1.490116e-08)
@@ -732,7 +732,7 @@ for Erlang distribution (`shape`) and the rate parameters for Erlang
 distribution (`rate`). The S4 class `erhmm` can be transformed to `map`
 by using `as` method.
 
-The tool has the follwoing MAP fitting functions:
+The tool has the following MAP fitting functions:
 
 - `mapfit.point`: MLEs for general MAP and ER-HMM from point data. The
   estimation algorithm for general MAP is the EM algorithm introduced in
@@ -902,7 +902,7 @@ mapfit.point(map=map(5), x=cumsum(BCpAug89))
 #> DF: 49
 #> AIC: -10147.068566
 #> Iteration:  2000 / 2000
-#> Computation time (user): 65.901000
+#> Computation time (user): 72.704000
 #> Convergence: FALSE
 #> Error (abs): 1.498159e-04 (tolerance Inf)
 #> Error (rel): 2.924644e-08 (tolerance 1.490116e-08)
@@ -933,7 +933,7 @@ mapfit.point(map=mmpp(5), x=cumsum(BCpAug89))
 #> DF: 29
 #> AIC: -10052.225436
 #> Iteration:  35 / 2000
-#> Computation time (user): 1.232000
+#> Computation time (user): 1.346000
 #> Convergence: TRUE
 #> Error (abs): 7.531932e-05 (tolerance Inf)
 #> Error (rel): 1.489963e-08 (tolerance 1.490116e-08)
@@ -973,7 +973,7 @@ mapfit.point(map=erhmm(5), x=cumsum(BCpAug89))
 #> DF: 13
 #> AIC: -10217.720196
 #> Iteration:  85 / 2000
-#> Computation time (user): 0.696000
+#> Computation time (user): 0.763000
 #> Convergence: TRUE
 #> Error (abs): 7.459457e-05 (tolerance Inf)
 #> Error (rel): 1.456396e-08 (tolerance 1.490116e-08)
@@ -1048,7 +1048,7 @@ mapfit.group(map=map(5), counts=BCpAug89.group$counts, breaks=BCpAug89.group$bre
 #> DF: 49
 #> AIC: 1207.552145
 #> Iteration:  2000 / 2000
-#> Computation time (user): 115.160000
+#> Computation time (user): 127.523000
 #> Convergence: FALSE
 #> Error (abs): 2.654024e-04 (tolerance Inf)
 #> Error (rel): 4.783953e-07 (tolerance 1.490116e-08)
@@ -1079,7 +1079,7 @@ mapfit.group(map=mmpp(5), counts=BCpAug89.group$counts, breaks=BCpAug89.group$br
 #> DF: 29
 #> AIC: 1171.054100
 #> Iteration:  687 / 2000
-#> Computation time (user): 64.707000
+#> Computation time (user): 72.267000
 #> Convergence: TRUE
 #> Error (abs): 8.230252e-06 (tolerance Inf)
 #> Error (rel): 1.478859e-08 (tolerance 1.490116e-08)
@@ -1110,7 +1110,7 @@ mapfit.group(map=gmmpp(5), counts=BCpAug89.group$counts, breaks=BCpAug89.group$b
 #> DF: 29
 #> AIC: 1714.429073
 #> Iteration:  137 / 2000
-#> Computation time (user): 5.291000
+#> Computation time (user): 5.562000
 #> Convergence: TRUE
 #> Error (abs): 1.174183e-05 (tolerance Inf)
 #> Error (rel): 1.417728e-08 (tolerance 1.490116e-08)

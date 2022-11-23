@@ -49,7 +49,7 @@ Estimates PH parameters from grouped data.
 \note{
 In this method, we can handle truncated data using \code{NA} and \code{Inf};
 \code{phfit.group(ph=cf1(5), counts=c(countsdata, NA), breaks=c(breakdata, +Inf))}
-\code{NA} means missing of count data at the conrredponding interval, and \code{Inf} ia allowed to put
+\code{NA} means missing of count data at the corresponding interval, and \code{Inf} is allowed to put
 the last of breaks or intervals which represents a special interval [the last break point,infinity).
 }
 \examples{

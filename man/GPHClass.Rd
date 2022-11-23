@@ -260,7 +260,7 @@ Complementary CDF
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-A vector of probabilies
+A vector of probabilities
 }
 }
 \if{html}{\out{<hr>}}

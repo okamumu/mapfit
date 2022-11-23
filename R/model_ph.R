@@ -157,7 +157,7 @@ GPHClass <- R6::R6Class(
     #' @param poisson.eps A value of tolerance error for uniformization
     #' @param ufactor A value of uniformization factor
     #' @param ... Others
-    #' @return A vector of probabilies
+    #' @return A vector of probabilities
     #' @note
     #' This function provides the values of complementary c.d.f. for
     #' PH distribution with the uniformization technique.
@@ -443,7 +443,7 @@ dphase <- function(x, ph, log = FALSE, ...) {
 
 #' Distribution function of PH distribution
 #' 
-#' Compute the cumulative distribution fuction (c.d.f.) for a given PH distribution
+#' Compute the cumulative distribution function (c.d.f.) for a given PH distribution
 #' 
 #' @param q A numeric vector of quantiles.
 #' @param ph An instance of PH distribution.
@@ -486,7 +486,7 @@ pphase <- function(q, ph, lower.tail = TRUE, log.p = FALSE, ...) {
 #' 
 #' @param n An integer of the number of samples.
 #' @param ph An instance of PH distribution.
-#' @param ... Ohters
+#' @param ... Others
 #' @return A vector of samples.
 #' @examples 
 #' ## create a PH with specific parameters

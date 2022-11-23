@@ -9,7 +9,7 @@ erhmm.param(data, skel, ...)
 \arguments{
 \item{data}{A dataframe}
 
-\item{skel}{An instance of ERHMM used as a skelton}
+\item{skel}{An instance of ERHMM used as a skeleton}
 
 \item{...}{Others}
 }

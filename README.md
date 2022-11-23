@@ -15,12 +15,12 @@ coverage](https://codecov.io/gh/okamumu/mapfit/branch/main/graph/badge.svg)](htt
 The goal of mapfit is to estimate parameters of phase-type distribution
 (PH) and Markovian arrival process (MAP). PH/MAP fitting is required in
 the analysis of non-Markovian models involving general distributions. By
-replacing general distributions with estimated PH/MAP, we have
+replacing general distributions with estimated PH/MAP, we can
 approximate the non-Markovian models with continuous-time Markov chains
 (CTMCs). Our tool offers
 
--   PH/MAP fitting with grouped data
--   PH fitting with theoretical probability density functions.
+- PH/MAP fitting with grouped data
+- PH fitting with theoretical probability density functions.
 
 These features help us to analyze non-Markovian models with phase
 expansion.
@@ -44,39 +44,31 @@ PH distribution is defined as the time to absorption in a
 time-homogeneous CTMC with an absorbing state. The p.d.f. and cumulative
 distribution function (c.d.f.) are mathematically given as the
 expressions using matrix exponential. Let
-![\\boldsymbol{\\alpha}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7B%5Calpha%7D "\boldsymbol{\alpha}")
+![\boldsymbol{\alpha}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7B%5Calpha%7D "\boldsymbol{\alpha}")
 and
-![\\boldsymbol{Q}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7BQ%7D "\boldsymbol{Q}")
+![\boldsymbol{Q}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7BQ%7D "\boldsymbol{Q}")
 denote a probability (row) vector for determining an initial state and
 an infinitesimal generator for transient states, respectively. Since the
 c.d.f. is given by the probability that the current state of underlying
 CTMC has already been absorbed, the c.d.f. of PH distribution is given
 by
 
-![
-F(x) = 1 - \\boldsymbol{\\alpha} \\exp(\\boldsymbol{Q} x) \\boldsymbol{1},
-](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%0AF%28x%29%20%3D%201%20-%20%5Cboldsymbol%7B%5Calpha%7D%20%5Cexp%28%5Cboldsymbol%7BQ%7D%20x%29%20%5Cboldsymbol%7B1%7D%2C%0A "
-F(x) = 1 - \boldsymbol{\alpha} \exp(\boldsymbol{Q} x) \boldsymbol{1},
-")
+![F(x) = 1 - \boldsymbol{\alpha} \exp(\boldsymbol{Q} x) \boldsymbol{1},](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;F%28x%29%20%3D%201%20-%20%5Cboldsymbol%7B%5Calpha%7D%20%5Cexp%28%5Cboldsymbol%7BQ%7D%20x%29%20%5Cboldsymbol%7B1%7D%2C "F(x) = 1 - \boldsymbol{\alpha} \exp(\boldsymbol{Q} x) \boldsymbol{1},")
 
 where
-![\\boldsymbol{1}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7B1%7D "\boldsymbol{1}")
+![\boldsymbol{1}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7B1%7D "\boldsymbol{1}")
 is a column vector whose entries are 1. Also the p.d.f. can be obtained
 by taking the first derivative of the c.d.f.;
 
-![
-f(x) = \\boldsymbol{\\alpha} \\exp(\\boldsymbol{Q} x) \\boldsymbol{\\xi},
-](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%0Af%28x%29%20%3D%20%5Cboldsymbol%7B%5Calpha%7D%20%5Cexp%28%5Cboldsymbol%7BQ%7D%20x%29%20%5Cboldsymbol%7B%5Cxi%7D%2C%0A "
-f(x) = \boldsymbol{\alpha} \exp(\boldsymbol{Q} x) \boldsymbol{\xi},
-")
+![f(x) = \boldsymbol{\alpha} \exp(\boldsymbol{Q} x) \boldsymbol{\xi},](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;f%28x%29%20%3D%20%5Cboldsymbol%7B%5Calpha%7D%20%5Cexp%28%5Cboldsymbol%7BQ%7D%20x%29%20%5Cboldsymbol%7B%5Cxi%7D%2C "f(x) = \boldsymbol{\alpha} \exp(\boldsymbol{Q} x) \boldsymbol{\xi},")
 
 where
-![\\boldsymbol{\\xi} = - \\boldsymbol{Q} \\boldsymbol{1}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7B%5Cxi%7D%20%3D%20-%20%5Cboldsymbol%7BQ%7D%20%5Cboldsymbol%7B1%7D "\boldsymbol{\xi} = - \boldsymbol{Q} \boldsymbol{1}").
+![\boldsymbol{\xi} = - \boldsymbol{Q} \boldsymbol{1}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7B%5Cxi%7D%20%3D%20-%20%5Cboldsymbol%7BQ%7D%20%5Cboldsymbol%7B1%7D "\boldsymbol{\xi} = - \boldsymbol{Q} \boldsymbol{1}").
 
 The purpose of PH fitting is to determine PH parameters
-![\\boldsymbol{\\alpha}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7B%5Calpha%7D "\boldsymbol{\alpha}")
+![\boldsymbol{\alpha}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7B%5Calpha%7D "\boldsymbol{\alpha}")
 and
-![\\boldsymbol{Q}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7BQ%7D "\boldsymbol{Q}")
+![\boldsymbol{Q}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7BQ%7D "\boldsymbol{Q}")
 so that the estimated PH distribution fits to observed data. There are
 two different approaches; MM (moment match) method and MLE (maximum
 likelihood estimation). The MM method is to find PH parameters whose
@@ -149,46 +141,46 @@ at 100.
 |  \[90, 100\]  |   0    |
 |  \[100, Inf)  |  `NA`  |
 
-On the other hand, the aboe table shows an example of another grouped
+On the other hand, the above table shows an example of another grouped
 data. In this case, several samples are truncated at 100 but we do not
 know the exact number of truncated samples.
 
 ### Models and Methods
 
 PH distributions are classified to sub-classes by the structure of
-![\\boldsymbol{\\alpha}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7B%5Calpha%7D "\boldsymbol{\alpha}")
+![\boldsymbol{\alpha}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7B%5Calpha%7D "\boldsymbol{\alpha}")
 and
-![\\boldsymbol{Q}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7BQ%7D "\boldsymbol{Q}"),
+![\boldsymbol{Q}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7BQ%7D "\boldsymbol{Q}"),
 and the parameter estimation algorithms depend on the class of PH
 distribution. The tool deals with the following classes of PH
 distribution:
 
--   general PH: The PH distribution in which there are no constraints on
-    ![\\boldsymbol{\\alpha}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7B%5Calpha%7D "\boldsymbol{\alpha}")
-    and
-    ![\\boldsymbol{Q}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7BQ%7D "\boldsymbol{Q}").
-    In the tool, this is referred to as \`ph’ class.
--   canonical form 1 (CF1): One of the minimal representations of
-    acyclic PH distribution. The matrix
-    ![\\boldsymbol{Q}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7BQ%7D "\boldsymbol{Q}")
-    becomes a bidiagonal matrix whose entries are sorted in increasing
-    order. In the tool, this is referred to as \`cf1’ class.
--   hyper-Erlang distribution: One of the representations of acyclic PH
-    distribution. The distribution consists of a mixture of Erlang
-    distributions. In the tool, this is referred to as \`herlang’ class.
+- general PH: The PH distribution in which there are no constraints on
+  ![\boldsymbol{\alpha}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7B%5Calpha%7D "\boldsymbol{\alpha}")
+  and
+  ![\boldsymbol{Q}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7BQ%7D "\boldsymbol{Q}").
+  In the tool, this is referred to as \`ph’ class.
+- canonical form 1 (CF1): One of the minimal representations of acyclic
+  PH distribution. The matrix
+  ![\boldsymbol{Q}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7BQ%7D "\boldsymbol{Q}")
+  becomes a bidiagonal matrix whose entries are sorted in increasing
+  order. In the tool, this is referred to as \`cf1’ class.
+- hyper-Erlang distribution: One of the representations of acyclic PH
+  distribution. The distribution consists of a mixture of Erlang
+  distributions. In the tool, this is referred to as \`herlang’ class.
 
 The parameters of `ph` class are
-![\\boldsymbol{\\alpha}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7B%5Calpha%7D "\boldsymbol{\alpha}"),
-![\\boldsymbol{Q}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7BQ%7D "\boldsymbol{Q}")
+![\boldsymbol{\alpha}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7B%5Calpha%7D "\boldsymbol{\alpha}"),
+![\boldsymbol{Q}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7BQ%7D "\boldsymbol{Q}")
 and
-![\\boldsymbol{\\xi}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7B%5Cxi%7D "\boldsymbol{\xi}"),
+![\boldsymbol{\xi}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7B%5Cxi%7D "\boldsymbol{\xi}"),
 which are defined as members of R6 class in R. To represent the matrix
-![\\boldsymbol{Q}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7BQ%7D "\boldsymbol{Q}"),
+![\boldsymbol{Q}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7BQ%7D "\boldsymbol{Q}"),
 we use `Matrix` package which is an external package of R. The `cf1`
 class are inherited from the `ph` class. In addition to inherited
 members, `cf1` has a member `rate` to store the absolute values of
 diagonal elements of
-![\\boldsymbol{Q}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7BQ%7D "\boldsymbol{Q}").
+![\boldsymbol{Q}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7BQ%7D "\boldsymbol{Q}").
 The `herlang` class has the member for the mixed ratio as `alpha`, shape
 parameters of Erlang components `shape`, rate parameters of Erlang
 components `rate`. `herlang` classes can be transformed to `ph` class by
@@ -196,25 +188,24 @@ using `as.gph` method of R. `cf1` has members for `alpha`, `Q` and `xi`.
 
 The R functions for PH parameter estimation are;
 
--   `phfit.point`: MLEs for general PH, CF1 and hyper-Erlang
-    distribution from point and weighted point data. The estimation
-    algorithms for general PH and CF1 are the EM algorithms proposed in
-    \[1\]. The algorithm for hyper-Erlang distribution is the EM
-    algorithm with shape parameter selection described in \[2,3\].
--   `phfit.group`: MLEs for general PH, CF1 and hyper-Erlang
-    distribution from grouped and truncated data. The estimation
-    algorithms for general PH and CF1 are the EM algorithms proposed in
-    \[4\]. The algorithm for hyper-Erlang distribution is the EM
-    algorithm with shape parameter selection, which is originally
-    developed as an extension of \[2,3\].
--   `phfit.density`: MLEs for general PH, CF1 and hyper-Erlang
-    distribution from a density function defined on the positive domain
-    \[0, Inf). The function `phfit.density` calls `phfit.point` after
-    making weighted point data. The weighted point data is generated by
-    numerical quadrature. In the tool, the numerical quadrature is
-    performed with a double exponential (DE) formula.
--   `phfit.3mom`: MM methods for acyclic PH distribution with the first
-    three moments \[5,6\].
+- `phfit.point`: MLEs for general PH, CF1 and hyper-Erlang distribution
+  from point and weighted point data. The estimation algorithms for
+  general PH and CF1 are the EM algorithms proposed in \[1\]. The
+  algorithm for hyper-Erlang distribution is the EM algorithm with shape
+  parameter selection described in \[2,3\].
+- `phfit.group`: MLEs for general PH, CF1 and hyper-Erlang distribution
+  from grouped and truncated data. The estimation algorithms for general
+  PH and CF1 are the EM algorithms proposed in \[4\]. The algorithm for
+  hyper-Erlang distribution is the EM algorithm with shape parameter
+  selection, which is originally developed as an extension of \[2,3\].
+- `phfit.density`: MLEs for general PH, CF1 and hyper-Erlang
+  distribution from a density function defined on the positive domain
+  \[0, Inf). The function `phfit.density` calls `phfit.point` after
+  making weighted point data. The weighted point data is generated by
+  numerical quadrature. In the tool, the numerical quadrature is
+  performed with a double exponential (DE) formula.
+- `phfit.3mom`: MM methods for acyclic PH distribution with the first
+  three moments \[5,6\].
 
 The functions `phfit.point`, `phfit.group` and `phfit.density` select an
 appropriate algorithm depending on the class of a given PH distribution.
@@ -240,7 +231,7 @@ wsample <- rweibull(100, shape=2, scale=1)
 
 `wsample` is set to a vector including a hundred IID samples generated
 from Weibull distribution with scale parameter 1 and shape parameter 2.
-`set.seed(1234)` means determing the seed of random numbers.
+`set.seed(1234)` means determining the seed of random numbers.
 
 ``` r
 wsample
@@ -276,7 +267,7 @@ phfit.point(ph=ph(5), x=wsample)
 #> DF: 29
 #> AIC: 176.873999
 #> Iteration:  2000 / 2000
-#> Computation time (user): 1.836000
+#> Computation time (user): 1.978000
 #> Convergence: FALSE
 #> Error (abs): 2.658413e-05 (tolerance Inf)
 #> Error (rel): 4.472655e-07 (tolerance 1.490116e-08)
@@ -307,7 +298,7 @@ phfit.point(ph=cf1(5), x=wsample)
 #> DF: 9
 #> AIC: 136.832116
 #> Iteration:  2000 / 2000
-#> Computation time (user): 1.606000
+#> Computation time (user): 1.731000
 #> Convergence: FALSE
 #> Error (abs): 1.497201e-06 (tolerance Inf)
 #> Error (rel): 2.519859e-08 (tolerance 1.490116e-08)
@@ -367,7 +358,7 @@ phfit.group(ph=ph(5), counts=h.res$counts, breaks=h.res$breaks)
 #> DF: 29
 #> AIC: 103.625059
 #> Iteration:  1648 / 2000
-#> Computation time (user): 0.332000
+#> Computation time (user): 0.355000
 #> Convergence: TRUE
 #> Error (abs): 3.396318e-07 (tolerance Inf)
 #> Error (rel): 1.488795e-08 (tolerance 1.490116e-08)
@@ -398,7 +389,7 @@ phfit.group(ph=cf1(5), counts=h.res$counts, breaks=h.res$breaks)
 #> DF: 9
 #> AIC: 63.623811
 #> Iteration:  1300 / 2000
-#> Computation time (user): 0.237000
+#> Computation time (user): 0.256000
 #> Convergence: TRUE
 #> Error (abs): 3.388332e-07 (tolerance Inf)
 #> Error (rel): 1.485335e-08 (tolerance 1.490116e-08)
@@ -445,7 +436,7 @@ phfit.density(ph=ph(5), f=dweibull, shape=2, scale=1)
 #> DF: 29
 #> KL: 0.003678
 #> Iteration:  2000 / 2000
-#> Computation time (user): 2.071000
+#> Computation time (user): 2.199000
 #> Convergence: FALSE
 #> Error (abs): 4.373887e-05 (tolerance Inf)
 #> Error (rel): 3.878266e-06 (tolerance 1.490116e-08)
@@ -476,7 +467,7 @@ phfit.density(ph=cf1(5), f=dweibull, shape=2, scale=1)
 #> DF: 9
 #> KL: 0.002069
 #> Iteration:  2000 / 2000
-#> Computation time (user): 1.366000
+#> Computation time (user): 1.586000
 #> Convergence: FALSE
 #> Error (abs): 2.767693e-07 (tolerance Inf)
 #> Error (rel): 2.460694e-08 (tolerance 1.490116e-08)
@@ -499,7 +490,7 @@ phfit.density(ph=herlang(5), f=dweibull, shape=2, scale=1)
 #> DF: 4
 #> KL: 0.009694
 #> Iteration:  77 / 2000
-#> Computation time (user): 0.011000
+#> Computation time (user): 0.012000
 #> Convergence: TRUE
 #> Error (abs): 1.461348e-07 (tolerance Inf)
 #> Error (rel): 1.282881e-08 (tolerance 1.490116e-08)
@@ -515,7 +506,7 @@ function. User-defined functions are also used as density functions in
 similar manner.
 
 Usually, the PH fitting with density is used for the PH expansion (PH
-approximation) in which known general desitributions are replaced with
+approximation) in which known general distributions are replaced with
 the PH distributions estimated from these density functions. Compared to
 PH fitting with samples, PH fitting with density function tends to be
 accurate, because density function has more information than samples.
@@ -538,7 +529,7 @@ is possible to perform PH fitting even if PH has 100 states;
 #> DF: 199
 #> KL: 0.000000
 #> Iteration:  40 / 2000
-#> Computation time (user): 0.375000
+#> Computation time (user): 0.402000
 #> Convergence: TRUE
 #> Error (abs): 1.596614e-07 (tolerance Inf)
 #> Error (rel): 1.424445e-08 (tolerance 1.490116e-08)
@@ -555,8 +546,8 @@ components can be applied to PH fitting with high orders. In the above
 example, although the number of states is 100, the execution time is in
 a few seconds because of the refinement of EM algorithm \[1\].
 
-If we use only point data to estimate PH paramters with high orders, the
-overfitting is happen.
+If we use only point data to estimate PH parameters with high orders,
+the overfitting is happen.
 
 ``` r
 ## estimate PH parameters from 100 samples (overfitting example)
@@ -573,7 +564,7 @@ overfitting is happen.
 #> DF: 185
 #> AIC: 471.009213
 #> Iteration:  2000 / 2000
-#> Computation time (user): 14.342000
+#> Computation time (user): 14.520000
 #> Convergence: FALSE
 #> Error (abs): 2.196319e-05 (tolerance Inf)
 #> Error (rel): 4.348748e-07 (tolerance 1.490116e-08)
@@ -612,24 +603,23 @@ ggplot(data.frame(x=seq(0, 3, length.out=100)), aes(x=x)) +
 
 ### References
 
--   \[1\] H. Okamura, T. Dohi and K.S. Trivedi, A refined EM algorithm
-    for PH distributions, Performance Evaluation, 68(10), 938-954, 2011.
--   \[2\] A. Thummler and P. Buchholz and M. Telek, A novel approach for
-    phase-type fitting with the EM algorithm, IEEE Transactions on
-    Dependable and Secure Computing, 3(3), 245-258, 2006.
--   \[3\] A. Panchenko and A. Thummler, Efficient phase-type fitting
-    with aggregated traffic traces, Performance Evaluation, 64, 629-645,
-    2007.
--   \[4\] H. Okamura, T. Dohi and K.S. Trivedi, Improvement of EM
-    algorithm for phase-type distributions with grouped and truncated
-    data, Applied Stochastic Models in Business and Industry, 29(2),
-    141-156, 2013.
--   \[5\] A. Bobbio and A. Horvath and M. Telek, Matching three moments
-    with minimal acyclic phase type distributions, Stochastic Models,
-    21(2/3), 303-326, 2005.
--   \[6\] T. Osogami and M. Harchol-Balter, Closed form solutions for
-    mapping general distributions to minimal PH distributions,
-    Performance Evaluation, 63(6), 524-552, 2006.
+- \[1\] H. Okamura, T. Dohi and K.S. Trivedi, A refined EM algorithm for
+  PH distributions, Performance Evaluation, 68(10), 938-954, 2011.
+- \[2\] A. Thummler and P. Buchholz and M. Telek, A novel approach for
+  phase-type fitting with the EM algorithm, IEEE Transactions on
+  Dependable and Secure Computing, 3(3), 245-258, 2006.
+- \[3\] A. Panchenko and A. Thummler, Efficient phase-type fitting with
+  aggregated traffic traces, Performance Evaluation, 64, 629-645, 2007.
+- \[4\] H. Okamura, T. Dohi and K.S. Trivedi, Improvement of EM
+  algorithm for phase-type distributions with grouped and truncated
+  data, Applied Stochastic Models in Business and Industry, 29(2),
+  141-156, 2013.
+- \[5\] A. Bobbio and A. Horvath and M. Telek, Matching three moments
+  with minimal acyclic phase type distributions, Stochastic Models,
+  21(2/3), 303-326, 2005.
+- \[6\] T. Osogami and M. Harchol-Balter, Closed form solutions for
+  mapping general distributions to minimal PH distributions, Performance
+  Evaluation, 63(6), 524-552, 2006.
 
 ## MAP Fitting
 
@@ -639,41 +629,33 @@ MAP (Markovian arrival process) is a stochastic point process whose
 arrival rates are dominated by a CTMC. The CTMC expresses the internal
 state of MAP called a phase process. MAP is generally defined by an
 initial probability vector
-![\\boldsymbol{\\alpha}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7B%5Calpha%7D "\boldsymbol{\alpha}")
+![\boldsymbol{\alpha}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7B%5Calpha%7D "\boldsymbol{\alpha}")
 and two matrices for infinitesimal generators
-![\\boldsymbol{D}\_0](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7BD%7D_0 "\boldsymbol{D}_0"),
-![\\boldsymbol{D}\_1](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7BD%7D_1 "\boldsymbol{D}_1").
+![\boldsymbol{D}\_0](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7BD%7D_0 "\boldsymbol{D}_0"),
+![\boldsymbol{D}\_1](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7BD%7D_1 "\boldsymbol{D}_1").
 Let
-![\\boldsymbol{\\pi}(n,t)](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7B%5Cpi%7D%28n%2Ct%29 "\boldsymbol{\pi}(n,t)")
+![\boldsymbol{\pi}(n,t)](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7B%5Cpi%7D%28n%2Ct%29 "\boldsymbol{\pi}(n,t)")
 be the row vector whose i-th entry is the probability that the phase
 process is i at time t and n arrivals occur before time t. Then we have
 the following differential equations:
 
-![
-\\frac{d}{dt} \\boldsymbol{\\pi}(n,t) = \\boldsymbol{\\pi}(n,t) \\boldsymbol{D}\_0 + \\boldsymbol{\\pi}(n-1,t) \\boldsymbol{D}\_1, \\quad \\text{for $n = 1, 2, \\ldots$},
-](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%0A%5Cfrac%7Bd%7D%7Bdt%7D%20%5Cboldsymbol%7B%5Cpi%7D%28n%2Ct%29%20%3D%20%5Cboldsymbol%7B%5Cpi%7D%28n%2Ct%29%20%5Cboldsymbol%7BD%7D_0%20%2B%20%5Cboldsymbol%7B%5Cpi%7D%28n-1%2Ct%29%20%5Cboldsymbol%7BD%7D_1%2C%20%5Cquad%20%5Ctext%7Bfor%20%24n%20%3D%201%2C%202%2C%20%5Cldots%24%7D%2C%0A "
-\frac{d}{dt} \boldsymbol{\pi}(n,t) = \boldsymbol{\pi}(n,t) \boldsymbol{D}_0 + \boldsymbol{\pi}(n-1,t) \boldsymbol{D}_1, \quad \text{for $n = 1, 2, \ldots$},
-")
+![\frac{d}{dt} \boldsymbol{\pi}(n,t) = \boldsymbol{\pi}(n,t) \boldsymbol{D}\_0 + \boldsymbol{\pi}(n-1,t) \boldsymbol{D}\_1, \quad \text{for \$n = 1, 2, \ldots\$},](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cfrac%7Bd%7D%7Bdt%7D%20%5Cboldsymbol%7B%5Cpi%7D%28n%2Ct%29%20%3D%20%5Cboldsymbol%7B%5Cpi%7D%28n%2Ct%29%20%5Cboldsymbol%7BD%7D_0%20%2B%20%5Cboldsymbol%7B%5Cpi%7D%28n-1%2Ct%29%20%5Cboldsymbol%7BD%7D_1%2C%20%5Cquad%20%5Ctext%7Bfor%20%24n%20%3D%201%2C%202%2C%20%5Cldots%24%7D%2C "\frac{d}{dt} \boldsymbol{\pi}(n,t) = \boldsymbol{\pi}(n,t) \boldsymbol{D}_0 + \boldsymbol{\pi}(n-1,t) \boldsymbol{D}_1, \quad \text{for $n = 1, 2, \ldots$},")
 
-![
-\\frac{d}{dt} \\boldsymbol{\\pi}(0,t) = \\boldsymbol{\\pi}(0,t) \\boldsymbol{D}\_0, \\quad \\boldsymbol{\\pi}(0,0) = \\boldsymbol{\\alpha},
-](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%0A%5Cfrac%7Bd%7D%7Bdt%7D%20%5Cboldsymbol%7B%5Cpi%7D%280%2Ct%29%20%3D%20%5Cboldsymbol%7B%5Cpi%7D%280%2Ct%29%20%5Cboldsymbol%7BD%7D_0%2C%20%5Cquad%20%5Cboldsymbol%7B%5Cpi%7D%280%2C0%29%20%3D%20%5Cboldsymbol%7B%5Calpha%7D%2C%0A "
-\frac{d}{dt} \boldsymbol{\pi}(0,t) = \boldsymbol{\pi}(0,t) \boldsymbol{D}_0, \quad \boldsymbol{\pi}(0,0) = \boldsymbol{\alpha},
-")
+![\frac{d}{dt} \boldsymbol{\pi}(0,t) = \boldsymbol{\pi}(0,t) \boldsymbol{D}\_0, \quad \boldsymbol{\pi}(0,0) = \boldsymbol{\alpha},](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cfrac%7Bd%7D%7Bdt%7D%20%5Cboldsymbol%7B%5Cpi%7D%280%2Ct%29%20%3D%20%5Cboldsymbol%7B%5Cpi%7D%280%2Ct%29%20%5Cboldsymbol%7BD%7D_0%2C%20%5Cquad%20%5Cboldsymbol%7B%5Cpi%7D%280%2C0%29%20%3D%20%5Cboldsymbol%7B%5Calpha%7D%2C "\frac{d}{dt} \boldsymbol{\pi}(0,t) = \boldsymbol{\pi}(0,t) \boldsymbol{D}_0, \quad \boldsymbol{\pi}(0,0) = \boldsymbol{\alpha},")
 
 where
-![\\boldsymbol{D}\_0](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7BD%7D_0 "\boldsymbol{D}_0")
+![\boldsymbol{D}\_0](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7BD%7D_0 "\boldsymbol{D}_0")
 and
-![\\boldsymbol{D}\_1](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7BD%7D_1 "\boldsymbol{D}_1")
+![\boldsymbol{D}\_1](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7BD%7D_1 "\boldsymbol{D}_1")
 are infinitesimal generators of phase process without and with arrivals,
 respectively. Note that
-![\\boldsymbol{D}\_0 + \\boldsymbol{D}\_1](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7BD%7D_0%20%2B%20%5Cboldsymbol%7BD%7D_1 "\boldsymbol{D}_0 + \boldsymbol{D}_1")
+![\boldsymbol{D}\_0 + \boldsymbol{D}\_1](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7BD%7D_0%20%2B%20%5Cboldsymbol%7BD%7D_1 "\boldsymbol{D}_0 + \boldsymbol{D}_1")
 becomes the infinitesimal generator of phase process. Similar to PH
 fitting, the purpose of MAP fitting is to find MAP parameters
-![\\boldsymbol{\\alpha}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7B%5Calpha%7D "\boldsymbol{\alpha}"),
-![\\boldsymbol{D}\_0](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7BD%7D_0 "\boldsymbol{D}_0")
+![\boldsymbol{\alpha}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7B%5Calpha%7D "\boldsymbol{\alpha}"),
+![\boldsymbol{D}\_0](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7BD%7D_0 "\boldsymbol{D}_0")
 and
-![\\boldsymbol{D}\_1](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7BD%7D_1 "\boldsymbol{D}_1")
+![\boldsymbol{D}\_1](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7BD%7D_1 "\boldsymbol{D}_1")
 so that the estimated MAP fits to observed data. In MAP fitting, there
 are also two approaches; MM method and MLE. The MM method for MAP is to
 determine MAP parameters with marginal/joint moments and k-lag
@@ -723,22 +705,22 @@ this version of tool.
 mapfit has three classes (models) for MAP, which have different
 parameter estimation algorithms.
 
--   general MAP: MAP with no constraint on parameters. This class is
-    referred to as `map` in the tool. Also, the tool uses a Markov
-    modulated Poisson process (MMPP) as a specific structure of `map`,
-    which can be generated by an `mmpp` command.
--   HMM (hidden Markov model) with Erlang outputs (ER-HMM): One of MAP
-    representation where Erlang outputs correspond to time intervals
-    between two successive arrivals \[2\]. In the tool, this class is
-    referred to as `erhmm`.
--   MMPP with grouped data: MMPP with approximate parameter estimation.
-    This is referred to as `gmmpp` in the tool, and is essentially same
-    as `mmpp` except for parameter estimation algorithm. In the
-    parameter estimation of `gmmpp`, it is assumed that at most one
-    phase change is allowed in one observed time interval \[3\].
+- general MAP: MAP with no constraint on parameters. This class is
+  referred to as `map` in the tool. Also, the tool uses a Markov
+  modulated Poisson process (MMPP) as a specific structure of `map`,
+  which can be generated by an `mmpp` command.
+- HMM (hidden Markov model) with Erlang outputs (ER-HMM): One of MAP
+  representation where Erlang outputs correspond to time intervals
+  between two successive arrivals \[2\]. In the tool, this class is
+  referred to as `erhmm`.
+- MMPP with grouped data: MMPP with approximate parameter estimation.
+  This is referred to as `gmmpp` in the tool, and is essentially same as
+  `mmpp` except for parameter estimation algorithm. In the parameter
+  estimation of `gmmpp`, it is assumed that at most one phase change is
+  allowed in one observed time interval \[3\].
 
 The `map` class consists of parameters
-![\\alpha](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Calpha "\alpha"),
+![\alpha](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Calpha "\alpha"),
 ![D_0](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;D_0 "D_0")
 and
 ![D_1](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;D_1 "D_1"),
@@ -750,16 +732,15 @@ for Erlang distribution (`shape`) and the rate parameters for Erlang
 distribution (`rate`). The S4 class `erhmm` can be transformed to `map`
 by using `as` method.
 
-The tool has the follwoing MAP fitting functions:
+The tool has the following MAP fitting functions:
 
--   `mapfit.point`: MLEs for general MAP and ER-HMM from point data. The
-    estimation algorithm for general MAP is the EM algorithm introduced
-    in \[4\]. The algorithm for ER-HMM is the EM algorithm proposed in
-    \[2\].
--   `mapfit.group`: MLEs for general MAP and `gmmpp` from grouped data.
-    Both the estimation algorithms for general MAP and `gmmpp` are
-    presented in \[3\]. Note that `erhmm` cannot be used in the case of
-    grouped data.
+- `mapfit.point`: MLEs for general MAP and ER-HMM from point data. The
+  estimation algorithm for general MAP is the EM algorithm introduced in
+  \[4\]. The algorithm for ER-HMM is the EM algorithm proposed in \[2\].
+- `mapfit.group`: MLEs for general MAP and `gmmpp` from grouped data.
+  Both the estimation algorithms for general MAP and `gmmpp` are
+  presented in \[3\]. Note that `erhmm` cannot be used in the case of
+  grouped data.
 
 The functions `mapfit.point` and `mapfit.group` select an appropriate
 algorithm depending on the class of a given MAP. These functions return
@@ -921,7 +902,7 @@ mapfit.point(map=map(5), x=cumsum(BCpAug89))
 #> DF: 49
 #> AIC: -10147.068566
 #> Iteration:  2000 / 2000
-#> Computation time (user): 67.911000
+#> Computation time (user): 72.704000
 #> Convergence: FALSE
 #> Error (abs): 1.498159e-04 (tolerance Inf)
 #> Error (rel): 2.924644e-08 (tolerance 1.490116e-08)
@@ -952,7 +933,7 @@ mapfit.point(map=mmpp(5), x=cumsum(BCpAug89))
 #> DF: 29
 #> AIC: -10052.225436
 #> Iteration:  35 / 2000
-#> Computation time (user): 1.260000
+#> Computation time (user): 1.346000
 #> Convergence: TRUE
 #> Error (abs): 7.531932e-05 (tolerance Inf)
 #> Error (rel): 1.489963e-08 (tolerance 1.490116e-08)
@@ -992,7 +973,7 @@ mapfit.point(map=erhmm(5), x=cumsum(BCpAug89))
 #> DF: 13
 #> AIC: -10217.720196
 #> Iteration:  85 / 2000
-#> Computation time (user): 0.745000
+#> Computation time (user): 0.763000
 #> Convergence: TRUE
 #> Error (abs): 7.459457e-05 (tolerance Inf)
 #> Error (rel): 1.456396e-08 (tolerance 1.490116e-08)
@@ -1067,7 +1048,7 @@ mapfit.group(map=map(5), counts=BCpAug89.group$counts, breaks=BCpAug89.group$bre
 #> DF: 49
 #> AIC: 1207.552145
 #> Iteration:  2000 / 2000
-#> Computation time (user): 117.394000
+#> Computation time (user): 127.523000
 #> Convergence: FALSE
 #> Error (abs): 2.654024e-04 (tolerance Inf)
 #> Error (rel): 4.783953e-07 (tolerance 1.490116e-08)
@@ -1098,7 +1079,7 @@ mapfit.group(map=mmpp(5), counts=BCpAug89.group$counts, breaks=BCpAug89.group$br
 #> DF: 29
 #> AIC: 1171.054100
 #> Iteration:  687 / 2000
-#> Computation time (user): 66.817000
+#> Computation time (user): 72.267000
 #> Convergence: TRUE
 #> Error (abs): 8.230252e-06 (tolerance Inf)
 #> Error (rel): 1.478859e-08 (tolerance 1.490116e-08)
@@ -1129,7 +1110,7 @@ mapfit.group(map=gmmpp(5), counts=BCpAug89.group$counts, breaks=BCpAug89.group$b
 #> DF: 29
 #> AIC: 1714.429073
 #> Iteration:  137 / 2000
-#> Computation time (user): 5.554000
+#> Computation time (user): 5.562000
 #> Convergence: TRUE
 #> Error (abs): 1.174183e-05 (tolerance Inf)
 #> Error (rel): 1.417728e-08 (tolerance 1.490116e-08)
@@ -1156,15 +1137,15 @@ mapfit.group(map=gmmpp(5), counts=BCpAug89.group$counts, breaks=BCpAug89.group$b
 
 ### References
 
--   \[1\] G. Horvath, P. Buchholz and M. Telek, A MAP fitting approach
-    with independent approximation of the inter-arrival time
-    distribution and the lag correlation, Proceedings of the 2nd
-    International Conference on the Quantitative Evaluation of Systems
-    (QEST2005), 124-133, 2005.
--   \[2\] H. Okamura and T. Dohi, Faster maximum likelihood estimation
-    algorithms for Markovian arrival processes, Proceedings of 6th
-    International Conference on Quantitative Evaluation of Systems
-    (QEST2009), 73-82, 2009.
--   \[3\] H. Okamura, T. Dohi and K.S. Trivedi, Markovian arrival
-    process parameter estimation with group data, IEEE/ACM Transactions
-    on Networking, 17(4), 1326-1339, 2009.
+- \[1\] G. Horvath, P. Buchholz and M. Telek, A MAP fitting approach
+  with independent approximation of the inter-arrival time distribution
+  and the lag correlation, Proceedings of the 2nd International
+  Conference on the Quantitative Evaluation of Systems (QEST2005),
+  124-133, 2005.
+- \[2\] H. Okamura and T. Dohi, Faster maximum likelihood estimation
+  algorithms for Markovian arrival processes, Proceedings of 6th
+  International Conference on Quantitative Evaluation of Systems
+  (QEST2009), 73-82, 2009.
+- \[3\] H. Okamura, T. Dohi and K.S. Trivedi, Markovian arrival process
+  parameter estimation with group data, IEEE/ACM Transactions on
+  Networking, 17(4), 1326-1339, 2009.

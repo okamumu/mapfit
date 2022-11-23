@@ -3,7 +3,7 @@
 #' A continuous distribution dominated by a continuous-time Markov chain.
 #' A random time is given by an absorbing time. In the CF1 (canonical form 1),
 #' the infinitesimal generator is given by a bi-diagonal matrix, and whose order
-#' is determiend by the ascending order.
+#' is determined by the ascending order.
 #' 
 CF1Class <- R6::R6Class(
   "CF1Class",

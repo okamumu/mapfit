@@ -21,7 +21,7 @@ pphase(q, ph, lower.tail = TRUE, log.p = FALSE, ...)
 A vector of densities
 }
 \description{
-Compute the cumulative distribution fuction (c.d.f.) for a given PH distribution
+Compute the cumulative distribution function (c.d.f.) for a given PH distribution
 }
 \examples{
 ## create a PH with specific parameters

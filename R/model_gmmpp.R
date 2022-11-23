@@ -2,6 +2,7 @@
 #'
 #' A point process dominated by a continuous-time Markov chain.
 #' 
+
 GMMPPClass <- R6::R6Class(
   "GMMPPClass",
   inherit = MAPClass,

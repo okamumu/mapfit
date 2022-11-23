@@ -11,7 +11,7 @@ rphase(n, ph, ...)
 
 \item{ph}{An instance of PH distribution.}
 
-\item{...}{Ohters}
+\item{...}{Others}
 }
 \value{
 A vector of samples.

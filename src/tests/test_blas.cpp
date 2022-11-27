@@ -137,6 +137,12 @@ void test_mcopy_dge(S4 B, NumericMatrix A) {
   mcopy(b, A);
 }
 
+// [[Rcpp::export]]
+void test_backsolve(S4 A, NumericVector x, NumericVector y) {
+  auto a = S4matrix<CSCMatrixT>(A);
+  backsolve(TRANS{}, -1.0, a, x, y);
+}
+
 /*** R
 library(Matrix)
 x <- c(100,-20,3)
@@ -225,4 +231,15 @@ m1 <- matrix(0, 3, 3)
 test_mcopy_dge(m2, m1)
 print(m1)
 print(m2)
+
+m <- rbind(
+  c(-3000, 3000, 0),
+  c(0, -2, 2),
+  c(0, 0, -1))
+m2 <- as(m, "dgCMatrix")
+x <- c(0.2, 0.5, 0.3)
+y <- c(0,0,0)
+test_backsolve(m2, x, y)
+print(y)
+print(solve(-t(m), x))
 */

@@ -80,6 +80,17 @@ double estep(
     GPHEres<T6,T7>& eres,
     OptionT& options,
     WorkSpace& work) noexcept {
+  return estep_wtime(model, data, eres, options, work);
+}
+
+template <typename T0, typename T1, typename T2, typename T4, typename T5, typename T6, typename T7,
+          typename OptionT, typename WorkSpace>
+double estep_wtime(
+    const GPH<T1,T2,T0>& model,
+    const PHWeightSample<T4,T5>& data,
+    GPHEres<T6,T7>& eres,
+    OptionT& options,
+    WorkSpace& work) noexcept {
   
   const int m = data.size();
   const double* tdat = vector_traits<T4,double>::value(data.time);

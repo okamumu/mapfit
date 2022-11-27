@@ -93,7 +93,7 @@ inline
  * */
 
 template<typename T>
-double pmf(double lambda, int left, int right, T& prob) {
+double pmf(double lambda, int left, int right, T& prob) noexcept {
   static const double pi = 4.0 * atan(1.0);
   static const double LOG2PIOVER2 = log(2*pi) / 2.0;
   using traits = vector_traits<T>;
@@ -133,7 +133,7 @@ double pmf(double lambda, int left, int right, T& prob) {
 }
 
 template<typename T1, typename T2>
-double cpmf(double lambda, int left, int right, T1& prob, T2& cprob) {
+double cpmf(double lambda, int left, int right, T1& prob, T2& cprob) noexcept {
   using traits1 = vector_traits<T1>;
   double* poi = traits1::value(prob);
   using traits2 = vector_traits<T2>;

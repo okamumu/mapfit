@@ -1404,4 +1404,47 @@ int gesv(const T0& tr, double alpha, const T1& A, const T2& B, T3& C) {
               typename matrix_category<T1>::type{});
 }
 
+namespace _backsolve_ {
+
+template<typename T1, typename T2, typename T3>
+int backsolve(TRANS, double alpha, const T1& A, const T2& x, T3& y, CSCMatrixT) {
+  using traits1 = csc_matrix_traits<T1>;
+  using traits2 = vector_traits<T2>;
+  using traits3 = vector_traits<T3>;
+  const int base = traits1::base(A);
+  // const int m = traits1::nrow(A);
+  const int n = traits1::ncol(A);
+  const double* valueA = traits1::value(A);
+  const int* colptr = traits1::colptr(A);
+  const int* rowind = traits1::rowind(A);
+  const double* valueX = traits2::value(x);
+  const int incx = traits2::inc(x);
+  double* valueY = traits3::value(y);
+  const int incy = traits3::inc(y);
+  
+  double d;
+  double tmp;
+  for (int j=0; j<n; j++) {
+    tmp = valueX[j*incy];
+    for (int z=colptr[j]-base; z<colptr[j+1]-base; z++) {
+      int i = rowind[z] - base;
+      if (i == j) {
+        d = alpha * valueA[z];
+      } else {
+        tmp -= alpha * valueA[z] * valueY[i*incx];
+      }
+    }
+    valueY[j*incy] = tmp / d;
+  }
+  return 0;
+}
+
+}
+
+template<typename T1, typename T2, typename T3, typename T0>
+int backsolve(const T0& tr, double alpha, const T1& A, const T2& B, T3& C) {
+  return _backsolve_::backsolve(tr, alpha, A, B, C,
+                      typename matrix_category<T1>::type{});
+}
+
 #endif

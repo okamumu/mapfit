@@ -121,6 +121,23 @@ double estep(
     GPHEres<T7,T8>& eres,
     OptionT& options,
     WorkSpace& work) noexcept {
+  int n = model.gph.size();
+  std::vector<double> baralpha(n);
+  gesv(TRANS{}, -1.0, model.gph.Q, model.gph.alpha, baralpha);
+  return estep_grouppoi(model, baralpha, data, eres, options, work);
+}
+
+template <typename T0, typename T1, typename T2, typename T4,
+          typename T5, typename T6, typename T7, typename T8,
+          typename T9,
+          typename OptionT, typename WorkSpace>
+double estep_grouppoi(
+    const GPHPoi<GPH<T1,T2,T0>>& model,
+    const T9& baralpha,
+    const PHGroupSample<T4,T5,T6>& data,
+    GPHEres<T7,T8>& eres,
+    OptionT& options,
+    WorkSpace& work) noexcept {
   
   const int m = data.size();
   const double* tdat = stride_vector_traits<T4,double>::value(data.time);
@@ -132,10 +149,8 @@ double estep(
   int n = model.gph.size();
   double qv = model.gph.qv;
   double omega = model.omega;
-  std::vector<double> baralpha(n);
   std::vector<double> vone(n, 1.0);
-  gesv(TRANS{}, -1.0, model.gph.Q, model.gph.alpha, baralpha);
-  
+
   // work
   int right = poi::rightbound(qv*tmax, options.poisson_eps) + 1;
   std::vector<double> prob(right+1);

@@ -101,6 +101,22 @@ double estep(
     GPHEres<T7,T8>& eres,
     OptionT& options,
     WorkSpace& work) noexcept {
+  int n = model.size();
+  std::vector<double> baralpha(n);
+  gesv(TRANS{}, -1.0, model.Q, model.alpha, baralpha);
+  return estep_leftright(model, baralpha, data, eres, options, work);
+}
+
+template <typename T0, typename T1, typename T2, typename T4,
+          typename T5, typename T7, typename T8, typename T9,
+          typename OptionT, typename WorkSpace>
+double estep_leftright(
+    const GPH<T1,T2,T0>& model,
+    const T9& baralpha,
+    const PHLeftRightSample<T4,T5>& data,
+    GPHEres<T7,T8>& eres,
+    OptionT& options,
+    WorkSpace& work) noexcept {
   
   const int m = data.size();
   const double* tdat = stride_vector_traits<T4,double>::value(data.time);
@@ -109,9 +125,7 @@ double estep(
 
   int n = model.size();
   double qv = model.qv;
-  std::vector<double> baralpha(n);
   std::vector<double> vone(n, 1.0);
-  gesv(TRANS{}, -1.0, model.Q, model.alpha, baralpha);
 
   // work
   int right = poi::rightbound(qv*tmax, options.poisson_eps) + 1;

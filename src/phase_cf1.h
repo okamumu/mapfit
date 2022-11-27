@@ -110,15 +110,87 @@ void phcopy(const CF1<T1,GPHT>& cf1, GPH<G1,G2,G0>& gph) {
   _phcopy_::phcopy(cf1, gph, typename matrix_category<G2>::type{});
 }
 
-template <typename T1, typename GPHT, typename DataT, typename EresT, typename OptionT, typename WorkSpace>
+template <typename T1,
+          typename T4,
+          typename T5,
+          typename T11,
+          typename T12,
+          typename T10,
+          typename EresT,
+          typename OptionT,
+          typename WorkSpace>
 double estep(
-    const CF1<T1,GPHT>& model,
-    const DataT& data,
+    const CF1<T1,GPH<T11,T12,T10>>& model,
+    const PHWeightSample<T4,T5>& data,
     EresT& eres,
     OptionT& options,
     WorkSpace& work) noexcept {
-  
-  return estep(model.gph, data, eres, options, work);
+  return estep_wtime(model.gph, data, eres, options, work);
+}
+
+template <typename T1,
+          typename T4,
+          typename T5,
+          typename T6,
+          typename T11,
+          typename T12,
+          typename T10,
+          typename EresT,
+          typename OptionT,
+          typename WorkSpace>
+double estep(
+    const CF1<T1,GPH<T11,T12,T10>>& model,
+    const PHGroupSample<T4,T5,T6>& data,
+    EresT& eres,
+    OptionT& options,
+    WorkSpace& work) noexcept {
+  int n = model.gph.size();
+  std::vector<double> baralpha(n);
+  backsolve(TRANS{}, -1.0, model.gph.Q, model.gph.alpha, baralpha);
+  return estep_group(model.gph, baralpha, data, eres, options, work);
+}
+
+template <typename T1,
+          typename T4,
+          typename T5,
+          typename T6,
+          typename T11,
+          typename T12,
+          typename T10,
+          typename EresT,
+          typename OptionT,
+          typename WorkSpace>
+double estep(
+    const CF1<T1,GPHPoi<GPH<T11,T12,T10>>>& model,
+    const PHGroupSample<T4,T5,T6>& data,
+    EresT& eres,
+    OptionT& options,
+    WorkSpace& work) noexcept {
+  int n = model.gph.gph.size();
+  std::vector<double> baralpha(n);
+  backsolve(TRANS{}, -1.0, model.gph.gph.Q, model.gph.gph.alpha, baralpha);
+  return estep_grouppoi(model.gph, baralpha, data, eres, options, work);
+}
+
+template <typename T1,
+          typename T4,
+          typename T5,
+          typename T11,
+          typename T12,
+          typename T10,
+          typename EresT,
+          typename OptionT,
+          typename WorkSpace>
+double estep(
+    const CF1<T1,GPH<T11,T12,T10>>& model,
+    const PHLeftRightSample<T4,T5>& data,
+    EresT& eres,
+    OptionT& options,
+    WorkSpace& work) noexcept {
+  int n = model.gph.size();
+  std::vector<double> baralpha(n);
+  backsolve(TRANS{}, -1.0, model.gph.Q, model.gph.alpha, baralpha);
+  return estep_leftright(model.gph, baralpha, data, eres, options, work);
 }
 
 inline

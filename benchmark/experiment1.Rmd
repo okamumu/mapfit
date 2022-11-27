@@ -1,0 +1,167 @@
+---
+output: 
+  html_document:
+    df_print: kable
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Fitting phase-type distributions to left-truncated and right-censored data
+
+## Setup
+
+- install
+
+``` r
+# install an experimental version of mapfit
+devtools::install_github("okamumu/mapfit", ref="censored")
+```
+
+- load module
+```{r loadmodule}
+library(mapfit)
+```
+
+## Experiment 1: Computation time
+
+Compare computation time of the fitting algorithms with EMpht.
+
+-   Data is artificially generated from the Weibull distribution.
+-   Data is the right-censored data because EMpht can handle the
+    right-censored data only.
+    -   Dataset 1 (DS1): 100 samples. 69 non-censored samples and 31
+        right-censored samples.
+    -   Dataset 2 (DS2): 1000 samples. 658 non-censored samples and 342
+        right-censored samples.
+    -   Dataset 3 (DS3): 10000 samples. 6603 non-censored samples and
+        3397 right-censored samples.
+-   The computation time for running 100 EM-steps.
+-   The number of phases is 2, 5, 10, 15, 20, 25 and 30.
+
+### Load right-censored data
+
+```{r loaddata}
+dat <- read.table(file = "data/unweighted100", nrow=100)
+ds1 <- data.frame(x=dat$V2, delta=dat$V1)
+dat <- read.table(file = "data/unweighted1000", nrow=1000)
+ds2 <- data.frame(x=dat$V2, delta=dat$V1)
+dat <- read.table(file = "data/unweighted10000", nrow=10000)
+ds3 <- data.frame(x=dat$V2, delta=dat$V1)
+```
+
+```{r statistics}
+cat(sprintf("The number of non-censored samples in DS1: %d", sum(ds1$delta == 1)))
+cat(sprintf("The number of non-censored samples in DS2: %d", sum(ds2$delta == 1)))
+cat(sprintf("The number of non-censored samples in DS3: %d", sum(ds3$delta == 1)))
+```
+
+```{r phases}
+phases <- c(2, 5, 10, 15, 20, 25, 30)
+```
+
+### Run our algorithms
+
+```{r comp1}
+phlist <- list()
+for (p in phases) {
+  dat <- as.matrix(read.table(file = paste("phfiles/w100/phase", p, sep = "")))
+  alpha <- dat[,1]
+  Q <- dat[,2:ncol(dat)]
+  xi <- -apply(Q, 1, sum)
+  phlist <- c(phlist, ph(alpha=alpha, Q=Q, xi=xi))
+}
+
+compresult <- data.frame()
+for (p in phlist) {
+  result1 <- phfit.surv(ph=p, x=ds1$x, delta=ds1$delta, initialize=FALSE, maxiter=100, reltol=0.0)
+  compresult <- rbind(compresult, list(Phase=p$size(),
+                                       Time.DS1=result1$ctime,
+                                       LLF.DS1=result1$llf))
+}
+compresult
+```
+
+```{r comp2}
+phlist <- list()
+for (p in phases) {
+  dat <- as.matrix(read.table(file = paste("phfiles/w1000/phase", p, sep = "")))
+  alpha <- dat[,1]
+  Q <- dat[,2:ncol(dat)]
+  xi <- -apply(Q, 1, sum)
+  phlist <- c(phlist, ph(alpha=alpha, Q=Q, xi=xi))
+}
+
+compresult <- data.frame()
+for (p in phlist) {
+  result2 <- phfit.surv(ph=p, x=ds2$x, delta=ds2$delta, initialize=FALSE, maxiter=100, reltol=0.0)
+  compresult <- rbind(compresult, list(Phase=p$size(),
+                                       Time.DS2=result2$ctime,
+                                       LLF.DS2=result2$llf))
+}
+compresult
+```
+
+```{r comp3}
+phlist <- list()
+for (p in phases) {
+  dat <- as.matrix(read.table(file = paste("phfiles/w10000/phase", p, sep = "")))
+  alpha <- dat[,1]
+  Q <- dat[,2:ncol(dat)]
+  xi <- -apply(Q, 1, sum)
+  phlist <- c(phlist, ph(alpha=alpha, Q=Q, xi=xi))
+}
+
+compresult <- data.frame()
+for (p in phlist) {
+  result3 <- phfit.surv(ph=p, x=ds3$x, delta=ds3$delta, initialize=FALSE, maxiter=100, reltol=0.0)
+  compresult <- rbind(compresult, list(Phase=p$size(),
+                                       Time.DS3=result3$ctime,
+                                       LLF.DS3=result3$llf))
+}
+compresult
+```
+
+<!-- ### EMpht -->
+
+<!-- #### Define a utility function -->
+
+<!-- ```{r deffunc} -->
+<!-- exec.empht <- function(p, d) { -->
+<!--   system(sprintf("gcc EMpht/EMpht%d.c -lm -o EMpht/empht%d", p, p)) -->
+<!--   system(sprintf("cp data/unweighted%d EMpht/unweighted", d)) -->
+<!--   system(sprintf("cp phfiles/phase%d EMpht/phases", p)) -->
+<!--   result <- system(sprintf("cd EMpht; ./empht%d", p), intern = TRUE) -->
+<!--   i <- grep("computation time = ", result) -->
+<!--   s <- regexpr("[0-9.]+", result[i]) -->
+<!--   ctime <- as.numeric(substr(result[i], s, s + attr(s, "match.length"))) -->
+<!--   i <- grep("Log-likelihood =", result) -->
+<!--   s <- regexpr("[-][0-9.]+", result[i]) -->
+<!--   llf <- as.numeric(substr(result[i], s, s + attr(s, "match.length"))) -->
+<!--   c(ctime, llf) -->
+<!-- } -->
+<!-- ``` -->
+
+<!-- ### Run EMpht -->
+
+<!-- ```{r runEmpht} -->
+<!-- emphtresult <- data.frame() -->
+<!-- for (p in phases) { -->
+<!--   res1 <- exec.empht(p, 100) -->
+<!--   res2 <- exec.empht(p, 1000) -->
+<!--   res3 <- exec.empht(p, 10000) -->
+<!--   emphtresult <- rbind(emphtresult, list(Phase=p, -->
+<!--                                          Time.DS1=res1[1], -->
+<!--                                          Time.DS2=res2[1], -->
+<!--                                          Time.DS3=res3[1], -->
+<!--                                          LLF.DS1=res1[2], -->
+<!--                                          LLF.DS2=res2[2], -->
+<!--                                          LLF.DS3=res3[2])) -->
+<!-- } -->
+<!-- ``` -->
+
+<!-- ```{r compres2} -->
+<!-- emphtresult -->
+<!-- ``` -->
+

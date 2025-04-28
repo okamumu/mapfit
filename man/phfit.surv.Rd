@@ -7,32 +7,62 @@
 phfit.surv(ph, x, delta, tau, ...)
 }
 \arguments{
-\item{ph}{An object of R6 class for PH. The estimation algorithm is selected depending on this class.}
+\item{ph}{An object of R6 class for PH distributions. The estimation algorithm is selected based on this class.}
 
-\item{x}{A vector for point data (censoring time or event time).}
+\item{x}{A numeric vector of observed times (either event times or censoring times).}
 
-\item{delta}{A vector of indicators whether x is censoring time or not. If delta=1, the corresponding x is the censoring time
-If delta=0, the corresponding x is the event time.}
+\item{delta}{A numeric vector of event indicators.
+If \code{delta = 1}, the observation is an \strong{event time} (i.e., the event of interest occurred).
+If \code{delta = 0}, the observation is \strong{right-censored}.}
 
-\item{tau}{A vector of left-truncation time points. If tau is missing, all the left-truncation times are NA (no truncation).}
+\item{tau}{A numeric vector of left-truncation times.
+If omitted, all observations are assumed to have no left truncation (\code{NA}).}
 
-\item{...}{Further options for fitting methods.}
+\item{...}{Additional options for the fitting algorithm.}
 }
 \value{
-Returns a list with components, which is an object of S3 class \code{phfit.result};
-\item{model}{an object for estimated PH class.}
-\item{llf}{a value of the maximum log-likelihood.}
-\item{df}{a value of degrees of freedom of the model.}
-\item{aic}{a value of Akaike information criterion.}
-\item{iter}{the number of iterations.}
-\item{convergence}{a logical value for the convergence of estimation algorithm.}
-\item{ctime}{computation time (user time).}
-\item{data}{an object for data class}
-\item{aerror}{a value of absolute error for llf at the last step of algorithm.}
-\item{rerror}{a value of relative error for llf at the last step of algorithm.}
-\item{options}{a list of optiions used for fitting.}
-\item{call}{the matched call.}
+A list of class \code{phfit.result} with the following components:
+\item{model}{An object for the estimated PH distribution.}
+\item{llf}{The maximized log-likelihood value.}
+\item{df}{The degrees of freedom of the fitted model.}
+\item{aic}{The Akaike information criterion (AIC) value.}
+\item{iter}{The number of iterations performed.}
+\item{convergence}{A logical value indicating whether the algorithm converged.}
+\item{ctime}{The computation time (user time).}
+\item{data}{An object containing the input data.}
+\item{aerror}{The absolute error of the log-likelihood at the final iteration.}
+\item{rerror}{The relative error of the log-likelihood at the final iteration.}
+\item{options}{A list of options used for the fitting.}
+\item{call}{The matched function call.}
 }
 \description{
-Estimates PH parameters from left-truncated and right-censored data.
+Fits a phase-type (PH) distribution to left-truncated and right-censored survival data via maximum likelihood estimation.
+}
+\note{
+Some specific PH classes, such as \code{herlang}, require observed data at initialization.
+Therefore, \code{herlang} cannot be directly used with \code{phfit.surv}.
+Use general PH (\code{ph}) or Canonical Form 1 (\code{cf1}) models.
+}
+\examples{
+## Generate a survival dataset
+set.seed(123)
+true_times <- rexp(100, rate = 0.5)  # true event times
+censoring_times <- rexp(100, rate = 0.3)  # censoring times
+
+x <- pmin(true_times, censoring_times)
+delta <- as.integer(true_times <= censoring_times)  # 1 = event, 0 = censored
+tau <- rep(NA, length(x))  # no left truncation
+
+## Fit a general PH distribution
+result1 <- phfit.surv(ph = ph(2), x = x, delta = delta, tau = tau)
+
+## Fit a Canonical Form 1 (CF1) distribution
+result2 <- phfit.surv(ph = cf1(2), x = x, delta = delta, tau = tau)
+
+## Calculate statistics
+ph.mean(result1$model)
+ph.var(result2$model)
+ph.moment(5, result1$model)
+ph.moment(5, result2$model)
+
 }

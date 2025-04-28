@@ -7,58 +7,48 @@
 phfit.point(ph, x, weights, ...)
 }
 \arguments{
-\item{ph}{An object of R6 class for PH. The estimation algorithm is selected depending on this class.}
+\item{ph}{An object of R6 class for PH distributions. The estimation algorithm is selected based on this class.}
 
-\item{x}{A vector for point data.}
+\item{x}{A numeric vector of observed point data (e.g., event times).}
 
-\item{weights}{A vector of weights for points.}
+\item{weights}{A numeric vector of weights associated with each point. If omitted, equal weights are assumed.}
 
-\item{...}{Further options for fitting methods.}
+\item{...}{Additional options for the fitting algorithm.}
 }
 \value{
-Returns a list with components, which is an object of S3 class \code{phfit.result};
-\item{model}{an object for estimated PH class.}
-\item{llf}{a value of the maximum log-likelihood.}
-\item{df}{a value of degrees of freedom of the model.}
-\item{aic}{a value of Akaike information criterion.}
-\item{iter}{the number of iterations.}
-\item{convergence}{a logical value for the convergence of estimation algorithm.}
-\item{ctime}{computation time (user time).}
-\item{data}{an object for data class}
-\item{aerror}{a value of absolute error for llf at the last step of algorithm.}
-\item{rerror}{a value of relative error for llf at the last step of algorithm.}
-\item{options}{a list of options used for fitting.}
-\item{call}{the matched call.}
+A list of class \code{phfit.result} with the following components:
+\item{model}{An object for the estimated PH distribution.}
+\item{llf}{The maximized log-likelihood value.}
+\item{df}{The degrees of freedom of the fitted model.}
+\item{aic}{The Akaike information criterion (AIC) value.}
+\item{iter}{The number of iterations performed.}
+\item{convergence}{A logical value indicating whether the algorithm converged.}
+\item{ctime}{The computation time (user time).}
+\item{data}{An object containing the input data.}
+\item{aerror}{The absolute error of the log-likelihood at the final iteration.}
+\item{rerror}{The relative error of the log-likelihood at the final iteration.}
+\item{options}{A list of options used for the fitting.}
+\item{call}{The matched function call.}
 }
 \description{
-Estimates PH parameters from point data.
+Fits a phase-type (PH) distribution to point data via maximum likelihood estimation.
 }
 \examples{
-## make sample
-wsample <- rweibull(n=100, shape=2, scale=1)
+## Generate a sample
+wsample <- rweibull(n = 100, shape = 2, scale = 1)
 
-## PH fitting for general PH
-(result1 <- phfit.point(ph=ph(2), x=wsample))
+## Fit a general PH distribution
+result1 <- phfit.point(ph = ph(2), x = wsample)
 
-## PH fitting for CF1
-(result2 <- phfit.point(ph=cf1(2), x=wsample))
+## Fit a Canonical Form 1 (CF1) distribution
+result2 <- phfit.point(ph = cf1(2), x = wsample)
 
-## PH fitting for hyper Erlang
-(result3 <- phfit.point(ph=herlang(3), x=wsample))
+## Fit a hyper-Erlang distribution
+result3 <- phfit.point(ph = herlang(3), x = wsample)
 
-## mean
+## Calculate statistics
 ph.mean(result1$model)
-ph.mean(result2$model)
-ph.mean(result3$model)
-
-## variance
-ph.var(result1$model)
 ph.var(result2$model)
-ph.var(result3$model)
-
-## up to 5 moments 
-ph.moment(5, result1$model)
-ph.moment(5, result2$model)
 ph.moment(5, result3$model)
 
 }

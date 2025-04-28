@@ -1,52 +1,42 @@
 #' PH fitting with point data
 #' 
-#' Estimates PH parameters from point data.
+#' Fits a phase-type (PH) distribution to point data via maximum likelihood estimation.
 #' 
-#' @param ph An object of R6 class for PH. The estimation algorithm is selected depending on this class.
-#' @param x A vector for point data.
-#' @param weights A vector of weights for points.
-#' @param ... Further options for fitting methods.
-#' @return
-#' Returns a list with components, which is an object of S3 class \code{phfit.result};
-#' \item{model}{an object for estimated PH class.}
-#' \item{llf}{a value of the maximum log-likelihood.}
-#' \item{df}{a value of degrees of freedom of the model.}
-#' \item{aic}{a value of Akaike information criterion.}
-#' \item{iter}{the number of iterations.}
-#' \item{convergence}{a logical value for the convergence of estimation algorithm.}
-#' \item{ctime}{computation time (user time).}
-#' \item{data}{an object for data class}
-#' \item{aerror}{a value of absolute error for llf at the last step of algorithm.}
-#' \item{rerror}{a value of relative error for llf at the last step of algorithm.}
-#' \item{options}{a list of options used for fitting.}
-#' \item{call}{the matched call.}
+#' @param ph An object of R6 class for PH distributions. The estimation algorithm is selected based on this class.
+#' @param x A numeric vector of observed point data (e.g., event times).
+#' @param weights A numeric vector of weights associated with each point. If omitted, equal weights are assumed.
+#' @param ... Additional options for the fitting algorithm.
 #' 
-#' @examples 
-#' ## make sample
-#' wsample <- rweibull(n=100, shape=2, scale=1)
+#' @return A list of class \code{phfit.result} with the following components:
+#' \item{model}{An object for the estimated PH distribution.}
+#' \item{llf}{The maximized log-likelihood value.}
+#' \item{df}{The degrees of freedom of the fitted model.}
+#' \item{aic}{The Akaike information criterion (AIC) value.}
+#' \item{iter}{The number of iterations performed.}
+#' \item{convergence}{A logical value indicating whether the algorithm converged.}
+#' \item{ctime}{The computation time (user time).}
+#' \item{data}{An object containing the input data.}
+#' \item{aerror}{The absolute error of the log-likelihood at the final iteration.}
+#' \item{rerror}{The relative error of the log-likelihood at the final iteration.}
+#' \item{options}{A list of options used for the fitting.}
+#' \item{call}{The matched function call.}
 #' 
-#' ## PH fitting for general PH
-#' (result1 <- phfit.point(ph=ph(2), x=wsample))
+#' @examples
+#' ## Generate a sample
+#' wsample <- rweibull(n = 100, shape = 2, scale = 1)
 #' 
-#' ## PH fitting for CF1
-#' (result2 <- phfit.point(ph=cf1(2), x=wsample))
+#' ## Fit a general PH distribution
+#' result1 <- phfit.point(ph = ph(2), x = wsample)
 #' 
-#' ## PH fitting for hyper Erlang
-#' (result3 <- phfit.point(ph=herlang(3), x=wsample))
+#' ## Fit a Canonical Form 1 (CF1) distribution
+#' result2 <- phfit.point(ph = cf1(2), x = wsample)
 #' 
-#' ## mean
+#' ## Fit a hyper-Erlang distribution
+#' result3 <- phfit.point(ph = herlang(3), x = wsample)
+#' 
+#' ## Calculate statistics
 #' ph.mean(result1$model)
-#' ph.mean(result2$model)
-#' ph.mean(result3$model)
-#' 
-#' ## variance
-#' ph.var(result1$model)
 #' ph.var(result2$model)
-#' ph.var(result3$model)
-#' 
-#' ## up to 5 moments 
-#' ph.moment(5, result1$model)
-#' ph.moment(5, result2$model)
 #' ph.moment(5, result3$model)
 #' 
 #' @export
@@ -75,71 +65,56 @@ phfit.point <- function(ph, x, weights, ...) {
 
 #' PH fitting with grouped data
 #' 
-#' Estimates PH parameters from grouped data.
+#' Fits a phase-type (PH) distribution to grouped data via maximum likelihood estimation.
 #' 
-#' @param ph An object of R6 class. The estimation algorithm is selected depending on this class.
-#' @param counts A vector of the number of points in intervals.
-#' @param breaks A vector for a sequence of points of boundaries of intervals.
-#' This is equivalent to \code{c(0,cumsum(intervals))}.
-#' If this is missing, it is assigned to \code{0:length(counts)}.
-#' @param intervals A vector of time lengths for intervals.
-#' This is equivalent to \code{diff(breaks)}).
-#' If this is missing, it is assigned to \code{rep(1,length(counts))}.
-#' @param instants A vector of integers to indicate whether sample is drawn at
-#' the last of interval. If instant is 1, a sample is drawn at the last of interval.
-#' If instant is 0, no sample is drawn at the last of interval.
-#' By using instant, point data can be expressed by grouped data.
-#' If instant is missing, it is given by \code{rep(0L,length(counts))}, i.e.,
-#' there are no samples at the last of interval.
-#' @param ... Further options for EM steps.
-#' @return
-#' Returns a list with components, which is an object of S3 class \code{phfit.result};
-#' \item{model}{an object for estimated PH class.}
-#' \item{llf}{a value of the maximum log-likelihood.}
-#' \item{df}{a value of degrees of freedom of the model.}
-#' \item{aic}{a value of Akaike information criterion.}
-#' \item{iter}{the number of iterations.}
-#' \item{convergence}{a logical value for the convergence of estimation algorithm.}
-#' \item{ctime}{computation time (user time).}
-#' \item{data}{an object for data class}
-#' \item{aerror}{a value of absolute error for llf at the last step of algorithm.}
-#' \item{rerror}{a value of relative error for llf at the last step of algorithm.}
-#' \item{options}{a list of options used in the fitting.}
-#' \item{call}{the matched call.}
+#' @param ph An object of R6 class for PH distributions. The estimation algorithm is selected based on this class.
+#' @param counts A numeric vector of counts in each interval.
+#' @param breaks A numeric vector of boundaries for the intervals. Equivalent to \code{c(0, cumsum(intervals))}.
+#' If omitted, defaults to \code{0:length(counts)}.
+#' @param intervals A numeric vector of interval lengths. Equivalent to \code{diff(breaks)}.
+#' If omitted, defaults to \code{rep(1, length(counts))}.
+#' @param instants A numeric vector indicating whether an instantaneous sample is drawn at the end of each interval.
+#' If \code{instants[i] = 1}, a sample is drawn at the right boundary of the \code{i}-th interval.
+#' If omitted, defaults to \code{rep(0L, length(counts))} (no instantaneous samples).
+#' @param ... Additional options for the EM algorithm.
+#' 
+#' @return A list of class \code{phfit.result} with the following components:
+#' \item{model}{An object for the estimated PH distribution.}
+#' \item{llf}{The maximized log-likelihood value.}
+#' \item{df}{The degrees of freedom of the fitted model.}
+#' \item{aic}{The Akaike information criterion (AIC) value.}
+#' \item{iter}{The number of iterations performed.}
+#' \item{convergence}{A logical value indicating whether the algorithm converged.}
+#' \item{ctime}{The computation time (user time).}
+#' \item{data}{An object containing the input data.}
+#' \item{aerror}{The absolute error of the log-likelihood at the final iteration.}
+#' \item{rerror}{The relative error of the log-likelihood at the final iteration.}
+#' \item{options}{A list of options used for the fitting.}
+#' \item{call}{The matched function call.}
 #' 
 #' @note
-#' In this method, we can handle truncated data using \code{NA} and \code{Inf};
-#' \code{phfit.group(ph=cf1(5), counts=c(countsdata, NA), breaks=c(breakdata, +Inf))}
-#' \code{NA} means missing of count data at the corresponding interval, and \code{Inf} is allowed to put 
-#' the last of breaks or intervals which represents a special interval [the last break point,infinity).
+#' This method allows handling of truncated data by using \code{NA} and \code{Inf}:
+#' 
+#' \code{phfit.group(ph = cf1(5), counts = c(countsdata, NA), breaks = c(breakdata, +Inf))} \\
+#' Here, \code{NA} indicates missing count data, and \code{Inf} represents an open-ended last interval \code{[last break point, infinity)}.
 #' 
 #' @examples
-#' ## make sample
-#' wsample <- rweibull(n=100, shape=2, scale=1)
-#' wgroup <- hist(x=wsample, breaks="fd", plot=FALSE)
+#' ## Generate a sample
+#' wsample <- rweibull(n = 100, shape = 2, scale = 1)
+#' wgroup <- hist(x = wsample, breaks = "fd", plot = FALSE)
 #' 
-#' ## PH fitting for general PH
-#' (result1 <- phfit.group(ph=ph(2), counts=wgroup$counts, breaks=wgroup$breaks))
+#' ## Fit a general PH distribution
+#' result1 <- phfit.group(ph = ph(2), counts = wgroup$counts, breaks = wgroup$breaks)
 #' 
-#' ## PH fitting for CF1
-#' (result2 <- phfit.group(ph=cf1(2), counts=wgroup$counts, breaks=wgroup$breaks))
+#' ## Fit a Canonical Form 1 (CF1) distribution
+#' result2 <- phfit.group(ph = cf1(2), counts = wgroup$counts, breaks = wgroup$breaks)
 #' 
-#' ## PH fitting for hyper Erlang
-#' (result3 <- phfit.group(ph=herlang(3), counts=wgroup$counts, breaks=wgroup$breaks))
+#' ## Fit a hyper-Erlang distribution
+#' result3 <- phfit.group(ph = herlang(3), counts = wgroup$counts, breaks = wgroup$breaks)
 #' 
-#' ## mean
+#' ## Calculate statistics
 #' ph.mean(result1$model)
-#' ph.mean(result2$model)
-#' ph.mean(result3$model)
-#' 
-#' ## variance
-#' ph.var(result1$model)
 #' ph.var(result2$model)
-#' ph.var(result3$model)
-#' 
-#' ## up to 5 moments 
-#' ph.moment(5, result1$model)
-#' ph.moment(5, result2$model)
 #' ph.moment(5, result3$model)
 #' 
 #' @export
@@ -168,70 +143,54 @@ phfit.group <- function(ph, counts, breaks, intervals, instants, ...) {
   result
 }
 
-#' PH fitting with density function
+#' PH fitting with a density function
 #' 
-#' Estimates PH parameters from density function.
+#' Fits a phase-type (PH) distribution to a given density function via maximum likelihood estimation.
 #' 
-#' @param ph An object of R6 class. The estimation algorithm is selected depending on this class.
-#' @param f A function object for a density function.
-#' @param deformula An object for formulas of numerical integration.
-#' It is not necessary to change it when the density function is defined on
-#' the positive domain [0,infinity).
-#' @param weight.zero A absolute value which is regarded as zero in numerical integration.
-#' @param weight.reltol A value for precision of numerical integration.
-#' @param start.divisions A value for starting value of divisions in deformula.
-#' @param max.iter A value for the maximum number of iterations to increase divisions in deformula.
-#' @param ... Options for EM steps, which is also used to send the arguments to density function.
+#' @param ph An object of R6 class for PH distributions. The estimation algorithm is selected based on this class.
+#' @param f A function object representing a density function. The function should have the form \code{f(x, ...)}, where \code{x} is the first argument.
+#' @param deformula An object specifying the numerical integration formula. 
+#' Defaults to \code{deformula.zeroinf}, suitable for functions defined on \code{[0, +Inf)}.
+#' @param weight.zero A threshold below which weights in numerical integration are regarded as zero. Defaults to \code{1e-12}.
+#' @param weight.reltol The relative tolerance for numerical integration. Defaults to \code{1e-8}.
+#' @param start.divisions The initial number of divisions used in numerical integration. Defaults to \code{8}.
+#' @param max.iter The maximum number of iterations allowed for increasing the number of divisions. Defaults to \code{12}.
+#' @param ... Additional arguments passed to the density function \code{f}, or control options for the EM algorithm.
 #' 
-#' @return
-#' Returns a list with components, which is an object of S3 class \code{phfit.result};
-#' \item{model}{an object for estimated PH class.}
-#' \item{llf}{a value of the maximum log-likelihood (a negative value of the cross entropy).}
-#' \item{df}{a value of degrees of freedom of the model.}
-#' \item{KL}{a value of Kullback-Leibler divergence.}
-#' \item{iter}{the number of iterations.}
-#' \item{convergence}{a logical value for the convergence of estimation algorithm.}
-#' \item{ctime}{computation time (user time).}
-#' \item{data}{an object for data class}
-#' \item{aerror}{a value of absolute error for llf at the last step of algorithm.}
-#' \item{rerror}{a value of relative error for llf at the last step of algorithm.}
-#' \item{options}{a list of options.}
-#' \item{call}{the matched call.}
+#' @return A list of class \code{phfit.result.density} with the following components:
+#' \item{model}{An object for the estimated PH distribution.}
+#' \item{llf}{The maximized log-likelihood value (equivalent to the negative cross-entropy).}
+#' \item{df}{The degrees of freedom of the fitted model.}
+#' \item{KL}{The estimated Kullback-Leibler divergence between the target density and the fitted PH distribution.}
+#' \item{iter}{The number of iterations performed.}
+#' \item{convergence}{A logical value indicating whether the algorithm converged.}
+#' \item{ctime}{The computation time (user time).}
+#' \item{data}{An object containing the generated data points and weights.}
+#' \item{aerror}{The absolute error of the log-likelihood at the final iteration.}
+#' \item{rerror}{The relative error of the log-likelihood at the final iteration.}
+#' \item{options}{A list of options used for the fitting.}
+#' \item{call}{The matched function call.}
 #' 
 #' @note
-#' Any of density function can be applied to the argument \code{f}, where
-#' \code{f} should be defined \code{f <- function(x, ...)}.
-#' The first argument of \code{f} should be an integral parameter.
-#' The other parameters are set in the argument \code{...} of \code{phfit.density}.
-#' The truncated density function can also be used directly.
+#' Any proper density function can be used for the argument \code{f}. 
+#' The first argument of \code{f} must be the variable of integration, while additional parameters can be set via \code{...}.
+#' Truncated densities and densities on \code{[0, +Inf)} are both supported.
 #' 
 #' @examples
-#' ####################
-#' ##### truncated density
-#' ####################
+#' ## Fit PH distribution to a normal density truncated on [0, +Inf)
 #' 
-#' ## PH fitting for general PH
-#' (result1 <- phfit.density(ph=ph(2), f=dnorm, mean=3, sd=1))
+#' ## General PH distribution
+#' result1 <- phfit.density(ph = ph(2), f = dnorm, mean = 3, sd = 1)
 #' 
-#' ## PH fitting for CF1
-#' (result2 <- phfit.density(ph=cf1(2), f=dnorm, mean=3, sd=1))
+#' ## Canonical Form 1 (CF1) distribution
+#' result2 <- phfit.density(ph = cf1(2), f = dnorm, mean = 3, sd = 1)
 #' 
-#' ## PH fitting for hyper Erlang
-#' (result3 <- phfit.density(ph=herlang(3), f=dnorm, mean=3, sd=1))
+#' ## Hyper-Erlang distribution
+#' result3 <- phfit.density(ph = herlang(3), f = dnorm, mean = 3, sd = 1)
 #' 
-#' ## mean
+#' ## Calculate statistics
 #' ph.mean(result1$model)
-#' ph.mean(result2$model)
-#' ph.mean(result3$model)
-#' 
-#' ## variance
-#' ph.var(result1$model)
 #' ph.var(result2$model)
-#' ph.var(result3$model)
-#' 
-#' ## up to 5 moments 
-#' ph.moment(5, result1$model)
-#' ph.moment(5, result2$model)
 #' ph.moment(5, result3$model)
 #' 
 #' @export
@@ -268,28 +227,57 @@ phfit.density <- function(
 
 #' PH fitting with left-truncated and right-censored data
 #' 
-#' Estimates PH parameters from left-truncated and right-censored data.
+#' Fits a phase-type (PH) distribution to left-truncated and right-censored survival data via maximum likelihood estimation.
 #' 
-#' @param ph An object of R6 class for PH. The estimation algorithm is selected depending on this class.
-#' @param x A vector for point data (censoring time or event time).
-#' @param delta A vector of indicators whether x is censoring time or not. If delta=1, the corresponding x is the censoring time
-#' If delta=0, the corresponding x is the event time.
-#' @param tau A vector of left-truncation time points. If tau is missing, all the left-truncation times are NA (no truncation).
-#' @param ... Further options for fitting methods.
-#' @return
-#' Returns a list with components, which is an object of S3 class \code{phfit.result};
-#' \item{model}{an object for estimated PH class.}
-#' \item{llf}{a value of the maximum log-likelihood.}
-#' \item{df}{a value of degrees of freedom of the model.}
-#' \item{aic}{a value of Akaike information criterion.}
-#' \item{iter}{the number of iterations.}
-#' \item{convergence}{a logical value for the convergence of estimation algorithm.}
-#' \item{ctime}{computation time (user time).}
-#' \item{data}{an object for data class}
-#' \item{aerror}{a value of absolute error for llf at the last step of algorithm.}
-#' \item{rerror}{a value of relative error for llf at the last step of algorithm.}
-#' \item{options}{a list of optiions used for fitting.}
-#' \item{call}{the matched call.}
+#' @param ph An object of R6 class for PH distributions. The estimation algorithm is selected based on this class.
+#' @param x A numeric vector of observed times (either event times or censoring times).
+#' @param delta A numeric vector of event indicators.
+#' If \code{delta = 1}, the observation is an \strong{event time} (i.e., the event of interest occurred).
+#' If \code{delta = 0}, the observation is \strong{right-censored}.
+#' @param tau A numeric vector of left-truncation times.
+#' If omitted, all observations are assumed to have no left truncation (\code{NA}).
+#' @param ... Additional options for the fitting algorithm.
+#' 
+#' @return A list of class \code{phfit.result} with the following components:
+#' \item{model}{An object for the estimated PH distribution.}
+#' \item{llf}{The maximized log-likelihood value.}
+#' \item{df}{The degrees of freedom of the fitted model.}
+#' \item{aic}{The Akaike information criterion (AIC) value.}
+#' \item{iter}{The number of iterations performed.}
+#' \item{convergence}{A logical value indicating whether the algorithm converged.}
+#' \item{ctime}{The computation time (user time).}
+#' \item{data}{An object containing the input data.}
+#' \item{aerror}{The absolute error of the log-likelihood at the final iteration.}
+#' \item{rerror}{The relative error of the log-likelihood at the final iteration.}
+#' \item{options}{A list of options used for the fitting.}
+#' \item{call}{The matched function call.}
+#'
+#' @note
+#' Some specific PH classes, such as \code{herlang}, require observed data at initialization.
+#' Therefore, \code{herlang} cannot be directly used with \code{phfit.surv}.
+#' Use general PH (\code{ph}) or Canonical Form 1 (\code{cf1}) models.
+#'
+#' @examples
+#' ## Generate a survival dataset
+#' set.seed(123)
+#' true_times <- rexp(100, rate = 0.5)  # true event times
+#' censoring_times <- rexp(100, rate = 0.3)  # censoring times
+#' 
+#' x <- pmin(true_times, censoring_times)
+#' delta <- as.integer(true_times <= censoring_times)  # 1 = event, 0 = censored
+#' tau <- rep(NA, length(x))  # no left truncation
+#' 
+#' ## Fit a general PH distribution
+#' result1 <- phfit.surv(ph = ph(2), x = x, delta = delta, tau = tau)
+#' 
+#' ## Fit a Canonical Form 1 (CF1) distribution
+#' result2 <- phfit.surv(ph = cf1(2), x = x, delta = delta, tau = tau)
+#' 
+#' ## Calculate statistics
+#' ph.mean(result1$model)
+#' ph.var(result2$model)
+#' ph.moment(5, result1$model)
+#' ph.moment(5, result2$model)
 #' 
 #' @export
 

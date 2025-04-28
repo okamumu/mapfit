@@ -7,82 +7,78 @@
 mapfit.group(map, counts, breaks, intervals, instants, ...)
 }
 \arguments{
-\item{map}{An object of R6 class. The estimation algorithm is selected depending on this class.}
+\item{map}{An object of R6 class representing a MAP. The estimation algorithm is selected based on this class.}
 
-\item{counts}{A vector of the number of points in intervals.}
+\item{counts}{A numeric vector of counts within each interval.}
 
-\item{breaks}{A vector for a sequence of points of boundaries of intervals.
-This is equivalent to \code{c(0,cumsum(intervals))}.
-If this is missing, it is assigned to \code{0:length(counts)}.}
+\item{breaks}{A numeric vector specifying the boundaries of the intervals. Equivalent to \code{c(0, cumsum(intervals))}.
+If omitted, defaults to \code{0:length(counts)}.}
 
-\item{intervals}{A vector of time lengths for intervals.
-This is equivalent to \code{diff(breaks)}).
-If this is missing, it is assigned to \code{rep(1,length(counts))}.}
+\item{intervals}{A numeric vector of interval lengths. Equivalent to \code{diff(breaks)}.
+If omitted, defaults to \code{rep(1, length(counts))}.}
 
-\item{instants}{A vector of integers to indicate whether sample is drawn at
-the last of interval. If instant is 1, a sample is drawn at the last of interval.
-If instant is 0, no sample is drawn at the last of interval.
-By using instant, point data can be expressed by grouped data.
-If instant is missing, it is given by \code{rep(0L,length(counts))}, i.e.,
-there are no samples at the last of interval.}
+\item{instants}{A numeric vector indicating whether an instantaneous event is observed at the end of each interval.
+If \code{instants[i] = 1}, a sample is observed at the right boundary of the \code{i}-th interval.
+Defaults to \code{rep(0L, length(counts))} (no instantaneous events).}
 
-\item{...}{Further options for EM steps.}
+\item{...}{Additional options for the fitting algorithm.}
 }
 \value{
-Returns a list with components, which is an object of S3 class \code{mapfit.result};
-\item{model}{an object for estimated MAP class.}
-\item{llf}{a value of the maximum log-likelihood.}
-\item{df}{a value of degrees of freedom of the model.}
-\item{aic}{a value of Akaike information criterion.}
-\item{iter}{the number of iterations.}
-\item{convergence}{a logical value for the convergence of estimation algorithm.}
-\item{ctime}{computation time (user time).}
-\item{data}{an object for data class}
-\item{aerror}{a value of absolute error for llf at the last step of algorithm.}
-\item{rerror}{a value of relative error for llf at the last step of algorithm.}
-\item{options}{a list of options used in the fitting.}
-\item{call}{the matched call.}
+A list of class \code{mapfit.result} containing the following components:
+\item{model}{An object representing the estimated MAP.}
+\item{llf}{The maximized log-likelihood value.}
+\item{df}{The degrees of freedom of the fitted model.}
+\item{aic}{The Akaike information criterion (AIC) value.}
+\item{iter}{The number of iterations performed.}
+\item{convergence}{A logical value indicating whether the algorithm converged.}
+\item{ctime}{The computation time (user time).}
+\item{data}{An object containing the input data set.}
+\item{aerror}{The absolute error of the log-likelihood at the final iteration.}
+\item{rerror}{The relative error of the log-likelihood at the final iteration.}
+\item{options}{A list of options used for the fitting.}
+\item{call}{The matched function call.}
 }
 \description{
-Estimates MAP parameters from grouped data.
+Fits a Markovian Arrival Process (MAP) to grouped data via maximum likelihood estimation.
 }
 \examples{
-## load trace data
+## Load trace data
 data(BCpAug89)
 BCpAug89s <- head(BCpAug89, 50)
 
-## make grouped data
+## Create grouped data
 BCpAug89.group <- hist(cumsum(BCpAug89s),
-                         breaks=seq(0, 0.15, 0.005),
-                         plot=FALSE)
-                         
-## MAP fitting for general MAP
-(result1 <- mapfit.group(map=map(2),
-                        counts=BCpAug89.group$counts,
-                        breaks=BCpAug89.group$breaks))
-## MAP fitting for MMPP
-(result2 <- mapfit.group(map=mmpp(2),
-                         counts=BCpAug89.group$counts,
-                         breaks=BCpAug89.group$breaks))
-                         
-## MAP fitting with approximate MMPP
-(result3 <- mapfit.group(map=gmmpp(2),
-                         counts=BCpAug89.group$counts,
-                         breaks=BCpAug89.group$breaks))
+                       breaks = seq(0, 0.15, 0.005),
+                       plot = FALSE)
 
-## marginal moments for estimated MAP
-map.mmoment(k=3, map=result1$model)
-map.mmoment(k=3, map=result2$model)
-map.mmoment(k=3, map=result3$model)
+## Fit a general MAP
+result1 <- mapfit.group(map = map(2),
+                        counts = BCpAug89.group$counts,
+                        breaks = BCpAug89.group$breaks)
 
-## joint moments for estimated MAP
-map.jmoment(lag=1, map=result1$model)
-map.jmoment(lag=1, map=result2$model)
-map.jmoment(lag=1, map=result3$model)
+## Fit a Markov Modulated Poisson Process (MMPP)
+result2 <- mapfit.group(map = mmpp(2),
+                        counts = BCpAug89.group$counts,
+                        breaks = BCpAug89.group$breaks)
 
-## lag-k correlation
-map.acf(map=result1$model)
-map.acf(map=result2$model)
-map.acf(map=result3$model)
+## Fit an approximate MMPP (G-MMPP)
+result3 <- mapfit.group(map = gmmpp(2),
+                        counts = BCpAug89.group$counts,
+                        breaks = BCpAug89.group$breaks)
+
+## Marginal moments
+map.mmoment(k = 3, map = result1$model)
+map.mmoment(k = 3, map = result2$model)
+map.mmoment(k = 3, map = result3$model)
+
+## Joint moments
+map.jmoment(lag = 1, map = result1$model)
+map.jmoment(lag = 1, map = result2$model)
+map.jmoment(lag = 1, map = result3$model)
+
+## Lag-k autocorrelation
+map.acf(map = result1$model)
+map.acf(map = result2$model)
+map.acf(map = result3$model)
 
 }

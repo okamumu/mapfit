@@ -7,59 +7,59 @@
 mapfit.point(map, x, intervals, ...)
 }
 \arguments{
-\item{map}{An object for MAP. The estimation algorithm is selected depending on this class.}
+\item{map}{An object of R6 class representing a MAP. The estimation algorithm is selected based on this class.}
 
-\item{x}{A vector for point data.}
+\item{x}{A numeric vector of observed point data (event times).}
 
-\item{intervals}{A vector for intervals.}
+\item{intervals}{A numeric vector of interval lengths. Optional.}
 
-\item{...}{Further options for fitting methods.}
+\item{...}{Additional options for the fitting algorithm.}
 }
 \value{
-Returns a list with components, which is an object of S3 class \code{mapfit.result};
-\item{model}{an object for estimated PH class.}
-\item{llf}{a value of the maximum log-likelihood.}
-\item{df}{a value of degrees of freedom of the model.}
-\item{aic}{a value of Akaike information criterion.}
-\item{iter}{the number of iterations.}
-\item{convergence}{a logical value for the convergence of estimation algorithm.}
-\item{ctime}{computation time (user time).}
-\item{data}{an object for data class}
-\item{aerror}{a value of absolute error for llf at the last step of algorithm.}
-\item{rerror}{a value of relative error for llf at the last step of algorithm.}
-\item{options}{a list of options used for fitting.}
-\item{call}{the matched call.}
+A list of class \code{mapfit.result} containing the following components:
+\item{model}{An object representing the estimated MAP.}
+\item{llf}{The maximized log-likelihood value.}
+\item{df}{The degrees of freedom of the fitted model.}
+\item{aic}{The Akaike information criterion (AIC) value.}
+\item{iter}{The number of iterations performed.}
+\item{convergence}{A logical value indicating whether the algorithm converged.}
+\item{ctime}{The computation time (user time).}
+\item{data}{An object containing the input data set.}
+\item{aerror}{The absolute error of the log-likelihood at the final iteration.}
+\item{rerror}{The relative error of the log-likelihood at the final iteration.}
+\item{options}{A list of options used for the fitting.}
+\item{call}{The matched function call.}
 }
 \description{
-Estimates MAP parameters from point data.
+Fits a Markovian Arrival Process (MAP) to point data via maximum likelihood estimation.
 }
 \examples{
-## load trace data
+## Load trace data
 data(BCpAug89)
 BCpAug89s <- head(BCpAug89, 50)
 
-## MAP fitting for general MAP
-(result1 <- mapfit.point(map=map(2), x=cumsum(BCpAug89s)))
+## Fit a general MAP
+result1 <- mapfit.point(map = map(2), x = cumsum(BCpAug89s))
 
-## MAP fitting for MMPP
-(result2 <- mapfit.point(map=mmpp(2), x=cumsum(BCpAug89s)))
+## Fit a Markov Modulated Poisson Process (MMPP)
+result2 <- mapfit.point(map = mmpp(2), x = cumsum(BCpAug89s))
 
-## MAP fitting for ER-HMM
-(result3 <- mapfit.point(map=erhmm(3), x=cumsum(BCpAug89s)))
+## Fit an Erlang Renewal Hidden Markov Model (ER-HMM)
+result3 <- mapfit.point(map = erhmm(3), x = cumsum(BCpAug89s))
 
-## marginal moments for estimated MAP
-map.mmoment(k=3, map=result1$model)
-map.mmoment(k=3, map=result2$model)
-map.mmoment(k=3, map=result3$model)
+## Marginal moments
+map.mmoment(k = 3, map = result1$model)
+map.mmoment(k = 3, map = result2$model)
+map.mmoment(k = 3, map = result3$model)
 
-## joint moments for estimated MAP
-map.jmoment(lag=1, map=result1$model)
-map.jmoment(lag=1, map=result2$model)
-map.jmoment(lag=1, map=result3$model)
+## Joint moments
+map.jmoment(lag = 1, map = result1$model)
+map.jmoment(lag = 1, map = result2$model)
+map.jmoment(lag = 1, map = result3$model)
 
-## lag-k correlation
-map.acf(map=result1$model)
-map.acf(map=result2$model)
-map.acf(map=result3$model)
+## Lag-k autocorrelation
+map.acf(map = result1$model)
+map.acf(map = result2$model)
+map.acf(map = result3$model)
 
 }

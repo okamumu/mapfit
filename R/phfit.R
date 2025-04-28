@@ -95,7 +95,8 @@ phfit.point <- function(ph, x, weights, ...) {
 #' @note
 #' This method allows handling of truncated data by using \code{NA} and \code{Inf}:
 #' 
-#' \code{phfit.group(ph = cf1(5), counts = c(countsdata, NA), breaks = c(breakdata, +Inf))} \\
+#' \code{phfit.group(ph = cf1(5), counts = c(countsdata, NA), breaks = c(breakdata, +Inf))}
+#' 
 #' Here, \code{NA} indicates missing count data, and \code{Inf} represents an open-ended last interval \code{[last break point, infinity)}.
 #' 
 #' @examples
@@ -173,7 +174,9 @@ phfit.group <- function(ph, counts, breaks, intervals, instants, ...) {
 #' 
 #' @note
 #' Any proper density function can be used for the argument \code{f}. 
+#' 
 #' The first argument of \code{f} must be the variable of integration, while additional parameters can be set via \code{...}.
+#' 
 #' Truncated densities and densities on \code{[0, +Inf)} are both supported.
 #' 
 #' @examples
@@ -253,8 +256,7 @@ phfit.density <- function(
 #' \item{call}{The matched function call.}
 #'
 #' @note
-#' Some specific PH classes, such as \code{herlang}, require observed data at initialization.
-#' Therefore, \code{herlang} cannot be directly used with \code{phfit.surv}.
+#' \code{herlang} cannot be directly used with \code{phfit.surv} yet.
 #' Use general PH (\code{ph}) or Canonical Form 1 (\code{cf1}) models.
 #'
 #' @examples

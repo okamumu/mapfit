@@ -39,8 +39,7 @@ A list of class \code{phfit.result} with the following components:
 Fits a phase-type (PH) distribution to left-truncated and right-censored survival data via maximum likelihood estimation.
 }
 \note{
-Some specific PH classes, such as \code{herlang}, require observed data at initialization.
-Therefore, \code{herlang} cannot be directly used with \code{phfit.surv}.
+\code{herlang} cannot be directly used with \code{phfit.surv} yet.
 Use general PH (\code{ph}) or Canonical Form 1 (\code{cf1}) models.
 }
 \examples{

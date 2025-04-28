@@ -44,7 +44,8 @@ Fits a phase-type (PH) distribution to grouped data via maximum likelihood estim
 \note{
 This method allows handling of truncated data by using \code{NA} and \code{Inf}:
 
-\code{phfit.group(ph = cf1(5), counts = c(countsdata, NA), breaks = c(breakdata, +Inf))} \\
+\code{phfit.group(ph = cf1(5), counts = c(countsdata, NA), breaks = c(breakdata, +Inf))}
+
 Here, \code{NA} indicates missing count data, and \code{Inf} represents an open-ended last interval \code{[last break point, infinity)}.
 }
 \examples{

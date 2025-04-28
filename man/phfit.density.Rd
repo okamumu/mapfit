@@ -53,7 +53,9 @@ Fits a phase-type (PH) distribution to a given density function via maximum like
 }
 \note{
 Any proper density function can be used for the argument \code{f}.
+
 The first argument of \code{f} must be the variable of integration, while additional parameters can be set via \code{...}.
+
 Truncated densities and densities on \code{[0, +Inf)} are both supported.
 }
 \examples{

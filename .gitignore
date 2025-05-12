@@ -6,3 +6,4 @@ mapfit.Rcheck/
 mapfit*.tar.gz
 mapfit*.tgz
 old
+.DS_Store

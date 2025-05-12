@@ -21,6 +21,10 @@ emfit_cf1_group_poi <- function(omega, alpha, rate, data, options, Q0, P0, H0) {
     .Call(`_mapfit_emfit_cf1_group_poi`, omega, alpha, rate, data, options, Q0, P0, H0)
 }
 
+emfit_cf1_interval <- function(alpha, rate, data, options, Q0, P0, H0) {
+    .Call(`_mapfit_emfit_cf1_interval`, alpha, rate, data, options, Q0, P0, H0)
+}
+
 emfit_cf1_leftright <- function(alpha, rate, data, options, Q0, P0, H0) {
     .Call(`_mapfit_emfit_cf1_leftright`, alpha, rate, data, options, Q0, P0, H0)
 }
@@ -43,6 +47,14 @@ emfit_gph_group_poi <- function(omega, alpha, Q0, xi, data, options, P0, H0) {
 
 llf_gph_group_poi <- function(omega, alpha, Q0, xi, data, eps, ufactor, P0) {
     .Call(`_mapfit_llf_gph_group_poi`, omega, alpha, Q0, xi, data, eps, ufactor, P0)
+}
+
+emfit_gph_interval <- function(alpha, Q0, xi, data, options, P0, H0) {
+    .Call(`_mapfit_emfit_gph_interval`, alpha, Q0, xi, data, options, P0, H0)
+}
+
+llf_gph_interval <- function(alpha, Q0, xi, data, eps, ufactor, P0) {
+    .Call(`_mapfit_llf_gph_interval`, alpha, Q0, xi, data, eps, ufactor, P0)
 }
 
 emfit_gph_leftright <- function(alpha, Q0, xi, data, options, P0, H0) {

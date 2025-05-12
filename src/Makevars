@@ -6,10 +6,12 @@ OBJECTS = \
 	emfit_phase_gen_group.o \
 	emfit_phase_gen_grouppoi.o \
 	emfit_phase_gen_leftright.o \
+	emfit_phase_gen_interval.o \
 	emfit_phase_cf1_wtime.o \
 	emfit_phase_cf1_group.o \
 	emfit_phase_cf1_grouppoi.o \
 	emfit_phase_cf1_leftright.o \
+	emfit_phase_cf1_interval.o \
 	emfit_phase_herlang_wtime.o \
 	emfit_phase_herlang_group.o \
 	emfit_phase_herlang_grouppoi.o \

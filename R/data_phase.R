@@ -135,8 +135,8 @@ mean.phase.group <- function(x, ...) {
 #' Provide the data.frame for left-truncated and right-censored data.
 #' 
 #' @param x A vector of time points
-#' @param delta A vector of indicators whether x is censoring time or not. If delta=1, the corresponding x is the censoring time
-#' If delta=0, the corresponding x is the event time.
+#' @param delta A vector of indicators whether x is censoring time or not. If delta=0, the corresponding x is the censoring time
+#' If delta=1, the corresponding x is the event time.
 #' @param tau A vector of left-truncation time points. If tau is missing, all the left-truncation times are NA (no truncation).
 #' @return A dataframe
 #' @examples
@@ -200,4 +200,129 @@ mean.phase.surv <- function(x, ...) {
   t <- cumsum(x$intervals)[s]
   m <- sum(t)
   m / length(t)
+}
+
+#' Create interval data for phase
+#' 
+#' Provide the data.frame for interval data.
+#' 
+#' @param data A list of point and interval data
+#' @param weights A vector of left-truncation time points. If tau is missing, all the left-truncation times are NA (no truncation).
+#' @return A dataframe
+#' @examples
+#' dat <- data.frame.phase.interval(data=list(1.0, c(0.0, 1.0), c(1.0, Inf)), weights=c(1, 2.0, 1.0))
+#' print(dat)
+#' mean(dat)
+#' 
+#' @export
+
+data.frame.phase.interval <- function(data, weights) {
+  if (missing(weights)) {
+    weights <- rep(1, length(data))
+  }
+
+  # length check
+  if (! (length(data) == length(weights))) {
+    stop(sprintf("The length of x and weights should be same. data=%d, weights=%d",
+                 length(data), length(weights)))
+  }
+
+expanded_values <- unlist(lapply(data, function(x) {
+  if (length(x) == 1) {
+    x
+  } else if (length(x) == 2) {
+    a <- x[1]
+    b <- x[2]
+    if (a == 0) {
+      b
+    } else if (is.infinite(b)) {
+      a
+    } else {
+      c(a, b)
+    }
+  } else {
+    numeric(0)
+  }
+}))
+
+weights_values <- unlist(mapply(function(x, i) {
+  if (length(x) == 1) {
+    weights[i]
+  } else if (length(x) == 2) {
+    a <- x[1]
+    b <- x[2]
+    if (a == 0) {
+      weights[i]
+    } else if (is.infinite(b)) {
+      weights[i]
+    } else {
+      c(weights[i], weights[i])
+    }
+  } else {
+    c(0)
+  }
+}, data, seq_along(data), SIMPLIFY = FALSE))
+
+m <- length(expanded_values)
+
+index_vector <- unlist(mapply(function(x, i) {
+  if (length(x) == 1) {
+    i
+  } else if (length(x) == 2) {
+    a <- x[1]
+    b <- x[2]
+    if (a == 0) {
+      0
+    } else if (is.infinite(b)) {
+      m+1
+    } else {
+      c(i, i)
+    }
+  } else {
+    integer(0)
+  }
+}, data, seq_along(data), SIMPLIFY = FALSE))
+
+ord <- order(expanded_values)
+inv_ord <- match(seq_along(expanded_values), ord)
+
+z <- numeric(m)
+prev_index <- -1
+for (i in 1:length(index_vector)) {
+  if (index_vector[i] == prev_index) {
+    z[i-1] <- inv_ord[i]
+    z[i] <- inv_ord[i-1]
+  } else if (index_vector[i] == 0) {
+    z[i] <- 0
+  } else if (index_vector[i] == m + 1) {
+    z[i] <- m + 1
+  } else {
+    z[i] <- inv_ord[i]
+  }
+  prev_index <- index_vector[i]
+}
+
+  dt <- diff(c(0, expanded_values[ord]))
+  z <- z[ord]
+  
+  data <- list(
+    intervals = dt,
+    z = z,
+    weights = weights_values[ord],
+    maxinterval = max(dt))
+  class(data) <- "phase.interval"
+  data
+}
+
+#' @aliases data.frame.phase.interval
+#' @export
+print.phase.interval <- function(x, ...) {
+  print(data.frame(intervals=x$intervals, z=x$z, weights=x$weights))
+}
+
+#' @aliases data.frame.phase.interval
+#' @export
+mean.phase.interval <- function(x, ...) {
+  t <- cumsum(x$intervals)
+  sum(t * x$weights) / sum(x$weights)
 }

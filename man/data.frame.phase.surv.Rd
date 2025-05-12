@@ -9,8 +9,8 @@ data.frame.phase.surv(x, delta, tau)
 \arguments{
 \item{x}{A vector of time points}
 
-\item{delta}{A vector of indicators whether x is censoring time or not. If delta=1, the corresponding x is the censoring time
-If delta=0, the corresponding x is the event time.}
+\item{delta}{A vector of indicators whether x is censoring time or not. If delta=0, the corresponding x is the censoring time
+If delta=1, the corresponding x is the event time.}
 
 \item{tau}{A vector of left-truncation time points. If tau is missing, all the left-truncation times are NA (no truncation).}
 }

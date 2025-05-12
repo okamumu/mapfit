@@ -45,7 +45,7 @@ struct PHGroupSample{
   }
 };
 
-// left-truncated and right-censored saample
+// left-truncated and right-censored sample
 
 template <typename VT, typename VI>
 struct PHLeftRightSample{
@@ -67,4 +67,28 @@ struct PHLeftRightSample{
   }
 };
 
+// interval sample
+
+template <typename VT, typename VI>
+struct PHIntervalSample{
+  VT time;
+  VI z; // indicator
+  VT w; // weights
+  double maxtime;
+
+  PHIntervalSample(
+    const VT& _time,
+    const VI& _z,
+    const VT& _w,
+    double _maxtime)
+    : time(_time),
+      z(_z),
+      w(_w),
+      maxtime(_maxtime){}
+  
+  inline int size() const {
+    using trait = vector_traits<VT>;
+    return trait::size(time);
+  }
+};
 #endif

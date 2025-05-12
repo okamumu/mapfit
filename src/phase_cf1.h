@@ -193,6 +193,27 @@ double estep(
   return estep_leftright(model.gph, baralpha, data, eres, options, work);
 }
 
+template <typename T1,
+          typename T4,
+          typename T5,
+          typename T11,
+          typename T12,
+          typename T10,
+          typename EresT,
+          typename OptionT,
+          typename WorkSpace>
+double estep(
+    const CF1<T1,GPH<T11,T12,T10>>& model,
+    const PHIntervalSample<T4,T5>& data,
+    EresT& eres,
+    OptionT& options,
+    WorkSpace& work) noexcept {
+  int n = model.gph.size();
+  std::vector<double> baralpha(n);
+  backsolve(TRANS{}, -1.0, model.gph.Q, model.gph.alpha, baralpha);
+  return estep_interval(model.gph, baralpha, data, eres, options, work);
+}
+
 inline
   void cf1swap(double* a0, double* r0, double* a1, double* r1) {
     double w = *r1 / *r0;

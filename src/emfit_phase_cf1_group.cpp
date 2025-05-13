@@ -111,3 +111,75 @@ result <- emfit_cf1_group(alpha, rate, dat, options, as(Q, matclass), as(Q, matc
 print(result)
 */
 
+// [[Rcpp::export]]
+List emstep_cf1_group(
+  NumericVector alpha,
+  NumericVector rate,
+  List data,
+  List options,
+  S4 Q0,
+  S4 P0,
+  S4 H0) {
+  using MatrixT = S4matrix<CSCMatrixT>;
+  auto Q = MatrixT(Q0);
+  auto P = MatrixT(P0);
+  auto H = MatrixT(H0);
+
+  auto ufactor = as<double>(options["uniform.factor"]);
+  auto eps = as<double>(options["poisson.eps"]);
+
+  int n = alpha.length();
+  IntegerVector di(n);
+  diag(Q, di);
+  copy(Q, P);
+  double qv = unif(P, di, ufactor);
+  NumericVector al(n);
+  copy(alpha, al);
+  NumericVector xi(n);
+  xi[n-1] = rate[n-1];
+  auto gph = GPH<NumericVector, MatrixT, IntegerVector>(al, Q, P, xi, qv, di);
+  auto model = CF1<NumericVector, GPH<NumericVector, MatrixT, IntegerVector>>(alpha, rate, gph);
+
+  auto tdat = as<NumericVector>(data["intervals"]);
+  auto gdat = as<IntegerVector>(data["counts"]);
+  auto idat = as<IntegerVector>(data["instants"]);
+  double maxtime = as<double>(data["maxinterval"]);
+  int glast = as<int>(data["lastcount"]);
+  auto m = tdat.length();
+  auto dat = PHGroupSample<NumericVector,IntegerVector,IntegerVector>(tdat, gdat, idat, maxtime, glast);
+
+  auto eres = GPHEres<std::vector<double>, MatrixT>(
+    std::vector<double>(n),
+    std::vector<double>(n),
+    std::vector<double>(n),
+    H);
+  auto work = GPHWorkSpaceGroup(m, n);
+
+  auto opts = EMOptions();
+  opts.ufactor = ufactor;
+  opts.poisson_eps = eps;
+
+  double llf = estep(model, dat, eres, opts, work);
+  mstep(eres, model, opts);
+
+  return List::create(
+    Named("alpha") = alpha,
+    Named("rate") = rate,
+    Named("llf") = llf);
+}
+
+/*** R
+alpha <- c(0.2, 0.6, 0.2)
+Q <- rbind(
+  c(-2.0, 2.0, 0.0),
+  c(0.0, -5.0, 5.0),
+  c(0.0, 0.0, -8.0))
+xi <- c(0.0, 0.0, 8.0)
+rate <- c(2.0, 5.0, 8.0)
+dat <- list(intervals=c(1,2,1,3,4), counts=c(1,3,-1,2,4), instants=c(0,0,0,1,0), lastcount=10, maxinterval=4)
+options <- list(uniform.factor=1.01,
+                poisson.eps=1.0e-8)
+matclass <- "dgCMatrix"
+result <- emstep_cf1_group(alpha, rate, dat, options, as(Q, matclass), as(Q, matclass), as(Q, matclass))
+print(result)
+*/

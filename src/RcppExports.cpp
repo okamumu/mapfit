@@ -93,6 +93,23 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// emstep_cf1_group
+List emstep_cf1_group(NumericVector alpha, NumericVector rate, List data, List options, S4 Q0, S4 P0, S4 H0);
+RcppExport SEXP _mapfit_emstep_cf1_group(SEXP alphaSEXP, SEXP rateSEXP, SEXP dataSEXP, SEXP optionsSEXP, SEXP Q0SEXP, SEXP P0SEXP, SEXP H0SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type alpha(alphaSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type rate(rateSEXP);
+    Rcpp::traits::input_parameter< List >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< List >::type options(optionsSEXP);
+    Rcpp::traits::input_parameter< S4 >::type Q0(Q0SEXP);
+    Rcpp::traits::input_parameter< S4 >::type P0(P0SEXP);
+    Rcpp::traits::input_parameter< S4 >::type H0(H0SEXP);
+    rcpp_result_gen = Rcpp::wrap(emstep_cf1_group(alpha, rate, data, options, Q0, P0, H0));
+    return rcpp_result_gen;
+END_RCPP
+}
 // emfit_cf1_group_poi
 List emfit_cf1_group_poi(double omega, NumericVector alpha, NumericVector rate, List data, List options, S4 Q0, S4 P0, S4 H0);
 RcppExport SEXP _mapfit_emfit_cf1_group_poi(SEXP omegaSEXP, SEXP alphaSEXP, SEXP rateSEXP, SEXP dataSEXP, SEXP optionsSEXP, SEXP Q0SEXP, SEXP P0SEXP, SEXP H0SEXP) {
@@ -125,6 +142,23 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< S4 >::type P0(P0SEXP);
     Rcpp::traits::input_parameter< S4 >::type H0(H0SEXP);
     rcpp_result_gen = Rcpp::wrap(emfit_cf1_interval(alpha, rate, data, options, Q0, P0, H0));
+    return rcpp_result_gen;
+END_RCPP
+}
+// emstep_cf1_interval
+List emstep_cf1_interval(NumericVector alpha, NumericVector rate, List data, List options, S4 Q0, S4 P0, S4 H0);
+RcppExport SEXP _mapfit_emstep_cf1_interval(SEXP alphaSEXP, SEXP rateSEXP, SEXP dataSEXP, SEXP optionsSEXP, SEXP Q0SEXP, SEXP P0SEXP, SEXP H0SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type alpha(alphaSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type rate(rateSEXP);
+    Rcpp::traits::input_parameter< List >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< List >::type options(optionsSEXP);
+    Rcpp::traits::input_parameter< S4 >::type Q0(Q0SEXP);
+    Rcpp::traits::input_parameter< S4 >::type P0(P0SEXP);
+    Rcpp::traits::input_parameter< S4 >::type H0(H0SEXP);
+    rcpp_result_gen = Rcpp::wrap(emstep_cf1_interval(alpha, rate, data, options, Q0, P0, H0));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -513,8 +547,10 @@ static const R_CallMethodDef CallEntries[] = {
     {"_mapfit_emfit_mapgen_group", (DL_FUNC) &_mapfit_emfit_mapgen_group, 12},
     {"_mapfit_emfit_gmmpp_group", (DL_FUNC) &_mapfit_emfit_gmmpp_group, 16},
     {"_mapfit_emfit_cf1_group", (DL_FUNC) &_mapfit_emfit_cf1_group, 7},
+    {"_mapfit_emstep_cf1_group", (DL_FUNC) &_mapfit_emstep_cf1_group, 7},
     {"_mapfit_emfit_cf1_group_poi", (DL_FUNC) &_mapfit_emfit_cf1_group_poi, 8},
     {"_mapfit_emfit_cf1_interval", (DL_FUNC) &_mapfit_emfit_cf1_interval, 7},
+    {"_mapfit_emstep_cf1_interval", (DL_FUNC) &_mapfit_emstep_cf1_interval, 7},
     {"_mapfit_emfit_cf1_leftright", (DL_FUNC) &_mapfit_emfit_cf1_leftright, 7},
     {"_mapfit_emfit_cf1_wtime", (DL_FUNC) &_mapfit_emfit_cf1_wtime, 7},
     {"_mapfit_emfit_gph_group", (DL_FUNC) &_mapfit_emfit_gph_group, 7},

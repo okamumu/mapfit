@@ -172,46 +172,57 @@ double estep_interval(
     // barvf[k] = barvf[k-1] * exp(T * tdat[k])
     // barvb[k] = exp(T * tdat[k]) * barvb[k-1]
 
-    int right = poi::rightbound(qv*TDAT(k), options.poisson_eps) + 1;
-    double weight = poi::pmf(qv*TDAT(k), 0, right, prob);
+    if (TDAT(k) > 0.0) {
+      int right = poi::rightbound(qv*TDAT(k), options.poisson_eps) + 1;
+      double weight = poi::pmf(qv*TDAT(k), 0, right, prob);
 
-    fill(barvf[k], 0.0);
-    fill(barvb[k], 0.0);
-    copy(barvf[k-1], tmpvf);
-    copy(barvb[k-1], tmpvb);
-    axpy(prob[0], tmpvf, barvf[k]);
-    axpy(prob[0], tmpvb, barvb[k]);
-    for (int u=1; u<=right; u++) {
-      gemv(TRANS{}, 1.0, model.P, tmpvf, 0.0, tmpv);
-      copy(tmpv, tmpvf);
-      gemv(NOTRANS{}, 1.0, model.P, tmpvb, 0.0, tmpv);
-      copy(tmpv, tmpvb);
-      axpy(prob[u], tmpvf, barvf[k]);
-      axpy(prob[u], tmpvb, barvb[k]);
+      fill(barvf[k], 0.0);
+      fill(barvb[k], 0.0);
+      copy(barvf[k-1], tmpvf);
+      copy(barvb[k-1], tmpvb);
+      axpy(prob[0], tmpvf, barvf[k]);
+      axpy(prob[0], tmpvb, barvb[k]);
+      for (int u=1; u<=right; u++) {
+        gemv(TRANS{}, 1.0, model.P, tmpvf, 0.0, tmpv);
+        copy(tmpv, tmpvf);
+        gemv(NOTRANS{}, 1.0, model.P, tmpvb, 0.0, tmpv);
+        copy(tmpv, tmpvb);
+        axpy(prob[u], tmpvf, barvf[k]);
+        axpy(prob[u], tmpvb, barvb[k]);
+      }
+      scal(1.0/weight, barvf[k]);
+      scal(1.0/weight, barvb[k]);
+
+      // vb[k] = (-ph.T) * barvb[k]
+      gemv(NOTRANS{}, -1.0, model.Q, barvb[k], 0.0, vb[k]);
+    } else {
+      copy(barvf[k-1], barvf[k]);
+      copy(barvb[k-1], barvb[k]);
+      copy(vb[k-1], vb[k]);
     }
-    scal(1.0/weight, barvf[k]);
-    scal(1.0/weight, barvb[k]);
-
-    // vb[k] = (-ph.T) * barvb[k]
-    gemv(NOTRANS{}, -1.0, model.Q, barvb[k], 0.0, vb[k]);
 
     if (Z(k) == k) { // observed failure time
+      nn += W(k);
       double tmp = dot(model.alpha, vb[k]);
       llf += W(k) * log(tmp);
       wb[k] = W(k) / tmp;
       axpy(wb[k], vb[k], eres.eb);
       gemv(TRANS{}, -wb[k], model.Q, barvf[k], 1.0, eres.ey);
     } else if (Z(k) == 0) { // interval [0, t]
+      nn += W(k);
       copy(vone, tmpv);
       axpy(-1.0, barvb[k], tmpv);
       double tmp = dot(model.alpha, tmpv);
       llf += W(k) * log(tmp);
       wb[k] = W(k) / tmp;
       axpy(wb[k], tmpv, eres.eb);
+      ger(NOTRANS{}, wb[k], baralpha, tmpv, eres.en);
+
       copy(baralpha, tmpv);
       axpy(-1.0, barvf[k], tmpv);
       axpy(wb[k], tmpv, eres.ey);
     } else if (Z(k) == m+1) { // interval [t, infinity]
+      nn += W(k);
       double tmp = dot(model.alpha, barvb[k]);
       llf += W(k) * log(tmp);
       wb[k] = W(k) / tmp;
@@ -219,16 +230,19 @@ double estep_interval(
       axpy(wb[k], barvf[k], eres.ey);
       ger(NOTRANS{}, wb[k], baralpha, barvb[k], eres.en);
     } else if (Z(k) < k) { // interval [t_z, t]
+      nn += W(k);
       copy(barvb[Z(k)], tmpv);
       axpy(-1.0, barvb[k], tmpv);
       double tmp = dot(model.alpha, tmpv);
       llf += W(k) * log(tmp);
       wb[k] = W(k) / tmp;
+      wb[Z(k)] = wb[k];
       axpy(wb[k], tmpv, eres.eb);
+      ger(NOTRANS{}, wb[k], baralpha, tmpv, eres.en);
+
       copy(barvf[Z(k)], tmpv);
       axpy(-1.0, barvf[k], tmpv);
       axpy(wb[k], tmpv, eres.ey);
-      ger(NOTRANS{}, wb[k], baralpha, tmpv, eres.en);
     }
   }
 
@@ -239,50 +253,56 @@ double estep_interval(
     axpy(-wb[m], baralpha, vc[m]);
   } else if (Z(m) > m) {
     axpy(wb[m], baralpha, vc[m]);
-  } else if (Z(m) == m) {
+  } else { //if (Z(m) == m) 
     axpy(wb[m], model.alpha, vc[m]);
   }
   for (int k=m-1; k>=1; k--) {
-    // vc[k] = vc[k+1] * exp(T * tdat[k+1]) + ...
-    int right = poi::rightbound(qv*TDAT(k+1), options.poisson_eps) + 1;
-    double weight = poi::pmf(qv*TDAT(k+1), 0, right, prob);
+    if (TDAT(k+1) > 0.0) {
+      // vc[k] = vc[k+1] * exp(T * tdat[k+1]) + ...
+      int right = poi::rightbound(qv*TDAT(k+1), options.poisson_eps) + 1;
+      double weight = poi::pmf(qv*TDAT(k+1), 0, right, prob);
 
-    fill(vc[k], 0.0);
-    copy(vc[k+1], tmpvf);
-    axpy(prob[0], tmpvf, vc[k]);
-    for (int u=1; u<=right; u++) {
-      gemv(TRANS{}, 1.0, model.P, tmpvf, 0.0, tmpv);
-      copy(tmpv, tmpvf);
-      axpy(prob[u], tmpvf, vc[k]);
+      fill(vc[k], 0.0);
+      copy(vc[k+1], tmpvf);
+      axpy(prob[0], tmpvf, vc[k]);
+      for (int u=1; u<=right; u++) {
+        gemv(TRANS{}, 1.0, model.P, tmpvf, 0.0, tmpv);
+        copy(tmpv, tmpvf);
+        axpy(prob[u], tmpvf, vc[k]);
+      }
+      scal(1.0/weight, vc[k]);
+    } else {
+      copy(vc[k+1], vc[k]);
     }
-    scal(1.0/weight, vc[k]);
     if (Z(k) < k) {
       axpy(-wb[k], baralpha, vc[k]);
     } else if (Z(k) > k) {
       axpy(wb[k], baralpha, vc[k]);
-    } else if (Z(k) == k) {
+    } else { //if (Z(k) == k) {
       axpy(wb[k], model.alpha, vc[k]);
     }
   }
 
   for (int k=1; k<=m; k++) {
-    // compute convolution integral
-    // int_0^tdat[k] exp(T* s) * vb[k-1] * vc[k] * exp(T(tdat[k]-s)) ds
-    int right = poi::rightbound(qv*TDAT(k), options.poisson_eps) + 1;
-    double weight = poi::pmf(qv*TDAT(k), 0, right, prob);
+    if (TDAT(k) > 0.0) {
+      // compute convolution integral
+      // int_0^tdat[k] exp(T* s) * vb[k-1] * vc[k] * exp(T(tdat[k]-s)) ds
+      int right = poi::rightbound(qv*TDAT(k), options.poisson_eps) + 1;
+      double weight = poi::pmf(qv*TDAT(k), 0, right, prob);
 
-    fill(vx[right], 0.0);
-    axpy(prob[right], vb[k-1], vx[right]);
-    for (int l=right-1; l>=1; l--) {
-      gemv(NOTRANS{}, 1.0, model.P, vx[l+1], 0.0, vx[l]);
-      axpy(prob[l], vb[k-1], vx[l]);
-    }
+      fill(vx[right], 0.0);
+      axpy(prob[right], vb[k-1], vx[right]);
+      for (int l=right-1; l>=1; l--) {
+        gemv(NOTRANS{}, 1.0, model.P, vx[l+1], 0.0, vx[l]);
+        axpy(prob[l], vb[k-1], vx[l]);
+      }
 
-    ger(NOTRANS{}, 1.0/(qv*weight), vc[k], vx[1], eres.en);
-    for (int l=1; l<=right-1; l++) {
-      gemv(TRANS{}, 1.0, model.P, vc[k], 0.0, tmpv);
-      copy(tmpv, vc[k]);
-      ger(NOTRANS{}, 1.0/(qv*weight), vc[k], vx[l+1], eres.en);
+      ger(NOTRANS{}, 1.0/(qv*weight), vc[k], vx[1], eres.en);
+      for (int l=1; l<=right-1; l++) {
+        gemv(TRANS{}, 1.0, model.P, vc[k], 0.0, tmpv);
+        copy(tmpv, vc[k]);
+        ger(NOTRANS{}, 1.0/(qv*weight), vc[k], vx[l+1], eres.en);
+      }
     }
   }
 

@@ -305,7 +305,58 @@ phfit.surv <- function(ph, x, delta, tau, ...) {
   result
 }
 
-#' @aliases phfit.point phfit.group phfit.surv
+#' PH fitting with interval data
+#' 
+#' Fits a phase-type (PH) distribution to interval data via maximum likelihood estimation.
+#' 
+#' @param ph An object of R6 class for PH distributions. The estimation algorithm is selected based on this class.
+#' @param data A list consisting of point data and interval data.
+#' @param weights A numeric vector of weights.
+#' @param ... Additional options for the fitting algorithm.
+#' 
+#' @return A list of class \code{phfit.result} with the following components:
+#' \item{model}{An object for the estimated PH distribution.}
+#' \item{llf}{The maximized log-likelihood value.}
+#' \item{df}{The degrees of freedom of the fitted model.}
+#' \item{aic}{The Akaike information criterion (AIC) value.}
+#' \item{iter}{The number of iterations performed.}
+#' \item{convergence}{A logical value indicating whether the algorithm converged.}
+#' \item{ctime}{The computation time (user time).}
+#' \item{data}{An object containing the input data.}
+#' \item{aerror}{The absolute error of the log-likelihood at the final iteration.}
+#' \item{rerror}{The relative error of the log-likelihood at the final iteration.}
+#' \item{options}{A list of options used for the fitting.}
+#' \item{call}{The matched function call.}
+#'
+#' @note
+#' \code{herlang} cannot be directly used with \code{phfit.interval} yet.
+#' Use general PH (\code{ph}) or Canonical Form 1 (\code{cf1}) models.
+#' 
+#' @export
+
+phfit.interval <- function(ph, data, weights, ...) {
+  call <- match.call()
+  ph <- ph$copy()
+  
+  options <- emoptions()
+  con <- list(...)
+  nmsC <- names(options)
+  options[(namc <- names(con))] <- con
+  if (length(noNms <- namc[!namc %in% nmsC])) 
+    warning("unknown names in control: ", paste(noNms, collapse = ", "))
+  
+  data <- data.frame.phase.interval(data=data, weights=weights)
+  if (options$initialize == TRUE) {
+    ph$init(data, options)
+  }
+  tres <- system.time(result <- ph$emfit(data, options, ...))
+  result <- c(result, list(model=ph, aic=-2*(result$llf - ph$df()), df=ph$df(),
+                           data=data, ctime=tres[1], options=options, call=call))
+  class(result) <- "phfit.result"
+  result
+}
+
+#' @aliases phfit.point phfit.group phfit.surv phfit.interval
 #' @export
 
 print.phfit.result <- function (x, ...) {

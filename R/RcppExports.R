@@ -17,12 +17,20 @@ emfit_cf1_group <- function(alpha, rate, data, options, Q0, P0, H0) {
     .Call(`_mapfit_emfit_cf1_group`, alpha, rate, data, options, Q0, P0, H0)
 }
 
+emstep_cf1_group <- function(alpha, rate, data, options, Q0, P0, H0) {
+    .Call(`_mapfit_emstep_cf1_group`, alpha, rate, data, options, Q0, P0, H0)
+}
+
 emfit_cf1_group_poi <- function(omega, alpha, rate, data, options, Q0, P0, H0) {
     .Call(`_mapfit_emfit_cf1_group_poi`, omega, alpha, rate, data, options, Q0, P0, H0)
 }
 
 emfit_cf1_interval <- function(alpha, rate, data, options, Q0, P0, H0) {
     .Call(`_mapfit_emfit_cf1_interval`, alpha, rate, data, options, Q0, P0, H0)
+}
+
+emstep_cf1_interval <- function(alpha, rate, data, options, Q0, P0, H0) {
+    .Call(`_mapfit_emstep_cf1_interval`, alpha, rate, data, options, Q0, P0, H0)
 }
 
 emfit_cf1_leftright <- function(alpha, rate, data, options, Q0, P0, H0) {

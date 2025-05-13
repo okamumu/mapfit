@@ -10,6 +10,18 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
+// data_frame_phase_interval
+List data_frame_phase_interval(List data, NumericVector weights);
+RcppExport SEXP _mapfit_data_frame_phase_interval(SEXP dataSEXP, SEXP weightsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< List >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type weights(weightsSEXP);
+    rcpp_result_gen = Rcpp::wrap(data_frame_phase_interval(data, weights));
+    return rcpp_result_gen;
+END_RCPP
+}
 // emfit_erhmm_time
 List emfit_erhmm_time(NumericVector alpha, NumericVector xi, NumericVector rate, IntegerVector shape, S4 P0, List data, List options, S4 H0);
 RcppExport SEXP _mapfit_emfit_erhmm_time(SEXP alphaSEXP, SEXP xiSEXP, SEXP rateSEXP, SEXP shapeSEXP, SEXP P0SEXP, SEXP dataSEXP, SEXP optionsSEXP, SEXP H0SEXP) {
@@ -543,6 +555,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_mapfit_data_frame_phase_interval", (DL_FUNC) &_mapfit_data_frame_phase_interval, 2},
     {"_mapfit_emfit_erhmm_time", (DL_FUNC) &_mapfit_emfit_erhmm_time, 8},
     {"_mapfit_emfit_mapgen_group", (DL_FUNC) &_mapfit_emfit_mapgen_group, 12},
     {"_mapfit_emfit_gmmpp_group", (DL_FUNC) &_mapfit_emfit_gmmpp_group, 16},

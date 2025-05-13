@@ -213,6 +213,7 @@ GPHClass <- R6::R6Class(
              "phase.time" = emfit_gph_wtime(alpha, Q, xi, data, options, P, H),
              "phase.group" = emfit_gph_group(alpha, Q, xi, data, options, P, H),
              "phase.surv" = emfit_gph_leftright(alpha, Q, xi, data, options, P, H),
+             "phase.interval" = emfit_gph_interval(alpha, Q, xi, data, options, P, H),
              stop("phfit cannot use the dataform.")
       )
     },
@@ -232,6 +233,7 @@ GPHClass <- R6::R6Class(
              "phase.time" = llf_gph_wtime(alpha, Q, xi, data, poisson.eps, ufactor, P),
              "phase.group" = llf_gph_group(alpha, Q, xi, data, poisson.eps, ufactor, P),
              "phase.surv" = llf_gph_leftright(alpha, Q, xi, data, poisson.eps, ufactor, P),
+             "phase.interval" = llf_gph_interval(alpha, Q, xi, data, poisson.eps, ufactor, P),
              stop("phfit cannot use the dataform.")
       )
     },

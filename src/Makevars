@@ -19,6 +19,7 @@ OBJECTS = \
 	emfit_map_erhmm.o \
 	emfit_map_gmmpp.o \
 	gth.o \
+	data_interval.o \
 	RcppExports.o
 
 

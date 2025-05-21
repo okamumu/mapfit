@@ -12,6 +12,9 @@ List data_frame_phase_interval(List data, NumericVector weights) {
     std::vector<double> weights_values;
     std::vector<int> index_values;
     for (int i = 0; i < data.size(); ++i) {
+        if (std::abs(weights[i]) < 1e-12) {
+            continue;
+        }
         NumericVector x = data[i];
         if (x.size() == 1) {
             expanded_values.push_back(x[0]);
@@ -20,14 +23,14 @@ List data_frame_phase_interval(List data, NumericVector weights) {
         } else if (x.size() == 2) {
             double a = x[0];
             double b = x[1];
-            if (a == 0) {
-                expanded_values.push_back(b);
-                weights_values.push_back(weights[i]);
-                index_values.push_back(0);
-            } else if (std::isinf(b)) {
+            if (std::isinf(b)) { // This should be prior to the check a == 0 to handle [0, Inf]
                 expanded_values.push_back(a);
                 weights_values.push_back(weights[i]);
                 index_values.push_back(-1);
+            } else if (a == 0) {
+                expanded_values.push_back(b);
+                weights_values.push_back(weights[i]);
+                index_values.push_back(0);
             } else {
                 expanded_values.push_back(a);
                 expanded_values.push_back(b);

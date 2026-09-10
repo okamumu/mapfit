@@ -77,8 +77,15 @@ mean.map.time <- function(x, ...) {
 #' @export
 
 data.frame.map.group <- function(counts, breaks, intervals, instants) {
-  # replace na to -1
-  counts[is.na(counts)] <- -1
+  # Missing counts are not supported by the EM algorithm for MAP; the C++
+  # e-step uses the count as an array index (see src/map_gen.h). Reject them
+  # here rather than passing an invalid sentinel down to C++.
+  if (anyNA(counts)) {
+    stop("Missing counts (NA) are not supported in MAP fitting. Only phfit.group (PH) can handle missing counts.")
+  }
+  if (any(counts < 0)) {
+    stop("counts should be non-negative.")
+  }
   
   if (missing(breaks)) {
     if (missing(intervals)) {
@@ -92,11 +99,10 @@ data.frame.map.group <- function(counts, breaks, intervals, instants) {
   if (missing(instants)) {
     instants <- array(0, length(counts))
   }
-  # check for left-truncation
+  # Left-truncation would introduce an interval with an unknown count,
+  # which MAP fitting cannot handle (see the check on missing counts above).
   if (breaks[1] != 0) {
-    breaks <- c(0, breaks)
-    counts <- c(NA, counts)
-    instants <- c(0, instants)
+    stop("breaks should start at 0 in MAP fitting. A left-truncated interval has an unknown count, which is not supported.")
   }
   dt <- diff(breaks)
   

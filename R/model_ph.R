@@ -211,7 +211,8 @@ GPHClass <- R6::R6Class(
       H <- private$make.matrix()
       switch(class(data),
              "phase.time" = emfit_gph_wtime(alpha, Q, xi, data, options, P, H),
-             "phase.group" = emfit_gph_group(alpha, Q, xi, data, options, P, H)
+             "phase.group" = emfit_gph_group(alpha, Q, xi, data, options, P, H),
+             stop(sprintf("GPH cannot handle the data class '%s'.", class(data)))
       )
     },
     

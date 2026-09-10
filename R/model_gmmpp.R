@@ -57,7 +57,8 @@ GMMPPClass <- R6::R6Class(
 
       switch(class(data),
              "map.group" = emfit_gmmpp_group(alpha, xi, D0, D1, data, options,
-                                             P0, P1, en0, en1, G, Psi1T, Psi2T, Psi1N, Psi2N, tmpm)
+                                             P0, P1, en0, en1, G, Psi1T, Psi2T, Psi1N, Psi2N, tmpm),
+             stop("GMMPP can handle grouped data only. Use map() or erhmm() for point data.")
       )
     }
   )

@@ -1,0 +1,8 @@
+.git
+.Rproj.user
+mapfit.Rcheck/
+mapfit*.tar.gz
+mapfit*.tgz
+src/*.o
+src/*.so
+src/*.dll

@@ -10,10 +10,8 @@ ERHMMClass <- R6::R6Class(
     param.rate = NULL,
     param.P = NULL,
     param.xi = NULL,
-    matclass = "dgeMatrix",
-    
     make.matrix = function() {
-      as(as.matrix(private$param.P), private$matclass)
+      as.dge(as.matrix(private$param.P))
     }
   ),
   public = list(
@@ -62,7 +60,7 @@ ERHMMClass <- R6::R6Class(
       private$param.alpha <- alpha
       private$param.shape <- shape
       private$param.rate <- rate
-      private$param.P <- as(P, private$matclass)
+      private$param.P <- as.dge(P)
       private$param.xi <- xi
     },
     

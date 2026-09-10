@@ -23,6 +23,11 @@ CF1Class <- R6::R6Class(
     #' @param rate A vector of rates
     #' @return An instance of CF1
     initialize = function(alpha, rate) {
+      # phase_cf1_sort sorts its arguments in place through Rcpp. Take an
+      # explicit copy first so that the caller's vectors are left untouched.
+      # Subsetting always allocates; as.vector/as.numeric/c may not.
+      alpha <- alpha[seq_along(alpha)]
+      rate <- rate[seq_along(rate)]
       phase_cf1_sort(alpha, rate)
       private$param.rate <- rate
       size <- length(alpha)
@@ -81,10 +86,16 @@ CF1Class <- R6::R6Class(
       xi <- super$xi()
       P <- super$make.matrix()
       H <- super$make.matrix()
-      switch(class(data),
+      result <- switch(class(data),
         "phase.time" = emfit_cf1_wtime(alpha, rate, data, options, Q, P, H),
-        "phase.group" = emfit_cf1_group(alpha, rate, data, options, Q, P, H)
+        "phase.group" = emfit_cf1_group(alpha, rate, data, options, Q, P, H),
+        stop(sprintf("CF1 cannot handle the data class '%s'.", class(data)))
       )
+      # The C++ routine updates alpha, rate and Q in place, but not xi nor the
+      # degrees of freedom. Rebuild the model so that all the slots stay
+      # consistent with the estimated rates.
+      self$initialize(result$alpha, result$rate)
+      result
     },
     
     #' @description 

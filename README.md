@@ -48,13 +48,20 @@ $\boldsymbol{Q}$ denote a probability (row) vector for determining an
 initial state and an infinitesimal generator for transient states,
 respectively. Since the c.d.f. is given by the probability that the
 current state of underlying CTMC has already been absorbed, the c.d.f.
-of PH distribution is given by $$
+of PH distribution is given by
+
+$$
 F(x) = 1 - \boldsymbol{\alpha} \exp(\boldsymbol{Q} x) \boldsymbol{1},
-$$ where $\boldsymbol{1}$ is a column vector whose entries are 1. Also
-the p.d.f. can be obtained by taking the first derivative of the c.d.f.;
+$$
+
+where $\boldsymbol{1}$ is a column vector whose entries are 1. Also the
+p.d.f. can be obtained by taking the first derivative of the c.d.f.;
+
 $$
 f(x) = \boldsymbol{\alpha} \exp(\boldsymbol{Q} x) \boldsymbol{\xi},
-$$ where $\boldsymbol{\xi} = - \boldsymbol{Q} \boldsymbol{1}$.
+$$
+
+where $\boldsymbol{\xi} = - \boldsymbol{Q} \boldsymbol{1}$.
 
 The purpose of PH fitting is to determine PH parameters
 $\boldsymbol{\alpha}$ and $\boldsymbol{Q}$ so that the estimated PH
@@ -243,7 +250,7 @@ phfit.point(ph=ph(5), x=wsample)
 #> DF: 29
 #> AIC: 176.873999
 #> Iteration:  2000 / 2000
-#> Computation time (user): 1.591000
+#> Computation time (user): 1.589000
 #> Convergence: FALSE
 #> Error (abs): 2.658413e-05 (tolerance Inf)
 #> Error (rel): 4.472655e-07 (tolerance 1.490116e-08)
@@ -274,7 +281,7 @@ phfit.point(ph=cf1(5), x=wsample)
 #> DF: 8
 #> AIC: 134.832116
 #> Iteration:  2000 / 2000
-#> Computation time (user): 1.195000
+#> Computation time (user): 1.202000
 #> Convergence: FALSE
 #> Error (abs): 1.497201e-06 (tolerance Inf)
 #> Error (rel): 2.519858e-08 (tolerance 1.490116e-08)
@@ -334,7 +341,7 @@ phfit.group(ph=ph(5), counts=h.res$counts, breaks=h.res$breaks)
 #> DF: 29
 #> AIC: 103.625059
 #> Iteration:  1648 / 2000
-#> Computation time (user): 0.324000
+#> Computation time (user): 0.316000
 #> Convergence: TRUE
 #> Error (abs): 3.396319e-07 (tolerance Inf)
 #> Error (rel): 1.488795e-08 (tolerance 1.490116e-08)
@@ -365,7 +372,7 @@ phfit.group(ph=cf1(5), counts=h.res$counts, breaks=h.res$breaks)
 #> DF: 8
 #> AIC: 61.623811
 #> Iteration:  1300 / 2000
-#> Computation time (user): 0.185000
+#> Computation time (user): 0.187000
 #> Convergence: TRUE
 #> Error (abs): 3.388332e-07 (tolerance Inf)
 #> Error (rel): 1.485335e-08 (tolerance 1.490116e-08)
@@ -388,7 +395,7 @@ phfit.group(ph=herlang(5), counts=h.res$counts, breaks=h.res$breaks)
 #> DF: 4
 #> AIC: 55.176618
 #> Iteration:  204 / 2000
-#> Computation time (user): 0.007000
+#> Computation time (user): 0.009000
 #> Convergence: TRUE
 #> Error (abs): 3.487319e-07 (tolerance Inf)
 #> Error (rel): 1.478410e-08 (tolerance 1.490116e-08)
@@ -412,7 +419,7 @@ phfit.density(ph=ph(5), f=dweibull, shape=2, scale=1)
 #> DF: 29
 #> KL: 0.003678
 #> Iteration:  2000 / 2000
-#> Computation time (user): 1.853000
+#> Computation time (user): 1.837000
 #> Convergence: FALSE
 #> Error (abs): 4.373887e-05 (tolerance Inf)
 #> Error (rel): 3.878266e-06 (tolerance 1.490116e-08)
@@ -443,7 +450,7 @@ phfit.density(ph=cf1(5), f=dweibull, shape=2, scale=1)
 #> DF: 8
 #> KL: 0.002069
 #> Iteration:  2000 / 2000
-#> Computation time (user): 1.076000
+#> Computation time (user): 1.074000
 #> Convergence: FALSE
 #> Error (abs): 2.767693e-07 (tolerance Inf)
 #> Error (rel): 2.460694e-08 (tolerance 1.490116e-08)
@@ -507,7 +514,7 @@ is possible to perform PH fitting even if PH has 100 states;
 #> DF: 199
 #> KL: 0.000000
 #> Iteration:  40 / 2000
-#> Computation time (user): 0.800000
+#> Computation time (user): 0.789000
 #> Convergence: TRUE
 #> Error (abs): 1.596614e-07 (tolerance Inf)
 #> Error (rel): 1.424444e-08 (tolerance 1.490116e-08)
@@ -542,7 +549,7 @@ the overfitting is happen.
 #> DF: 135
 #> AIC: 371.009213
 #> Iteration:  2000 / 2000
-#> Computation time (user): 29.160000
+#> Computation time (user): 28.715000
 #> Convergence: FALSE
 #> Error (abs): 2.196319e-05 (tolerance Inf)
 #> Error (rel): 4.348748e-07 (tolerance 1.490116e-08)
@@ -615,11 +622,17 @@ initial probability vector $\boldsymbol{\alpha}$ and two matrices for
 infinitesimal generators $\boldsymbol{D}_0$, $\boldsymbol{D}_1$. Let
 $\boldsymbol{\pi}(n,t)$ be the row vector whose i-th entry is the
 probability that the phase process is i at time t and n arrivals occur
-before time t. Then we have the following differential equations: $$
-\frac{d}{dt} \boldsymbol{\pi}(n,t) = \boldsymbol{\pi}(n,t) \boldsymbol{D}_0 + \boldsymbol{\pi}(n-1,t) \boldsymbol{D}_1, \quad \text{for $n = 1, 2, \ldots$},
-$$ $$
+before time t. Then we have the following differential equations:
+
+$$
+\frac{d}{dt} \boldsymbol{\pi}(n,t) = \boldsymbol{\pi}(n,t) \boldsymbol{D}_0 + \boldsymbol{\pi}(n-1,t) \boldsymbol{D}_1, \quad \text{for } n = 1, 2, \ldots,
+$$
+
+$$
 \frac{d}{dt} \boldsymbol{\pi}(0,t) = \boldsymbol{\pi}(0,t) \boldsymbol{D}_0, \quad \boldsymbol{\pi}(0,0) = \boldsymbol{\alpha},
-$$ where $\boldsymbol{D}_0$ and $\boldsymbol{D}_1$ are infinitesimal
+$$
+
+where $\boldsymbol{D}_0$ and $\boldsymbol{D}_1$ are infinitesimal
 generators of phase process without and with arrivals, respectively.
 Note that $\boldsymbol{D}_0 + \boldsymbol{D}_1$ becomes the
 infinitesimal generator of phase process. Similar to PH fitting, the
@@ -867,7 +880,7 @@ mapfit.point(map=map(5), x=cumsum(BCpAug89))
 #> DF: 49
 #> AIC: -10147.068566
 #> Iteration:  2000 / 2000
-#> Computation time (user): 38.176000
+#> Computation time (user): 37.320000
 #> Convergence: FALSE
 #> Error (abs): 1.498159e-04 (tolerance Inf)
 #> Error (rel): 2.924644e-08 (tolerance 1.490116e-08)
@@ -898,7 +911,7 @@ mapfit.point(map=mmpp(5), x=cumsum(BCpAug89))
 #> DF: 29
 #> AIC: -10052.225436
 #> Iteration:  35 / 2000
-#> Computation time (user): 0.711000
+#> Computation time (user): 0.690000
 #> Convergence: TRUE
 #> Error (abs): 7.531931e-05 (tolerance Inf)
 #> Error (rel): 1.489963e-08 (tolerance 1.490116e-08)
@@ -938,7 +951,7 @@ mapfit.point(map=erhmm(5), x=cumsum(BCpAug89))
 #> DF: 13
 #> AIC: -10217.720196
 #> Iteration:  85 / 2000
-#> Computation time (user): 0.911000
+#> Computation time (user): 0.930000
 #> Convergence: TRUE
 #> Error (abs): 7.459457e-05 (tolerance Inf)
 #> Error (rel): 1.456396e-08 (tolerance 1.490116e-08)
@@ -1013,7 +1026,7 @@ mapfit.group(map=map(5), counts=BCpAug89.group$counts, breaks=BCpAug89.group$bre
 #> DF: 49
 #> AIC: 1207.552145
 #> Iteration:  2000 / 2000
-#> Computation time (user): 81.112000
+#> Computation time (user): 70.535000
 #> Convergence: FALSE
 #> Error (abs): 2.654024e-04 (tolerance Inf)
 #> Error (rel): 4.783953e-07 (tolerance 1.490116e-08)
@@ -1044,7 +1057,7 @@ mapfit.group(map=mmpp(5), counts=BCpAug89.group$counts, breaks=BCpAug89.group$br
 #> DF: 29
 #> AIC: 1171.054100
 #> Iteration:  687 / 2000
-#> Computation time (user): 46.080000
+#> Computation time (user): 41.767000
 #> Convergence: TRUE
 #> Error (abs): 8.230252e-06 (tolerance Inf)
 #> Error (rel): 1.478859e-08 (tolerance 1.490116e-08)
@@ -1075,7 +1088,7 @@ mapfit.group(map=gmmpp(5), counts=BCpAug89.group$counts, breaks=BCpAug89.group$b
 #> DF: 29
 #> AIC: 1714.429073
 #> Iteration:  137 / 2000
-#> Computation time (user): 5.618000
+#> Computation time (user): 5.609000
 #> Convergence: TRUE
 #> Error (abs): 1.174183e-05 (tolerance Inf)
 #> Error (rel): 1.417728e-08 (tolerance 1.490116e-08)

@@ -33,6 +33,21 @@ emoptions <- function() {
   )
 }
 
+# Coerce to a dense general Matrix (dgeMatrix).
+#
+# The EM kernels for MAP and ER-HMM read D0, D1 and P through
+# S4matrix<DenseMatrixT>, so these slots have to be dgeMatrix. Coercing
+# directly with as(x, "dgeMatrix") is deprecated in Matrix, and the coercions
+# to the virtual classes "unpackedMatrix" and "CsparseMatrix" detect symmetry
+# and triangularity: a symmetric argument would become a dsyMatrix and an
+# argument with a zero triangle a dtrMatrix, neither of which has the dense
+# general layout the C++ code assumes. This three-step coercion is the
+# replacement documented in help("Matrix-deprecated") and always gives a
+# dgeMatrix.
+as.dge <- function(x) {
+  as(as(as(x, "dMatrix"), "generalMatrix"), "unpackedMatrix")
+}
+
 #' Markov stationary
 #' 
 #' Compute the stationary vector with GTH

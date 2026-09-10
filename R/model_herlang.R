@@ -140,7 +140,8 @@ HErlangClass <- R6::R6Class(
       rate <- self$rate()
       switch(class(data),
              "phase.time" = emfit_herlang_wtime(mixrate, shape, rate, data, options),
-             "phase.group" = emfit_herlang_group(mixrate, shape, rate, data, options)
+             "phase.group" = emfit_herlang_group(mixrate, shape, rate, data, options),
+             stop(sprintf("HErlang cannot handle the data class '%s'.", class(data)))
       )
     },
     

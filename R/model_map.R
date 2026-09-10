@@ -212,7 +212,8 @@ MAPClass <- R6::R6Class(
              "map.time" = emfit_mapgen_group(alpha, xi, D0, D1, data, options,
                                               P0, P1, H0, H1, en0, en1),
              "map.group" = emfit_mapgen_group(alpha, xi, D0, D1, data, options,
-                                              P0, P1, H0, H1, en0, en1)
+                                              P0, P1, H0, H1, en0, en1),
+             stop(sprintf("MAP cannot handle the data class '%s'.", class(data)))
       )
     },
     

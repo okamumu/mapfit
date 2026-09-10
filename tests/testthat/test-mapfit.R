@@ -76,3 +76,17 @@ test_that("phfit.group", {
 
 
 
+
+test_that("unsupported data for MAP fitting is rejected", {
+  ## missing counts are supported by phfit.group only
+  expect_error(mapfit.group(map=map(2), counts=c(1,NA,3)), "Missing counts")
+
+  ## left-truncated group data would give an interval with an unknown count
+  expect_error(mapfit.group(map=map(2), counts=c(1,2,3), breaks=c(10,20,30,40)),
+               "start at 0")
+
+  ## gmmpp is an algorithm for grouped data only
+  data(BCpAug89)
+  expect_error(mapfit.point(map=gmmpp(2), x=cumsum(head(BCpAug89, 50))),
+               "grouped data only")
+})

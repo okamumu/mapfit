@@ -43,39 +43,27 @@ devtools::install_github("okamumu/mapfit")
 PH distribution is defined as the time to absorption in a
 time-homogeneous CTMC with an absorbing state. The p.d.f. and cumulative
 distribution function (c.d.f.) are mathematically given as the
-expressions using matrix exponential. Let
-![\boldsymbol{\alpha}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7B%5Calpha%7D "\boldsymbol{\alpha}")
-and
-![\boldsymbol{Q}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7BQ%7D "\boldsymbol{Q}")
-denote a probability (row) vector for determining an initial state and
-an infinitesimal generator for transient states, respectively. Since the
-c.d.f. is given by the probability that the current state of underlying
-CTMC has already been absorbed, the c.d.f. of PH distribution is given
-by
-
-![F(x) = 1 - \boldsymbol{\alpha} \exp(\boldsymbol{Q} x) \boldsymbol{1},](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;F%28x%29%20%3D%201%20-%20%5Cboldsymbol%7B%5Calpha%7D%20%5Cexp%28%5Cboldsymbol%7BQ%7D%20x%29%20%5Cboldsymbol%7B1%7D%2C "F(x) = 1 - \boldsymbol{\alpha} \exp(\boldsymbol{Q} x) \boldsymbol{1},")
-
-where
-![\boldsymbol{1}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7B1%7D "\boldsymbol{1}")
-is a column vector whose entries are 1. Also the p.d.f. can be obtained
-by taking the first derivative of the c.d.f.;
-
-![f(x) = \boldsymbol{\alpha} \exp(\boldsymbol{Q} x) \boldsymbol{\xi},](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;f%28x%29%20%3D%20%5Cboldsymbol%7B%5Calpha%7D%20%5Cexp%28%5Cboldsymbol%7BQ%7D%20x%29%20%5Cboldsymbol%7B%5Cxi%7D%2C "f(x) = \boldsymbol{\alpha} \exp(\boldsymbol{Q} x) \boldsymbol{\xi},")
-
-where
-![\boldsymbol{\xi} = - \boldsymbol{Q} \boldsymbol{1}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7B%5Cxi%7D%20%3D%20-%20%5Cboldsymbol%7BQ%7D%20%5Cboldsymbol%7B1%7D "\boldsymbol{\xi} = - \boldsymbol{Q} \boldsymbol{1}").
+expressions using matrix exponential. Let $\boldsymbol{\alpha}$ and
+$\boldsymbol{Q}$ denote a probability (row) vector for determining an
+initial state and an infinitesimal generator for transient states,
+respectively. Since the c.d.f. is given by the probability that the
+current state of underlying CTMC has already been absorbed, the c.d.f.
+of PH distribution is given by $$
+F(x) = 1 - \boldsymbol{\alpha} \exp(\boldsymbol{Q} x) \boldsymbol{1},
+$$ where $\boldsymbol{1}$ is a column vector whose entries are 1. Also
+the p.d.f. can be obtained by taking the first derivative of the c.d.f.;
+$$
+f(x) = \boldsymbol{\alpha} \exp(\boldsymbol{Q} x) \boldsymbol{\xi},
+$$ where $\boldsymbol{\xi} = - \boldsymbol{Q} \boldsymbol{1}$.
 
 The purpose of PH fitting is to determine PH parameters
-![\boldsymbol{\alpha}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7B%5Calpha%7D "\boldsymbol{\alpha}")
-and
-![\boldsymbol{Q}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7BQ%7D "\boldsymbol{Q}")
-so that the estimated PH distribution fits to observed data. There are
-two different approaches; MM (moment match) method and MLE (maximum
-likelihood estimation). The MM method is to find PH parameters whose
-first few moments match to the moments from empirical data or
-distribution functions. On the other hand, MLE is to find PH parameters
-maximizing the likelihood (probability) of which the data is drawn from
-the model as a sample.
+$\boldsymbol{\alpha}$ and $\boldsymbol{Q}$ so that the estimated PH
+distribution fits to observed data. There are two different approaches;
+MM (moment match) method and MLE (maximum likelihood estimation). The MM
+method is to find PH parameters whose first few moments match to the
+moments from empirical data or distribution functions. On the other
+hand, MLE is to find PH parameters maximizing the likelihood
+(probability) of which the data is drawn from the model as a sample.
 
 ### Data for PH fitting
 
@@ -148,40 +136,28 @@ know the exact number of truncated samples.
 ### Models and Methods
 
 PH distributions are classified to sub-classes by the structure of
-![\boldsymbol{\alpha}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7B%5Calpha%7D "\boldsymbol{\alpha}")
-and
-![\boldsymbol{Q}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7BQ%7D "\boldsymbol{Q}"),
-and the parameter estimation algorithms depend on the class of PH
-distribution. The tool deals with the following classes of PH
-distribution:
+$\boldsymbol{\alpha}$ and $\boldsymbol{Q}$, and the parameter estimation
+algorithms depend on the class of PH distribution. The tool deals with
+the following classes of PH distribution:
 
 - general PH: The PH distribution in which there are no constraints on
-  ![\boldsymbol{\alpha}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7B%5Calpha%7D "\boldsymbol{\alpha}")
-  and
-  ![\boldsymbol{Q}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7BQ%7D "\boldsymbol{Q}").
-  In the tool, this is referred to as \`ph’ class.
+  $\boldsymbol{\alpha}$ and $\boldsymbol{Q}$. In the tool, this is
+  referred to as \`ph’ class.
 - canonical form 1 (CF1): One of the minimal representations of acyclic
-  PH distribution. The matrix
-  ![\boldsymbol{Q}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7BQ%7D "\boldsymbol{Q}")
-  becomes a bidiagonal matrix whose entries are sorted in increasing
-  order. In the tool, this is referred to as \`cf1’ class.
+  PH distribution. The matrix $\boldsymbol{Q}$ becomes a bidiagonal
+  matrix whose entries are sorted in increasing order. In the tool, this
+  is referred to as \`cf1’ class.
 - hyper-Erlang distribution: One of the representations of acyclic PH
   distribution. The distribution consists of a mixture of Erlang
   distributions. In the tool, this is referred to as \`herlang’ class.
 
-The parameters of `ph` class are
-![\boldsymbol{\alpha}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7B%5Calpha%7D "\boldsymbol{\alpha}"),
-![\boldsymbol{Q}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7BQ%7D "\boldsymbol{Q}")
-and
-![\boldsymbol{\xi}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7B%5Cxi%7D "\boldsymbol{\xi}"),
-which are defined as members of R6 class in R. To represent the matrix
-![\boldsymbol{Q}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7BQ%7D "\boldsymbol{Q}"),
-we use `Matrix` package which is an external package of R. The `cf1`
-class are inherited from the `ph` class. In addition to inherited
-members, `cf1` has a member `rate` to store the absolute values of
-diagonal elements of
-![\boldsymbol{Q}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7BQ%7D "\boldsymbol{Q}").
-The `herlang` class has the member for the mixed ratio as `alpha`, shape
+The parameters of `ph` class are $\boldsymbol{\alpha}$, $\boldsymbol{Q}$
+and $\boldsymbol{\xi}$, which are defined as members of R6 class in R.
+To represent the matrix $\boldsymbol{Q}$, we use `Matrix` package which
+is an external package of R. The `cf1` class are inherited from the `ph`
+class. In addition to inherited members, `cf1` has a member `rate` to
+store the absolute values of diagonal elements of $\boldsymbol{Q}$. The
+`herlang` class has the member for the mixed ratio as `alpha`, shape
 parameters of Erlang components `shape`, rate parameters of Erlang
 components `rate`. `herlang` classes can be transformed to `ph` class by
 using `as.gph` method of R. `cf1` has members for `alpha`, `Q` and `xi`.
@@ -267,7 +243,7 @@ phfit.point(ph=ph(5), x=wsample)
 #> DF: 29
 #> AIC: 176.873999
 #> Iteration:  2000 / 2000
-#> Computation time (user): 1.978000
+#> Computation time (user): 1.591000
 #> Convergence: FALSE
 #> Error (abs): 2.658413e-05 (tolerance Inf)
 #> Error (rel): 4.472655e-07 (tolerance 1.490116e-08)
@@ -295,13 +271,13 @@ phfit.point(ph=cf1(5), x=wsample)
 #> xxxxxx
 #> 
 #> Maximum LLF: -59.416058
-#> DF: 9
-#> AIC: 136.832116
+#> DF: 8
+#> AIC: 134.832116
 #> Iteration:  2000 / 2000
-#> Computation time (user): 1.731000
+#> Computation time (user): 1.195000
 #> Convergence: FALSE
 #> Error (abs): 1.497201e-06 (tolerance Inf)
-#> Error (rel): 2.519859e-08 (tolerance 1.490116e-08)
+#> Error (rel): 2.519858e-08 (tolerance 1.490116e-08)
 #> 
 #> Size : 5
 #> Initial :  0.8888711 0.003245776 0.08347344 0.02440971 9.387039e-102 
@@ -319,7 +295,7 @@ phfit.point(ph=herlang(5), x=wsample, ubound=3)
 #> DF: 4
 #> AIC: 128.167889
 #> Iteration:  205 / 2000
-#> Computation time (user): 0.010000
+#> Computation time (user): 0.011000
 #> Convergence: TRUE
 #> Error (abs): 8.852490e-07 (tolerance Inf)
 #> Error (rel): 1.473354e-08 (tolerance 1.490116e-08)
@@ -358,9 +334,9 @@ phfit.group(ph=ph(5), counts=h.res$counts, breaks=h.res$breaks)
 #> DF: 29
 #> AIC: 103.625059
 #> Iteration:  1648 / 2000
-#> Computation time (user): 0.355000
+#> Computation time (user): 0.324000
 #> Convergence: TRUE
-#> Error (abs): 3.396318e-07 (tolerance Inf)
+#> Error (abs): 3.396319e-07 (tolerance Inf)
 #> Error (rel): 1.488795e-08 (tolerance 1.490116e-08)
 #> 
 #> Size : 5
@@ -386,10 +362,10 @@ phfit.group(ph=cf1(5), counts=h.res$counts, breaks=h.res$breaks)
 #> xxxxxx
 #> 
 #> Maximum LLF: -22.811905
-#> DF: 9
-#> AIC: 63.623811
+#> DF: 8
+#> AIC: 61.623811
 #> Iteration:  1300 / 2000
-#> Computation time (user): 0.256000
+#> Computation time (user): 0.185000
 #> Convergence: TRUE
 #> Error (abs): 3.388332e-07 (tolerance Inf)
 #> Error (rel): 1.485335e-08 (tolerance 1.490116e-08)
@@ -412,9 +388,9 @@ phfit.group(ph=herlang(5), counts=h.res$counts, breaks=h.res$breaks)
 #> DF: 4
 #> AIC: 55.176618
 #> Iteration:  204 / 2000
-#> Computation time (user): 0.012000
+#> Computation time (user): 0.007000
 #> Convergence: TRUE
-#> Error (abs): 3.487320e-07 (tolerance Inf)
+#> Error (abs): 3.487319e-07 (tolerance Inf)
 #> Error (rel): 1.478410e-08 (tolerance 1.490116e-08)
 #> 
 #> Size : 2
@@ -436,7 +412,7 @@ phfit.density(ph=ph(5), f=dweibull, shape=2, scale=1)
 #> DF: 29
 #> KL: 0.003678
 #> Iteration:  2000 / 2000
-#> Computation time (user): 2.199000
+#> Computation time (user): 1.853000
 #> Convergence: FALSE
 #> Error (abs): 4.373887e-05 (tolerance Inf)
 #> Error (rel): 3.878266e-06 (tolerance 1.490116e-08)
@@ -464,10 +440,10 @@ phfit.density(ph=cf1(5), f=dweibull, shape=2, scale=1)
 #> xxxxxx
 #> 
 #> Maximum LLF: -11.247613
-#> DF: 9
+#> DF: 8
 #> KL: 0.002069
 #> Iteration:  2000 / 2000
-#> Computation time (user): 1.586000
+#> Computation time (user): 1.076000
 #> Convergence: FALSE
 #> Error (abs): 2.767693e-07 (tolerance Inf)
 #> Error (rel): 2.460694e-08 (tolerance 1.490116e-08)
@@ -484,13 +460,15 @@ phfit.density(ph=herlang(5), f=dweibull, shape=2, scale=1)
 #> shape:  1 2 2  llf=-12.44
 #> shape:  1 4  llf=-11.39
 #> shape:  2 3  llf=-11.51
+#> Warning in emfit_herlang_wtime(mixrate, shape, rate, data, options): Warning:
+#> LLF does not increases (iter=2, llf=-12.8261, diff=-3.55271e-15)
 #> shape:  5  llf=-12.83
 #> 
 #> Maximum LLF: -11.391140
 #> DF: 4
 #> KL: 0.009694
 #> Iteration:  77 / 2000
-#> Computation time (user): 0.012000
+#> Computation time (user): 0.013000
 #> Convergence: TRUE
 #> Error (abs): 1.461348e-07 (tolerance Inf)
 #> Error (rel): 1.282881e-08 (tolerance 1.490116e-08)
@@ -529,10 +507,10 @@ is possible to perform PH fitting even if PH has 100 states;
 #> DF: 199
 #> KL: 0.000000
 #> Iteration:  40 / 2000
-#> Computation time (user): 0.402000
+#> Computation time (user): 0.800000
 #> Convergence: TRUE
 #> Error (abs): 1.596614e-07 (tolerance Inf)
-#> Error (rel): 1.424445e-08 (tolerance 1.490116e-08)
+#> Error (rel): 1.424444e-08 (tolerance 1.490116e-08)
 #> 
 #> Size : 100
 #> Initial :  0.0001817557 0.0002199945 0.0002849414 0.0003823432 0.0005203138 0.0007081901 0.0009555305 0.001271161 0.001662378 0.00213446 0.002690543 0.003331824 0.004057922 0.004867224 0.005757032 0.006723475 0.007761197 0.008862959 0.01001928 0.01121831 0.01244589 0.01368604 0.01492163 0.01613516 0.01730967 0.01842943 0.01948053 0.02045124 0.02133205 0.0221157 0.02279694 0.02337235 0.02384012 0.02419988 0.02445255 0.02460023 0.02464612 0.02459445 0.02445036 0.02421979 0.02390929 0.02352592 0.02307703 0.02257007 0.02201249 0.02141157 0.0207743 0.02010733 0.01941691 0.01870884 0.01798851 0.01726081 0.01653022 0.01580077 0.01507609 0.01435938 0.01365348 0.01296082 0.01228352 0.01162334 0.01098173 0.01035988 0.009758688 0.009178828 0.00862076 0.008084756 0.007570922 0.007079222 0.006609496 0.006161481 0.005734828 0.005329111 0.004943847 0.004578498 0.004232485 0.00390519 0.003595963 0.003304128 0.003028987 0.002769832 0.002525954 0.002296659 0.002081281 0.001879196 0.001689827 0.001512641 0.00134713 0.001192767 0.001048963 0.0009150229 0.0007901335 0.0006734343 0.0005642032 0.0004621629 0.0003677834 0.0002822111 0.0002060518 0.0001355869 5.772149e-05 9.89152e-07 
@@ -561,10 +539,10 @@ the overfitting is happen.
 #> xxxxxx
 #> 
 #> Maximum LLF: -50.504606
-#> DF: 185
-#> AIC: 471.009213
+#> DF: 135
+#> AIC: 371.009213
 #> Iteration:  2000 / 2000
-#> Computation time (user): 14.520000
+#> Computation time (user): 29.160000
 #> Convergence: FALSE
 #> Error (abs): 2.196319e-05 (tolerance Inf)
 #> Error (rel): 4.348748e-07 (tolerance 1.490116e-08)
@@ -597,6 +575,11 @@ ggplot(data.frame(x=seq(0, 3, length.out=100)), aes(x=x)) +
   stat_function(fun=dphase, args=list(ph=result.3mom), aes_(colour='from moment matching')) +
   stat_function(fun=dphase, args=list(ph=result.point$model), aes_(colour='from point data')) +
   stat_function(fun=dphase, args=list(ph=result.density$model), aes_(colour='from density'))
+#> Warning: `aes_()` was deprecated in ggplot2 3.0.0.
+#> ℹ Please use tidy evaluation idioms with `aes()`
+#> This warning is displayed once every 8 hours.
+#> Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+#> generated.
 ```
 
 <img src="man/figures/README-draw_plot-1.png" width="100%" />
@@ -628,39 +611,25 @@ ggplot(data.frame(x=seq(0, 3, length.out=100)), aes(x=x)) +
 MAP (Markovian arrival process) is a stochastic point process whose
 arrival rates are dominated by a CTMC. The CTMC expresses the internal
 state of MAP called a phase process. MAP is generally defined by an
-initial probability vector
-![\boldsymbol{\alpha}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7B%5Calpha%7D "\boldsymbol{\alpha}")
-and two matrices for infinitesimal generators
-![\boldsymbol{D}\_0](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7BD%7D_0 "\boldsymbol{D}_0"),
-![\boldsymbol{D}\_1](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7BD%7D_1 "\boldsymbol{D}_1").
-Let
-![\boldsymbol{\pi}(n,t)](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7B%5Cpi%7D%28n%2Ct%29 "\boldsymbol{\pi}(n,t)")
-be the row vector whose i-th entry is the probability that the phase
-process is i at time t and n arrivals occur before time t. Then we have
-the following differential equations:
-
-![\frac{d}{dt} \boldsymbol{\pi}(n,t) = \boldsymbol{\pi}(n,t) \boldsymbol{D}\_0 + \boldsymbol{\pi}(n-1,t) \boldsymbol{D}\_1, \quad \text{for \$n = 1, 2, \ldots\$},](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cfrac%7Bd%7D%7Bdt%7D%20%5Cboldsymbol%7B%5Cpi%7D%28n%2Ct%29%20%3D%20%5Cboldsymbol%7B%5Cpi%7D%28n%2Ct%29%20%5Cboldsymbol%7BD%7D_0%20%2B%20%5Cboldsymbol%7B%5Cpi%7D%28n-1%2Ct%29%20%5Cboldsymbol%7BD%7D_1%2C%20%5Cquad%20%5Ctext%7Bfor%20%24n%20%3D%201%2C%202%2C%20%5Cldots%24%7D%2C "\frac{d}{dt} \boldsymbol{\pi}(n,t) = \boldsymbol{\pi}(n,t) \boldsymbol{D}_0 + \boldsymbol{\pi}(n-1,t) \boldsymbol{D}_1, \quad \text{for $n = 1, 2, \ldots$},")
-
-![\frac{d}{dt} \boldsymbol{\pi}(0,t) = \boldsymbol{\pi}(0,t) \boldsymbol{D}\_0, \quad \boldsymbol{\pi}(0,0) = \boldsymbol{\alpha},](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cfrac%7Bd%7D%7Bdt%7D%20%5Cboldsymbol%7B%5Cpi%7D%280%2Ct%29%20%3D%20%5Cboldsymbol%7B%5Cpi%7D%280%2Ct%29%20%5Cboldsymbol%7BD%7D_0%2C%20%5Cquad%20%5Cboldsymbol%7B%5Cpi%7D%280%2C0%29%20%3D%20%5Cboldsymbol%7B%5Calpha%7D%2C "\frac{d}{dt} \boldsymbol{\pi}(0,t) = \boldsymbol{\pi}(0,t) \boldsymbol{D}_0, \quad \boldsymbol{\pi}(0,0) = \boldsymbol{\alpha},")
-
-where
-![\boldsymbol{D}\_0](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7BD%7D_0 "\boldsymbol{D}_0")
-and
-![\boldsymbol{D}\_1](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7BD%7D_1 "\boldsymbol{D}_1")
-are infinitesimal generators of phase process without and with arrivals,
-respectively. Note that
-![\boldsymbol{D}\_0 + \boldsymbol{D}\_1](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7BD%7D_0%20%2B%20%5Cboldsymbol%7BD%7D_1 "\boldsymbol{D}_0 + \boldsymbol{D}_1")
-becomes the infinitesimal generator of phase process. Similar to PH
-fitting, the purpose of MAP fitting is to find MAP parameters
-![\boldsymbol{\alpha}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7B%5Calpha%7D "\boldsymbol{\alpha}"),
-![\boldsymbol{D}\_0](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7BD%7D_0 "\boldsymbol{D}_0")
-and
-![\boldsymbol{D}\_1](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cboldsymbol%7BD%7D_1 "\boldsymbol{D}_1")
-so that the estimated MAP fits to observed data. In MAP fitting, there
-are also two approaches; MM method and MLE. The MM method for MAP is to
-determine MAP parameters with marginal/joint moments and k-lag
-correlation \[1\]. MLE is to find MAP parameters maximizing the
-log-likelihood function. We implement MLE approaches in the tool.
+initial probability vector $\boldsymbol{\alpha}$ and two matrices for
+infinitesimal generators $\boldsymbol{D}_0$, $\boldsymbol{D}_1$. Let
+$\boldsymbol{\pi}(n,t)$ be the row vector whose i-th entry is the
+probability that the phase process is i at time t and n arrivals occur
+before time t. Then we have the following differential equations: $$
+\frac{d}{dt} \boldsymbol{\pi}(n,t) = \boldsymbol{\pi}(n,t) \boldsymbol{D}_0 + \boldsymbol{\pi}(n-1,t) \boldsymbol{D}_1, \quad \text{for $n = 1, 2, \ldots$},
+$$ $$
+\frac{d}{dt} \boldsymbol{\pi}(0,t) = \boldsymbol{\pi}(0,t) \boldsymbol{D}_0, \quad \boldsymbol{\pi}(0,0) = \boldsymbol{\alpha},
+$$ where $\boldsymbol{D}_0$ and $\boldsymbol{D}_1$ are infinitesimal
+generators of phase process without and with arrivals, respectively.
+Note that $\boldsymbol{D}_0 + \boldsymbol{D}_1$ becomes the
+infinitesimal generator of phase process. Similar to PH fitting, the
+purpose of MAP fitting is to find MAP parameters $\boldsymbol{\alpha}$,
+$\boldsymbol{D}_0$ and $\boldsymbol{D}_1$ so that the estimated MAP fits
+to observed data. In MAP fitting, there are also two approaches; MM
+method and MLE. The MM method for MAP is to determine MAP parameters
+with marginal/joint moments and k-lag correlation \[1\]. MLE is to find
+MAP parameters maximizing the log-likelihood function. We implement MLE
+approaches in the tool.
 
 ### Data for MAP fitting
 
@@ -719,18 +688,14 @@ parameter estimation algorithms.
   estimation of `gmmpp`, it is assumed that at most one phase change is
   allowed in one observed time interval \[3\].
 
-The `map` class consists of parameters
-![\alpha](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Calpha "\alpha"),
-![D_0](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;D_0 "D_0")
-and
-![D_1](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;D_1 "D_1"),
-which are given by slots of S4 class in R. The `gmmpp` class also has
-the slots `alpha`, `D0` and `D1` as model parameters. The `erhmm` class
-has an initial probability vector for HMM states (`alpha`), a
-probability transition matrix for HMM states (`P`), the shape parameters
-for Erlang distribution (`shape`) and the rate parameters for Erlang
-distribution (`rate`). The S4 class `erhmm` can be transformed to `map`
-by using `as` method.
+The `map` class consists of parameters $\alpha$, $D_0$ and $D_1$, which
+are given by slots of S4 class in R. The `gmmpp` class also has the
+slots `alpha`, `D0` and `D1` as model parameters. The `erhmm` class has
+an initial probability vector for HMM states (`alpha`), a probability
+transition matrix for HMM states (`P`), the shape parameters for Erlang
+distribution (`shape`) and the rate parameters for Erlang distribution
+(`rate`). The S4 class `erhmm` can be transformed to `map` by using `as`
+method.
 
 The tool has the following MAP fitting functions:
 
@@ -902,7 +867,7 @@ mapfit.point(map=map(5), x=cumsum(BCpAug89))
 #> DF: 49
 #> AIC: -10147.068566
 #> Iteration:  2000 / 2000
-#> Computation time (user): 72.704000
+#> Computation time (user): 38.176000
 #> Convergence: FALSE
 #> Error (abs): 1.498159e-04 (tolerance Inf)
 #> Error (rel): 2.924644e-08 (tolerance 1.490116e-08)
@@ -933,9 +898,9 @@ mapfit.point(map=mmpp(5), x=cumsum(BCpAug89))
 #> DF: 29
 #> AIC: -10052.225436
 #> Iteration:  35 / 2000
-#> Computation time (user): 1.346000
+#> Computation time (user): 0.711000
 #> Convergence: TRUE
-#> Error (abs): 7.531932e-05 (tolerance Inf)
+#> Error (abs): 7.531931e-05 (tolerance Inf)
 #> Error (rel): 1.489963e-08 (tolerance 1.490116e-08)
 #> 
 #> Size : 5
@@ -973,7 +938,7 @@ mapfit.point(map=erhmm(5), x=cumsum(BCpAug89))
 #> DF: 13
 #> AIC: -10217.720196
 #> Iteration:  85 / 2000
-#> Computation time (user): 0.763000
+#> Computation time (user): 0.911000
 #> Convergence: TRUE
 #> Error (abs): 7.459457e-05 (tolerance Inf)
 #> Error (rel): 1.456396e-08 (tolerance 1.490116e-08)
@@ -1048,7 +1013,7 @@ mapfit.group(map=map(5), counts=BCpAug89.group$counts, breaks=BCpAug89.group$bre
 #> DF: 49
 #> AIC: 1207.552145
 #> Iteration:  2000 / 2000
-#> Computation time (user): 127.523000
+#> Computation time (user): 81.112000
 #> Convergence: FALSE
 #> Error (abs): 2.654024e-04 (tolerance Inf)
 #> Error (rel): 4.783953e-07 (tolerance 1.490116e-08)
@@ -1079,7 +1044,7 @@ mapfit.group(map=mmpp(5), counts=BCpAug89.group$counts, breaks=BCpAug89.group$br
 #> DF: 29
 #> AIC: 1171.054100
 #> Iteration:  687 / 2000
-#> Computation time (user): 72.267000
+#> Computation time (user): 46.080000
 #> Convergence: TRUE
 #> Error (abs): 8.230252e-06 (tolerance Inf)
 #> Error (rel): 1.478859e-08 (tolerance 1.490116e-08)
@@ -1110,7 +1075,7 @@ mapfit.group(map=gmmpp(5), counts=BCpAug89.group$counts, breaks=BCpAug89.group$b
 #> DF: 29
 #> AIC: 1714.429073
 #> Iteration:  137 / 2000
-#> Computation time (user): 5.562000
+#> Computation time (user): 5.618000
 #> Convergence: TRUE
 #> Error (abs): 1.174183e-05 (tolerance Inf)
 #> Error (rel): 1.417728e-08 (tolerance 1.490116e-08)

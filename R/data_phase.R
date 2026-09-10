@@ -91,7 +91,7 @@ data.frame.phase.group <- function(counts, breaks, intervals, instants) {
   # check for left-truncation
   if (breaks[1] != 0) {
     breaks <- c(0, breaks)
-    counts <- c(NA, counts)
+    counts <- c(-1, counts)
     instants <- c(0, instants)
   }
   dt <- diff(breaks)

@@ -42,11 +42,11 @@ RUN install2.r --error --skipinstalled \
         ggplot2 \
         knitr
 
-# deformula is an Import. Version 0.1.3 was submitted to CRAN on 2026-09-10 to
-# replace the version archived on 2026-02-15; until it is published again there
-# is nothing to install from a CRAN mirror. Once it is back, replace this with
-#     RUN install2.r --error --skipinstalled deformula
-RUN installGithub.r okamumu/deformula
+# deformula, an Import, is the one package this image must not take from the
+# snapshot rocker/r-ver pins (p3m.dev .../2025-10-30). deformula was archived on
+# 2026-02-15 and republished as 0.1.3 on 2026-09-17, so the snapshot still
+# serves 0.1.2. CRAN checks mapfit against what CRAN has, so do the same.
+RUN install2.r --error --repos https://cloud.r-project.org deformula
 
 # "R CMD check --as-cran" builds a PDF manual and validates the HTML manual.
 # Without these the check reports an ERROR and a NOTE that say nothing about

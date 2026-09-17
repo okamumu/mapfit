@@ -43,14 +43,9 @@ jobs:
           http-user-agent: ${{ matrix.config.http-user-agent }}
           use-public-rspm: true
 
-      # deformula is an Import that is not on CRAN at the moment: 0.1.3 was
-      # submitted on 2026-09-10 to replace the version archived on 2026-02-15.
-      # Until it is published again the dependency cannot be resolved from a
-      # CRAN mirror, so take it from GitHub. Drop the github:: entry once it is
-      # back.
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::rcmdcheck, github::okamumu/deformula
+          extra-packages: any::rcmdcheck
           needs: check
 
       - uses: r-lib/actions/check-r-package@v2

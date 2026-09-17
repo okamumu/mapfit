@@ -38,13 +38,6 @@ Windows, plus codecov via `covr`.
 Generated files that must never be hand-edited: `NAMESPACE`, `man/*.Rd`, `R/RcppExports.R`,
 `src/RcppExports.cpp`, `README.md`.
 
-### deformula
-
-`deformula` is an Import that is not on CRAN at the moment: it was archived on 2026-02-15
-(taking mapfit with it), and 0.1.3 was submitted on 2026-09-10. Until it is published, the
-image and the CI workflow install it from `okamumu/deformula` on GitHub; both carry a
-comment marking the line to drop once it is back.
-
 ## Architecture
 
 ### Three-layer structure

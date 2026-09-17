@@ -1,8 +1,8 @@
 ## Resubmission of an archived package
 
 mapfit was archived on 2026-02-15 because it imports deformula, which was archived on the
-same day. deformula 0.1.3 has been submitted with the C++11 specification issue corrected;
-this submission depends on it being back on CRAN.
+same day. deformula 0.1.3, with the C++11 specification issue corrected, was published on
+2026-09-17, so every dependency of this package is available on CRAN again.
 
 This version also fixes the following bugs, none of which was reported by the CRAN checks:
 

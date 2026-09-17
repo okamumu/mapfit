@@ -44,13 +44,17 @@ devtools::install_github("okamumu/mapfit")
 ### Overview
 
 PH distribution is defined as the time to absorption in a time-homogeneous CTMC with an absorbing state. The p.d.f. and cumulative distribution function (c.d.f.) are mathematically given as the expressions using matrix exponential. Let $\boldsymbol{\alpha}$ and $\boldsymbol{Q}$ denote a probability (row) vector for determining an initial state and an infinitesimal generator for transient states, respectively. Since the c.d.f. is given by the probability that the current state of underlying CTMC has already been absorbed, the c.d.f. of PH distribution is given by
+
 $$
 F(x) = 1 - \boldsymbol{\alpha} \exp(\boldsymbol{Q} x) \boldsymbol{1},
 $$
+
 where $\boldsymbol{1}$ is a column vector whose entries are 1. Also the p.d.f. can be obtained by taking the first derivative of the c.d.f.; 
+
 $$
 f(x) = \boldsymbol{\alpha} \exp(\boldsymbol{Q} x) \boldsymbol{\xi},
 $$
+
 where $\boldsymbol{\xi} = - \boldsymbol{Q} \boldsymbol{1}$.
 
 The purpose of PH fitting is to determine PH parameters $\boldsymbol{\alpha}$ and $\boldsymbol{Q}$ so that the estimated PH distribution fits to observed data. There are two different approaches; MM (moment match) method and MLE (maximum likelihood estimation). The MM method is to find PH parameters whose first few moments match to the moments from empirical data or distribution functions. On the other hand, MLE is to find PH parameters maximizing the likelihood (probability) of which the data is drawn from the model as a sample.
@@ -222,12 +226,15 @@ ggplot(data.frame(x=seq(0, 3, length.out=100)), aes(x=x)) +
 ### Overview
 
 MAP (Markovian arrival process) is a stochastic point process whose arrival rates are dominated by a CTMC. The CTMC expresses the internal state of MAP called a phase process. MAP is generally defined by an initial probability vector $\boldsymbol{\alpha}$ and two matrices for infinitesimal generators $\boldsymbol{D}_0$, $\boldsymbol{D}_1$. Let $\boldsymbol{\pi}(n,t)$ be the row vector whose i-th entry is the probability that the phase process is i at time t and n arrivals occur before time t. Then we have the following differential equations:
+
 $$
-\frac{d}{dt} \boldsymbol{\pi}(n,t) = \boldsymbol{\pi}(n,t) \boldsymbol{D}_0 + \boldsymbol{\pi}(n-1,t) \boldsymbol{D}_1, \quad \text{for $n = 1, 2, \ldots$},
+\frac{d}{dt} \boldsymbol{\pi}(n,t) = \boldsymbol{\pi}(n,t) \boldsymbol{D}_0 + \boldsymbol{\pi}(n-1,t) \boldsymbol{D}_1, \quad \text{for } n = 1, 2, \ldots,
 $$
+
 $$
 \frac{d}{dt} \boldsymbol{\pi}(0,t) = \boldsymbol{\pi}(0,t) \boldsymbol{D}_0, \quad \boldsymbol{\pi}(0,0) = \boldsymbol{\alpha},
 $$
+
 where $\boldsymbol{D}_0$ and $\boldsymbol{D}_1$ are infinitesimal generators of phase process without and with arrivals, respectively. Note that $\boldsymbol{D}_0 + \boldsymbol{D}_1$ becomes the infinitesimal generator of phase process. Similar to PH fitting, the purpose of MAP fitting is to find MAP parameters $\boldsymbol{\alpha}$, $\boldsymbol{D}_0$ and $\boldsymbol{D}_1$ so that the estimated MAP fits to observed data. In MAP fitting, there are also two approaches; MM method and MLE. The MM method for MAP is to determine MAP parameters with marginal/joint moments and k-lag correlation [1]. MLE is to find MAP parameters maximizing the log-likelihood function. We implement MLE approaches in the tool.
 
 ### Data for MAP fitting

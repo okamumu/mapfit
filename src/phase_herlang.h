@@ -181,7 +181,7 @@ double estep(
   }
   
   for (int k=1; k<=m; k++) {
-    if (GDAT(k) == -1) {
+    if (GDAT(k) < 0) {
       // tmpv0 = cerl0[k] - cerl0[k-1];
       // tmpv1 = cerl1[k] - cerl1[k-1];
       copy(cerl0[k], tmpv0);
@@ -192,7 +192,7 @@ double estep(
       axpy(nn/uu, tmpv1, eres.ew);
     }
   }
-  if (gdatlast == -1) {
+  if (gdatlast < 0) {
     // tmpv0 = cerl0[m+1] - cerl0[m];
     // tmpv1 = cerl1[m+1] - cerl1[m];
     copy(cerl0[m+1], tmpv0);
@@ -312,7 +312,7 @@ double estep(
   }
 
   for (int k=1; k<=m; k++) {
-    if (GDAT(k) == -1) {
+    if (GDAT(k) < 0) {
       // tmpv0 = cerl0[k] - cerl0[k-1];
       // tmpv1 = cerl1[k] - cerl1[k-1];
       copy(cerl0[k], tmpv0);
@@ -323,7 +323,7 @@ double estep(
       axpy(omega, tmpv1, eres.ew);
     }
   }
-  if (gdatlast == -1) {
+  if (gdatlast < 0) {
     // tmpv0 = cerl0[m+1] - cerl0[m];
     // tmpv1 = cerl1[m+1] - cerl1[m];
     copy(cerl0[m+1], tmpv0);

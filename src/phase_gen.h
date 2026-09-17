@@ -309,7 +309,7 @@ double estep(
     axpy(wg[m+1], barvf[m], eres.ey);
   }
   for (int k=1; k<=m; k++) {
-    if (GDAT(k) == -1) {
+    if (GDAT(k) < 0) {
       wg[k] = nn / uu;
       copy(barvf[k-1], tmpvf);
       copy(barvb[k-1], tmpvb);
@@ -319,7 +319,7 @@ double estep(
       axpy(wg[k], tmpvf, eres.ey);
     }
   }
-  if (gdatlast == -1) {
+  if (gdatlast < 0) {
     wg[m+1] = nn / uu;
     axpy(wg[m+1], barvb[m], eres.eb);
     axpy(wg[m+1], barvf[m], eres.ey);
@@ -522,7 +522,7 @@ double estep(
     axpy(wg[m+1], barvf[m], eres.ey);
   }
   for (int k=1; k<=m; k++) {
-    if (GDAT(k) == -1) {
+    if (GDAT(k) < 0) {
       wg[k] = omega;
       copy(barvf[k-1], tmpvf);
       copy(barvb[k-1], tmpvb);
@@ -532,7 +532,7 @@ double estep(
       axpy(wg[k], tmpvf, eres.ey);
     }
   }
-  if (gdatlast == -1) {
+  if (gdatlast < 0) {
     wg[m+1] = omega;
     axpy(wg[m+1], barvb[m], eres.eb);
     axpy(wg[m+1], barvf[m], eres.ey);

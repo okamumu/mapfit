@@ -10,13 +10,11 @@ MAPClass <- R6::R6Class(
     param.D1 = NULL,
     param.xi = NULL,
     param.df = 0,
-    matclass = "dgeMatrix",
-    
     make.matrixD0 = function() {
-      as(as.matrix(private$param.D0), private$matclass)
+      as.dge(as.matrix(private$param.D0))
     },
     make.matrixD1 = function() {
-      as(as.matrix(private$param.D1), private$matclass)
+      as.dge(as.matrix(private$param.D1))
     }      
   ),
   public = list(
@@ -59,8 +57,8 @@ MAPClass <- R6::R6Class(
       private$param.alpha <- alpha / sum(alpha)
       diag(D0) <- 0
       diag(D0) <- -(apply(D0, 1, sum) + apply(D1, 1, sum))
-      private$param.D0 <- as(D0, private$matclass)
-      private$param.D1 <- as(D1, private$matclass)
+      private$param.D0 <- as.dge(D0)
+      private$param.D1 <- as.dge(D1)
       private$param.xi <- xi
 
       # set df
@@ -212,7 +210,8 @@ MAPClass <- R6::R6Class(
              "map.time" = emfit_mapgen_group(alpha, xi, D0, D1, data, options,
                                               P0, P1, H0, H1, en0, en1),
              "map.group" = emfit_mapgen_group(alpha, xi, D0, D1, data, options,
-                                              P0, P1, H0, H1, en0, en1)
+                                              P0, P1, H0, H1, en0, en1),
+             stop(sprintf("MAP cannot handle the data class '%s'.", class(data)))
       )
     },
     

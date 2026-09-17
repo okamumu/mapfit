@@ -90,3 +90,23 @@ test_that("phfit.density", {
 
 
 
+
+test_that("left-truncated group data", {
+  ## breaks not starting at 0 add an interval whose count is unknown.
+  ## It must be marked as missing (-1), not NA (see src/phase_gen.h).
+  dat <- data.frame.phase.group(counts=c(1,2,3), breaks=c(10,20,30,40))
+  expect_false(anyNA(dat$counts))
+  expect_equal(dat$counts, c(-1, 1, 2, 3))
+  expect_equal(dat$intervals, c(10, 10, 10, 10))
+
+  RNGkind(kind = "Mersenne-Twister")
+  set.seed(1234)
+  result <- phfit.group(ph=cf1(3), counts=c(1,2,3), breaks=c(10,20,30,40),
+                        cf1.verbose=FALSE)
+  expect_true(is.finite(result$llf))
+})
+
+test_that("missing counts are kept as missing", {
+  dat <- data.frame.phase.group(counts=c(1,NA,3))
+  expect_equal(dat$counts, c(1,-1,3))
+})

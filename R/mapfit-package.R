@@ -5,7 +5,7 @@
 #' @importFrom Matrix diag sparseMatrix
 #' @importFrom Rcpp sourceCpp
 #' @importFrom stats dgamma kmeans pgamma rexp rgamma rmultinom runif var time
-#' @importFrom methods is
+#' @importFrom methods is as
 #' @useDynLib mapfit, .registration = TRUE
 ## usethis namespace: end
 NULL

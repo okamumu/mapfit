@@ -9,3 +9,7 @@
 ^cran-comments\.md$
 ^\.github$
 ^codecov\.yml$
+^CLAUDE\.md$
+^Dockerfile$
+^Makefile$
+^\.dockerignore$

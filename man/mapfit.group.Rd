@@ -46,6 +46,12 @@ Returns a list with components, which is an object of S3 class \code{mapfit.resu
 \description{
 Estimates MAP parameters from grouped data.
 }
+\note{
+Unlike \code{phfit.group}, missing counts (\code{NA}) are not supported in
+MAP fitting, and \code{breaks} must start at 0, i.e., left-truncated data
+cannot be used. Both of them would introduce an interval whose number of
+arrivals is unknown, which the estimation algorithm for MAP cannot handle.
+}
 \examples{
 ## load trace data
 data(BCpAug89)

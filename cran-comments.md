@@ -39,3 +39,7 @@ coercion documented in `help("Matrix-deprecated")`.
   Package was archived on CRAN
 
   This is the resubmission of the archived package described above.
+
+  The same note lists possibly misspelled words in DESCRIPTION: Dohi, Horvath,
+  Okamura, al and et are the authors of the cited papers, and Markovian is
+  spelled correctly.

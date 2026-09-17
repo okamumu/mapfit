@@ -9,10 +9,14 @@
 FROM rocker/r-ver:4.5.1
 
 # System libraries required to build devtools and its dependencies.
-# qpdf and pandoc are required by "R CMD check --as-cran".
+# qpdf and pandoc are required by "R CMD check --as-cran"; aspell is what it
+# spell-checks DESCRIPTION with, and without it the check silently skips that
+# test and reports fewer notes than CRAN does.
 # git is needed by devtools::submit_cran(), which records the submitted commit
 # in CRAN-SUBMISSION via "git rev-parse HEAD".
 RUN apt-get update && apt-get install -y --no-install-recommends \
+        aspell \
+        aspell-en \
         git \
         libcurl4-openssl-dev \
         libssl-dev \
@@ -74,6 +78,11 @@ RUN tlmgr install \
         url \
     && tlmgr path add \
     && fmtutil-sys --all > /dev/null 2>&1 || true
+
+# The DESCRIPTION spell check is off by default; CRAN's incoming checks turn it
+# on, so turn it on here too. Without this, aspell is installed but never used
+# and the local check reports one note fewer than CRAN does.
+ENV _R_CHECK_CRAN_INCOMING_USE_ASPELL_=TRUE
 
 # Debian/Ubuntu builds of R inject hardening flags that "R CMD check" reports
 # as non-portable. They are a property of this image, not of the package, so
